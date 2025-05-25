@@ -15,19 +15,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', function (Request $request) {
             return $request->user();
         });
-        Route::get('/profile', [UserController::class, 'profile']);
-        Route::put('/profile', [UserController::class, 'updateProfile']);
-        Route::put('/{id}', [UserController::class, 'update']);
     });
 
-    Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index']);
-        Route::get('/{id}', [UserController::class, 'show']);
-    });
 
     Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out successfully']);
     });
-Route::get('/profile', [AuthController::class, 'profile']);
 });

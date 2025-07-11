@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class AccountDetails extends Model
 {
     protected $fillable = [
-        'firstName',
-        'lastName',
-        'middleName',
-        'extensionName',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'extension_name',
         'position',
-        'birthDate',
-        'contactNumber',
+        'birth_date',
+        'contact_number',
         'user_id',
         'office_id',
     ];

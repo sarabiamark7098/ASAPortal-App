@@ -33,7 +33,7 @@ class User extends Authenticatable
     }
 
 
-    public function accountdetails()
+    public function accountDetail()
     {
         return $this->hasOne(AccountDetails::class);
     }

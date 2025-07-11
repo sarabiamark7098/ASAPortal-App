@@ -15,13 +15,13 @@ class UserController extends Controller
 
     public function updateUser(Request $request) {
         $request->validate([
-            'firstName' => 'required|string',
-            'middleName' => 'nullable|string',
-            'lastName' => 'required|string',
-            'extensionName' => 'nullable|string',
+            'first_name' => 'required|string',
+            'middle_name' => 'nullable|string',
+            'last_name' => 'required|string',
+            'extension_name' => 'nullable|string',
             'position' => 'nullable|string',
-            'birthDate' => 'nullable|date',
-            'contactNumber' => 'nullable|string|max:15',
+            'birth_date' => 'nullable|date',
+            'contact_number' => 'nullable|string|max:15',
             'office' => 'exists:offices,id|nullable',
         ]);
     }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /.phpunit.cache
 /node_modules
 /public/build
@@ -9,6 +8,7 @@
 /vendor
 .env
 .env.backup
+.env.testing
 .env.production
 .phpactor.json
 .phpunit.result.cache
@@ -22,7 +22,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-=======
 /vendor/
 node_modules/
 npm-debug.log
@@ -53,4 +52,3 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
->>>>>>> ba7aca0f87ddb232e3881ddd1a8a951e6d0a135f

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccountDetails;
+use App\Models\AccountDetail;
 use Illuminate\Http\Request;
 
-class AccountDetailsController extends Controller
+class AccountDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class AccountDetailsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AccountDetails $accountDetails)
+    public function show(AccountDetail $AccountDetail)
     {
         //
     }
@@ -42,7 +42,7 @@ class AccountDetailsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AccountDetails $accountDetails)
+    public function edit(AccountDetail $AccountDetail)
     {
         //
     }
@@ -50,7 +50,7 @@ class AccountDetailsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AccountDetails $accountDetails)
+    public function update(Request $request, AccountDetail $AccountDetail)
     {
         //
     }
@@ -58,7 +58,7 @@ class AccountDetailsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AccountDetails $accountDetails)
+    public function destroy(AccountDetail $AccountDetail)
     {
         //
     }

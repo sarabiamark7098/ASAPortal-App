@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\VehicleRequest;
+use App\Services\VehicleRequestManager;
+use App\Services\VehicleRequestService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(VehicleRequestManager::class, function () {
+            return new VehicleRequestService(new VehicleRequest());
+        });
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 namespace Database\Seeders;
 
-use App\Models\AccountDetails;
+use App\Models\AccountDetail;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Roles;

@@ -14,8 +14,20 @@ class SuperAdminSeeder extends Seeder
             'email' => 'superadmin@example.com',
             'password' => bcrypt('supersecure'),
         ]);
-
-        $role = Roles::where('name', 'super-admin')->first();
-        $user->roles()->attach($role); // Assuming User has roles() relation
+        $user->assignRole('superadmin');
+        DB::table('account_details')->insert([
+            'firstName' => 'Super',
+            'lastName' => 'Admin',
+            'middleName' => '',
+            'extensionName' => '',
+            'position' => 'Super Administrator',
+            'birthDate' => null,
+            'contactNumber' => null,
+            'user_id' => $user->id,
+            'office_id' => 1, // Assuming office_id 1 exists
+        ]);
+        DB::table('users')->where('id', $user->id)->update([
+            'email_verified_at' => now(),
+        ]);
     }
 }

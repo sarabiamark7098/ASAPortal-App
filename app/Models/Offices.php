@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sections extends Model
+class Offices extends Model
 {
     protected $fillable = ['name', 'division_id'];
 
     public function division()
     {
-        return $this->belongsTo(Divisions::class);
+        return $this->belongsTo(Offices::class, 'division_id', 'id');
     }
     public function accountDetails()
     {
-        return $this->hasMany(AccountDetails::class, 'section_id');
+        return $this->hasMany(AccountDetails::class, 'office_id');
     }
 }

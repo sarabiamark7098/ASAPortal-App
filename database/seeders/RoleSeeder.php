@@ -13,6 +13,7 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
          $permissions = [
+            'manage all',
             'view users',
             'edit users',
             'delete users',

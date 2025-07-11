@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('type_of_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->foreignId('division_id')->nullable()->constrained('divisions')->onDelete('set null')->onUpdate('cascade');
+            $table->string('type')->unique()->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('type_of_requests');
     }
 };

@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('lastName');
             $table->string('extensionName')->nullable();
             $table->string('position')->nullable();
-            $table->foreignId('section_id')->nullable()->constrained('sections')->onDelete('set null')->onUpdate('cascade');
+            $table->date('birthDate')->nullable();
+            $table->foreignId('office_id')->nullable()->constrained('offices')->onDelete('set null')->onUpdate('cascade');
+            $table->string('contactNumber')->nullable();
             $table->timestamps();
 
         });

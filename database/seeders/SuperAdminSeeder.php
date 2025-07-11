@@ -1,6 +1,7 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\AccountDetails;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Roles;
@@ -12,22 +13,20 @@ class SuperAdminSeeder extends Seeder
     {
         $user = User::factory()->create([
             'email' => 'superadmin@example.com',
-            'password' => bcrypt('supersecure'),
+            'password' => 'supersecure',
+            'email_verified_at' => now(),
         ]);
         $user->assignRole('superadmin');
-        DB::table('account_details')->insert([
-            'firstName' => 'Super',
-            'lastName' => 'Admin',
-            'middleName' => '',
-            'extensionName' => '',
+        
+        $user->accountDetail()->create([
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
+            'middle_name' => '',
+            'extension_name' => '',
             'position' => 'Super Administrator',
-            'birthDate' => null,
-            'contactNumber' => null,
-            'user_id' => $user->id,
+            'birth_date' => null,
+            'contact_number' => null,
             'office_id' => 1, // Assuming office_id 1 exists
-        ]);
-        DB::table('users')->where('id', $user->id)->update([
-            'email_verified_at' => now(),
         ]);
     }
 }

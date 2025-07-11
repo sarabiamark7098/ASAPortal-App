@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('account_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->string('firstName');
-            $table->string('middleName')->nullable();
-            $table->string('lastName');
-            $table->string('extensionName')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('first_name');
+            $table->string('middle_name')->nullable();
+            $table->string('last_name');
+            $table->string('extension_name')->nullable();
             $table->string('position')->nullable();
-            $table->date('birthDate')->nullable();
-            $table->foreignId('office_id')->nullable()->constrained('offices')->onDelete('set null')->onUpdate('cascade');
-            $table->string('contactNumber')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->foreignId('office_id')->nullable()->constrained('offices')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('contact_number')->nullable();
             $table->timestamps();
 
         });

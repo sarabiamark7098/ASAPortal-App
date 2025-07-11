@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use DB;
 
 class TypeOfRequestSeeder extends Seeder
 {
@@ -13,19 +15,15 @@ class TypeOfRequestSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['id' => 1, 'Type' => 'Technical Assistance Relative to Building and Grounds Management'],
-            ['id' => 2, 'Type' => 'Vehicle Request'],
-            ['id' => 3, 'Type' => 'Use Conference Room Request'],
-            ['id' => 4, 'Type' => ''],
-            ['id' => 5, 'Type' => ''],
-            ['id' => 6, 'Type' => ''],
-            ['id' => 7, 'Type' => ''],
+            ['id' => 1, 'name' => 'Technical Assistance Relative to Building and Grounds Management'],
+            ['id' => 2, 'name' => 'Vehicle Request'],
+            ['id' => 3, 'name' => 'Use Conference Room Request'],
             ];
         foreach ($data as $office) {
             DB::table('offices')->updateOrInsert(
                 ['id' => $office['id']],
                 [
-                    'type' => $office['name'],
+                    'name' => $office['name'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]

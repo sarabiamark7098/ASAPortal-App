@@ -3,25 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
-use App\Models\AccountDetails;
+use App\Models\AccountDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Services\AuthService;
-use Illuminate\Auth\AuthenticationException;
+use App\Services\AuthManager;
 
 class AuthController extends Controller
 {
 
-    private AuthService $authService;
+    private AuthManager $authManager;
     
-    public function __construct(AuthService $authService)
+    public function __construct(AuthManager $authManager)
     {
-        $this->authService = $authService;
+        $this->authManager = $authManager;
     }
     /**
      * Register a new user.
@@ -41,7 +39,7 @@ class AuthController extends Controller
             if (!$user->hasRole('client')) {
                 return response()->json(['message' => 'Failed to assign default role'], 500);
             }
-            $account = AccountDetails::create([
+            $account = AccountDetail::create([
                 'user_id' => $user->id,
                 'first_name' => $validated['first_name'] ?? null,
                 'middle_name' => $validated['middle_name'] ?? null,
@@ -68,11 +66,11 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request): JsonResponse
     {
-        $user = $this->authService->authenticate($request->validated());
+        $user = $this->authManager->authenticate($request->validated());
 
-        $this->authService->invalidateUserTokens($user);
+        $this->authManager->invalidateUserTokens($user);
         
-        $token = $this->authService->generateToken($user);
+        $token = $this->authManager->generateToken($user);
 
         activity()
             ->causedBy($user)
@@ -82,7 +80,7 @@ class AuthController extends Controller
         return response()->json(['message' => 'Login successful',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $this->authService->getUser($user),
+            'user' => $this->authManager->getUser($user),
         ]);
     }
 

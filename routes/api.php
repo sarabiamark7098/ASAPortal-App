@@ -6,6 +6,7 @@ use App\Http\Controllers\DivisionsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OfficesController;
 use App\Http\Controllers\SectionsController;
+use App\Http\Controllers\VehicleRequestController;
 use App\Models\Sections;
 
 Route::prefix('auth')->name('auth.')->group(function () {
@@ -17,6 +18,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         Route::get('/user', [AuthController::class, 'user'])->name('user');
+    });
+
+    Route::prefix('vehicle-requests')->name('vehicle-requests.')->group(function () {
+        Route::post('/', [VehicleRequestController::class, 'store'])->name('store');
+        Route::get('/', [VehicleRequestController::class, 'index'])->name('index');
     });
 });
 

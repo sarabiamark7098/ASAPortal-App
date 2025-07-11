@@ -7,9 +7,9 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class AuthService
+class AuthService implements AuthManager
 {
-    function authenticate(array $payload) : ?User {
+    public function authenticate(array $payload) : ?User {
         $loginType = filter_var($payload['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         $user = User::where($loginType, $payload['login'])->first();

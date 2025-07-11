@@ -10,7 +10,7 @@ use Spatie\Activitylog\Models\Activity;
 class UserController extends Controller
 {
     public function getAllUsers() {
-        return User::with('AccountDetail.section')->get();
+        return User::with('accountDetail.section')->get();
     }
 
     public function updateUser(Request $request) {

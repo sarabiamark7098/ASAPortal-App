@@ -34,7 +34,7 @@ class AccountDetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AccountDetail $AccountDetail)
+    public function show(AccountDetail $accountDetail)
     {
         //
     }
@@ -42,7 +42,7 @@ class AccountDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AccountDetail $AccountDetail)
+    public function edit(AccountDetail $accountDetail)
     {
         //
     }
@@ -50,7 +50,7 @@ class AccountDetailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AccountDetail $AccountDetail)
+    public function update(Request $request, AccountDetail $accountDetail)
     {
         //
     }
@@ -58,7 +58,7 @@ class AccountDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AccountDetail $AccountDetail)
+    public function destroy(AccountDetail $accountDetail)
     {
         //
     }

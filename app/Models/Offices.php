@@ -12,7 +12,7 @@ class Offices extends Model
     {
         return $this->belongsTo(Offices::class, 'division_id', 'id');
     }
-    public function AccountDetail()
+    public function accountDetail()
     {
         return $this->hasMany(AccountDetail::class, 'office_id');
     }

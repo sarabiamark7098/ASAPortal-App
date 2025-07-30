@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\QueryFilters\Generic\SortFilter;
 use App\QueryFilters\Generic\StatusFilter;
 use App\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,5 +54,20 @@ class VehicleRequest extends Model
 
     public function transactable() : MorphOne {
         return $this->morphOne(Transaction::class, 'transactable');
+    }
+
+    /**
+     * @Scope
+     * Pipeline for HTTP query filters
+     */
+    public function scopeFiltered(Builder $builder): Builder
+    {
+        return app(Pipeline::class)
+            ->send($builder)
+            ->through([
+                StatusFilter::class,
+                SortFilter::class,
+            ])
+            ->thenReturn();
     }
 }

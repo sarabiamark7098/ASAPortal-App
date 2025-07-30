@@ -24,6 +24,7 @@ class VehicleRequestServiceTest extends TestCase
 
         $this->user = User::first();
     }
+    
     public function test_it_can_create_vehicle_request(): void
     {
         $payload = VehicleRequest::factory()->make()->toArray();
@@ -34,5 +35,14 @@ class VehicleRequestServiceTest extends TestCase
 
         $this->assertDatabaseCount('vehicle_requests', 1);
         $this->assertDatabaseCount('transactions', 1);
+    }
+
+    public function test_it_can_search_vehicle_request(): void
+    {
+        $count = 10;
+        VehicleRequest::factory()->count($count)->create();
+        $result = $this->vehicleRequestService->search();
+
+        $this->assertEquals($count, count($result->items()));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,14 +19,13 @@ class VehicleRequestFactory extends Factory
     {
         return [
             'date_requested' => fake()->date(),
-            'requesting_office' => fake()->company(),
-            'control_number' => fake()->imei(),
-            'purpose' => fake()->sentence(),
-            'passengers' => fake()->words(3, true),
+            'requesting_office' => fake()->sentence(),
+            'purpose' => fake()->text(),
+            'passengers' => fake()->name(),
             'requested_start' => fake()->date(),
-            'requested_time' => fake()->time('H:i:s'),
+            'requested_time' => fake()->time(),
             'requested_end' => fake()->date(),
-            'destination' => fake()->sentence(),
+            'destination' => fake()->text(),
             'requester_name' => fake()->name(),
             'requester_position' => fake()->jobTitle(),
             'requester_contact_number' => fake()->phoneNumber(),

@@ -18,9 +18,12 @@ class VehicleRequestFactory extends Factory
     {
         return [
             'date_requested' => fake()->date(),
+            'requesting_office' => fake()->company(),
             'control_number' => fake()->imei(),
             'purpose' => fake()->sentence(),
+            'passengers' => fake()->words(3, true),
             'requested_start' => fake()->date(),
+            'requested_time' => fake()->time('H:i:s'),
             'requested_end' => fake()->date(),
             'destination' => fake()->sentence(),
             'requester_name' => fake()->name(),

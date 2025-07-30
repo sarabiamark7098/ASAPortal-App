@@ -14,12 +14,15 @@ use Illuminate\Database\Eloquent\Builder;
 class VehicleRequest extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $fillable = [
         'date_requested',
+        'requesting_office',
         'control_number',
         'purpose',
+        'passengers',
         'requested_start',
+        'requested_time',
         'requested_end',
         'destination',
         'requester_name',
@@ -31,8 +34,9 @@ class VehicleRequest extends Model
 
     protected $casts = [
         'date_requested' => 'date:Y-m-d',
-        'requested_start' => 'datetime',
-        'requested_end' => 'datetime',
+        'requested_start' => 'date:Y-m-d',
+        'requested_time' => 'datetime:H:i:s',
+        'requested_end' => 'date:Y-m-d',
         'status' => Status::class,
     ];
 
@@ -42,23 +46,9 @@ class VehicleRequest extends Model
 
         static::created(function (VehicleRequest $model) {
             $model->control_number = date('Y-m-').str_pad($model->id, 6, '0', STR_PAD_LEFT);
-            $model->status = Status::DISAPPROVED;
+            $model->status = Status::PENDING;
             $model->save();
         });
-    }
-
-    /**
-     * @Scope
-     * Pipeline for HTTP query filters
-     */
-    public function scopeFiltered(Builder $builder): Builder
-    {
-        return app(Pipeline::class)
-            ->send($builder)
-            ->through([
-                StatusFilter::class,
-            ])
-            ->thenReturn();
     }
 
     public function transactable() : MorphOne {

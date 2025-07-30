@@ -20,8 +20,8 @@ class VehicleRequestService implements VehicleRequestManager
         return $this->model->all();
     }
     
-    public function paginated(array $payload, int $perPage = 20) : Paginator {
-        return $this->model->paginate($perPage);
+    public function search(int $perPage = 20) : Paginator {
+        return $this->model->filtered()->paginate($perPage);
     }
 
     public function create(array $payload) : VehicleRequest {

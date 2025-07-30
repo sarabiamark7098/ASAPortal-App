@@ -22,9 +22,9 @@ class VehicleRequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        $vehicleRequests = $this->vehicleRequestManager->paginated([]);
+        $vehicleRequests = $this->vehicleRequestManager->search();
         return $this->ok($vehicleRequests->toArray());
     }
 

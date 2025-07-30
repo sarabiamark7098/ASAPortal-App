@@ -32,8 +32,11 @@ class VehicleRequestValidation extends FormRequest
     public function createRules() : array {
         return [
             'date_requested' => ['required', 'date'],
+            'requesting_office' => ['required', 'string'],
             'purpose' => ['required', 'string'],
+            'passengers' => ['required', 'string'],
             'requested_start' => ['required', 'date'],
+            'requested_time' => ['required', 'date_format:H:i:s'],
             'requested_end' => ['required', 'date'],
             'destination' => ['required', 'string', 'max:255'],
             'requester_name' => ['required', 'string', 'max:255'],

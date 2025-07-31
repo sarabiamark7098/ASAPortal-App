@@ -17,7 +17,6 @@ php_unit_test:
   before_script:
     - echo "$LARAVEL_ENV" > .env
     - echo "$LARAVEL_ENV" > .env.testing
-    - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $APP@$TESTING_SRV:$APP_DIR
+    - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $USR@$TESTING_SRV:$APP_DIR
   script:
-    - ssh $APP@$TESTING_SRV "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan test && echo 'done'"
-    - ssh $APP@$TESTING_SRV 'hostname'
+    - ssh $USR@$TESTING_SRV "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction  && $PHP_82_PATH artisan migrate --env=testing && $PHP_82_PATH artisan test"

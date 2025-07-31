@@ -20,8 +20,8 @@ php_unit_test:
     - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $USR@$TESTING_SRV:$APP_DIR
   script:
     - ssh $USR@$TESTING_SRV 'hostname'
-      - |
-        ssh $USR@$TESTING_SRV <<'EOF'
+    - |
+      ssh $USR@$TESTING_SRV <<'EOF'
         set -e
         cd $APP_DIR
         $PHP_82_PATH artisan test

@@ -20,11 +20,4 @@ php_unit_test:
     - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $USR@$TESTING_SRV:$APP_DIR
   script:
     - ssh $USR@$TESTING_SRV 'hostname'
-    - |
-      ssh $USR@$TESTING_SRV <<'EOF'
-        set -e
-        cd $APP_DIR
-        $PHP_82_PATH artisan test
-        echo "Test run completed successfully."
-        exit 0
-    EOF
+    - ssh $USR@$TESTING_SRV "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH vendor/bin/phpunit --stop-on-failure && exit 0"

@@ -15,10 +15,6 @@ class VehicleRequestService implements VehicleRequestManager
     {
         $this->model = $model;
     }
-
-    public function fetch() : Collection {
-        return $this->model->all();
-    }
     
     public function search(int $perPage = 20) : Paginator {
         return $this->model->filtered()->paginate($perPage);

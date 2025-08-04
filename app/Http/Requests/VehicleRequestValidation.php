@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -68,6 +69,7 @@ class VehicleRequestValidation extends FormRequest
         ];
         
         return [
+            'search' => ['nullable', Rule::enum(Status::class)],
             'query' => ['nullable', 'string', 'max:255'],
             'sort_by' => ['nullable', 'string', 'max:255', Rule::in($sortableColumns)],
             'sort_order' => ['nullable', 'string', 'max:255', Rule::in(['desc', 'asc'])],

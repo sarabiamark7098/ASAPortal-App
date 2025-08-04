@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\QueryFilters\Generic\SortFilter;
 use App\QueryFilters\Generic\StatusFilter;
+use App\QueryFilters\VehicleRequest\SearchFilter;
 use App\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -67,6 +68,7 @@ class VehicleRequest extends Model
             ->through([
                 StatusFilter::class,
                 SortFilter::class,
+                SearchFilter::class,
             ])
             ->thenReturn();
     }

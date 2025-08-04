@@ -68,7 +68,7 @@ class VehicleRequestValidation extends FormRequest
         ];
         
         return [
-            'keywords' => ['nullable', 'string', 'max:255'],
+            'query' => ['nullable', 'string', 'max:255'],
             'sort_by' => ['nullable', 'string', 'max:255', Rule::in($sortableColumns)],
             'sort_order' => ['nullable', 'string', 'max:255', Rule::in(['desc', 'asc'])],
         ];

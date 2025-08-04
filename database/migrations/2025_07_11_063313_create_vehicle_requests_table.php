@@ -17,10 +17,10 @@ return new class extends Migration
         Schema::create('vehicle_requests', function (Blueprint $table) use ($status) {
             $table->id();
             $table->date('date_requested');
-            $table->string('requesting_office')->nullable();
+            $table->string('requesting_office')->fulltext()->nullable();
             $table->string('control_number')->nullable()->unique();
-            $table->text('purpose')->nullable();
-            $table->text('passengers')->nullable();
+            $table->text('purpose')->fulltext()->nullable();
+            $table->text('passengers')->fulltext()->nullable();
             $table->date('requested_start');
             $table->time('requested_time');
             $table->date('requested_end');

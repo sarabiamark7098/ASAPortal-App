@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AccountDetail;
 use Illuminate\Http\Request;
 
-class AccountDetailsController extends Controller
+class AccountDetailController extends Controller
 {
     /**
      * Display a listing of the resource.

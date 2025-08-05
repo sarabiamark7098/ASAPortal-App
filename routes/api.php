@@ -1,13 +1,10 @@
 <?php
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DivisionsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OfficesController;
-use App\Http\Controllers\SectionsController;
+use App\Http\Controllers\VehicleAssignmentController;
 use App\Http\Controllers\VehicleRequestController;
-use App\Models\Sections;
 
 Route::prefix('auth')->name('auth.')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -23,7 +20,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('vehicle-requests')->name('vehicle-requests.')->group(function () {
         Route::post('/', [VehicleRequestController::class, 'store'])->name('store');
         Route::get('/', [VehicleRequestController::class, 'index'])->name('index');
+        Route::post('/{id}/approve', [VehicleRequestController::class, 'approve'])->name('approve');
     });
+
+    Route::prefix('vehicle-assignments')->name('vehicle-assignments.')->group(function () {
+        Route::get('/', [VehicleAssignmentController::class, 'index'])->name('index');
+    });
+
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

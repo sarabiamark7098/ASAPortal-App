@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,6 +28,7 @@ class VehicleRequestValidation extends FormRequest
         return match ($routeName) {
             'vehicle-requests.store' => $this->createRules(),
             'vehicle-requests.index' => $this->searchRules(),
+            'vehicle-requests.approve' => $this->approveRules(),
             default => []
         };
     }
@@ -68,9 +70,19 @@ class VehicleRequestValidation extends FormRequest
         ];
         
         return [
+            'search' => ['nullable', Rule::enum(Status::class)],
             'query' => ['nullable', 'string', 'max:255'],
             'sort_by' => ['nullable', 'string', 'max:255', Rule::in($sortableColumns)],
             'sort_order' => ['nullable', 'string', 'max:255', Rule::in(['desc', 'asc'])],
+        ];
+    }
+
+    public function approveRules() : array {
+        return [
+            'vehicle_assignment_id' => ['required', 'exists:vehicle_assignments,id'],
+            'signatories' => ['required', 'array'],
+            'signatories.*.id' => ['required', 'exists:signatories,id'],
+            'signatories.*.label' => ['required', 'string', 'max:255'],
         ];
     }
 }

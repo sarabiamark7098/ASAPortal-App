@@ -5,13 +5,16 @@ namespace App\Models;
 use App\QueryFilters\Generic\SortFilter;
 use App\QueryFilters\Generic\StatusFilter;
 use App\QueryFilters\VehicleRequest\SearchFilter;
-use App\Status;
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class VehicleRequest extends Model
 {
@@ -32,6 +35,7 @@ class VehicleRequest extends Model
         'requester_contact_number',
         'requester_email',
         'status',
+        'vehicle_assignment_id'
     ];
 
     protected $casts = [
@@ -40,6 +44,10 @@ class VehicleRequest extends Model
         'requested_time' => 'datetime:H:i:s',
         'requested_end' => 'date:Y-m-d',
         'status' => Status::class,
+    ];
+
+    protected $with = [
+        'signable:id,full_name,position',
     ];
 
     protected static function boot(): void
@@ -57,6 +65,10 @@ class VehicleRequest extends Model
         return $this->morphOne(Transaction::class, 'transactable');
     }
 
+    public function signable() : MorphMany {
+        return $this->morphMany(FormSignatory::class, 'signable');
+    }
+
     /**
      * @Scope
      * Pipeline for HTTP query filters
@@ -71,5 +83,9 @@ class VehicleRequest extends Model
                 SearchFilter::class,
             ])
             ->thenReturn();
+    }
+
+    public function vehicleAssignment() : BelongsTo {
+        return $this->belongsTo(VehicleAssignment::class)->withTrashed();
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Enums\Status;
+use App\Models\Signatory;
+use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,10 +17,6 @@ class VehicleRequestService implements VehicleRequestManager
     public function __construct(VehicleRequest $model)
     {
         $this->model = $model;
-    }
-
-    public function fetch() : Collection {
-        return $this->model->all();
     }
     
     public function search(int $perPage = 20) : Paginator {
@@ -32,5 +31,25 @@ class VehicleRequestService implements VehicleRequestManager
         ]);
 
         return $vehicleRequest;
+    }
+
+    public function approve(VehicleRequest $vehicleRequest, VehicleAssignment $vehicleAssignment) : VehicleRequest {
+        $vehicleRequest->vehicleAssignment()->associate($vehicleAssignment);
+        $vehicleRequest->status = Status::APPROVED;
+        $vehicleRequest->save();
+        return $vehicleRequest->fresh();
+    }
+
+    public function addSignatories(VehicleRequest $vehicleRequest, array $payload) {
+
+        foreach ($payload as $signee) {
+            $signatory = Signatory::find($signee['id']);
+
+            $vehicleRequest->signable()->create([
+                'label' => $signee['label'],
+                'full_name' => $signatory->full_name,
+                'position' => $signatory->position,
+            ]);
+        }
     }
 }

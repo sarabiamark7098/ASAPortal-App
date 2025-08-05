@@ -2,7 +2,10 @@
 
 namespace Tests;
 
+use App\Models\Driver;
 use App\Models\User;
+use App\Models\Vehicle;
+use App\Services\VehicleAssignmentManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 
@@ -18,6 +21,17 @@ abstract class TestCase extends BaseTestCase
 
     public function produceUser() : User {
         return User::factory()->create()->first();
+    }
+
+    protected function produceVehiceAssignment($count = 10) {
+        $vehicleAssignmentManager = resolve(VehicleAssignmentManager::class);
+        
+        for ($i=0; $i < $count; $i++) { 
+            $vehicle = Vehicle::factory()->create();
+            $driver = Driver::factory()->create();
+
+            $vehicleAssignmentManager->create($vehicle, $driver);
+        }
     }
 
 }

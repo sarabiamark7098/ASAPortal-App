@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Enums\Status;
 use App\Models\User;
+use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use App\Services\VehicleRequestService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -44,5 +46,25 @@ class VehicleRequestServiceTest extends TestCase
         $result = $this->vehicleRequestService->search();
 
         $this->assertEquals($count, count($result->items()));
+    }
+
+    public function test_it_can_approve_vehicle_request(): void
+    {
+        $payload = VehicleRequest::factory()->make()->toArray();
+        $vehicleRequest = $this->vehicleRequestService->create([
+            ...$payload,
+            'user_id' => $this->user->id
+        ]);
+
+        $this->produceVehiceAssignment();
+
+        $vehicleAssignment = VehicleAssignment::first();
+
+        $this->vehicleRequestService->approve($vehicleRequest, $vehicleAssignment);
+
+        $vehicleRequest = $vehicleRequest->fresh();
+
+        $this->assertEquals($vehicleAssignment->id, $vehicleRequest->vehicle_assignment_id);
+        $this->assertEquals(Status::APPROVED, $vehicleRequest->status);
     }
 }

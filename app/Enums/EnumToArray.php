@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Enums;
+
 trait EnumToArray
 {
     public static function names(): array

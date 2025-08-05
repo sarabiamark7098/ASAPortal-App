@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\Status;
+use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,5 +30,12 @@ class VehicleRequestService implements VehicleRequestManager
         ]);
 
         return $vehicleRequest;
+    }
+
+    public function approve(VehicleRequest $vehicleRequest, VehicleAssignment $vehicleAssignment) : VehicleRequest {
+        $vehicleRequest->vehicleAssignment()->associate($vehicleAssignment);
+        $vehicleRequest->status = Status::APPROVED;
+        $vehicleRequest->save();
+        return $vehicleRequest->fresh();
     }
 }

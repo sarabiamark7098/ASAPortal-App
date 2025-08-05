@@ -2,8 +2,6 @@
 
 namespace App\Enums;
 
-use EnumToArray;
-
 enum Status:string
 {
     use EnumToArray;

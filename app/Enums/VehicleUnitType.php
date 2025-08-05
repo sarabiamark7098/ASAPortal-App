@@ -2,8 +2,6 @@
 
 namespace App\Enums;
 
-use EnumToArray;
-
 enum VehicleUnitType:string
 {
     use EnumToArray;

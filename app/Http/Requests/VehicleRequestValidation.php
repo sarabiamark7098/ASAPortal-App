@@ -28,6 +28,7 @@ class VehicleRequestValidation extends FormRequest
         return match ($routeName) {
             'vehicle-requests.store' => $this->createRules(),
             'vehicle-requests.index' => $this->searchRules(),
+            'vehicle-requests.approve' => $this->approveRules(),
             default => []
         };
     }
@@ -73,6 +74,12 @@ class VehicleRequestValidation extends FormRequest
             'query' => ['nullable', 'string', 'max:255'],
             'sort_by' => ['nullable', 'string', 'max:255', Rule::in($sortableColumns)],
             'sort_order' => ['nullable', 'string', 'max:255', Rule::in(['desc', 'asc'])],
+        ];
+    }
+
+    public function approveRules() : array {
+        return [
+            'vehicle_assignment_id' => ['required', 'exists:vehicle_assignments,id'],
         ];
     }
 }

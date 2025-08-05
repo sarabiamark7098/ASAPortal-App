@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('vehicle_assignments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vehicle_id')->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('driver_id')->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('vehicle_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('driver_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

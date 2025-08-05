@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VehicleRequestValidation;
+use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use App\Services\VehicleRequestManager;
 use Illuminate\Http\JsonResponse;
@@ -25,6 +26,7 @@ class VehicleRequestController extends Controller
     public function index(Request $request): JsonResponse
     {
         $vehicleRequests = $this->vehicleRequestManager->search();
+
         return $this->ok($vehicleRequests->toArray());
     }
 
@@ -41,35 +43,13 @@ class VehicleRequestController extends Controller
         return $this->created($vehicleRequest->toArray());
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(VehicleRequest $vehicleRequest)
+    public function approve(VehicleRequestValidation $request, int|string $id): JsonResponse
     {
-        //
-    }
+        $vehicleRequest = VehicleRequest::findOrFail($id);
+        $vehicleAssignment = VehicleAssignment::find($request->get('vehicle_assignment_id'));
+        
+        $vehicleRequest = $this->vehicleRequestManager->approve($vehicleRequest, $vehicleAssignment);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(VehicleRequest $vehicleRequest)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, VehicleRequest $vehicleRequest)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(VehicleRequest $vehicleRequest)
-    {
-        //
+        return $this->ok($vehicleRequest->toArray());
     }
 }

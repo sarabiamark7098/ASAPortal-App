@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Status;
 use App\Models\User;
+use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -115,6 +117,28 @@ class VehicleRequestTest extends TestCase
         yield ['passengers'];
         yield ['destination'];
         yield ['requester_name'];
+    }
+
+    public function test_it_can_approve_vehicle_request(): void
+    {
+        $this->produceVehiceAssignment();
+
+        $vehicleRequest = VehicleRequest::factory()->create();
+        $vehicleAssignment = VehicleAssignment::first();
+        $vehicleRequestId = $vehicleRequest->id;
+
+
+        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/approve", [
+            'vehicle_assignment_id' => $vehicleAssignment->id
+        ]);
+
+        $response->assertStatus(200);
+        $responseJson = $response->decodeResponseJson();
+
+        $this->assertDatabaseCount('vehicle_requests', 1);
+        $this->assertNotEmpty($responseJson);
+        $this->assertEquals($vehicleAssignment->id, $responseJson['vehicle_assignment_id']);
+        $this->assertEquals(Status::APPROVED->value, $responseJson['status']);
     }
 
 }

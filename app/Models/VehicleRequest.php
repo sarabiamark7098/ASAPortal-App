@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class VehicleRequest extends Model
 {
@@ -32,6 +34,7 @@ class VehicleRequest extends Model
         'requester_contact_number',
         'requester_email',
         'status',
+        'vehicle_assignment_id'
     ];
 
     protected $casts = [
@@ -71,5 +74,9 @@ class VehicleRequest extends Model
                 SearchFilter::class,
             ])
             ->thenReturn();
+    }
+
+    public function vehicleAssignment() : BelongsTo {
+        return $this->belongsTo(VehicleAssignment::class)->withTrashed();
     }
 }

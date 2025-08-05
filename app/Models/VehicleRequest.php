@@ -14,6 +14,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class VehicleRequest extends Model
 {
@@ -45,6 +46,10 @@ class VehicleRequest extends Model
         'status' => Status::class,
     ];
 
+    protected $with = [
+        'signable:id,full_name,position',
+    ];
+
     protected static function boot(): void
     {
         parent::boot();
@@ -58,6 +63,10 @@ class VehicleRequest extends Model
 
     public function transactable() : MorphOne {
         return $this->morphOne(Transaction::class, 'transactable');
+    }
+
+    public function signable() : MorphMany {
+        return $this->morphMany(FormSignatory::class, 'signable');
     }
 
     /**

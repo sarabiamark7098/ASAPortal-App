@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Driver;
+use App\Models\Signatory;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Services\VehicleAssignmentManager;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
 
         if (! app()->runningUnitTests()) {
             $this->makeVehicleAssignments();
+            $this->makeSignatories();
         }
 
     }
@@ -38,5 +40,9 @@ class DatabaseSeeder extends Seeder
 
             $vehicleAssignmentManager->create($vehicle, $driver);
         }
+    }
+
+    protected function makeSignatories($count = 10) {
+        Signatory::factory($count)->create();
     }
 }

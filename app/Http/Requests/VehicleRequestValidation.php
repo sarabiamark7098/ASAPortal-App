@@ -80,6 +80,9 @@ class VehicleRequestValidation extends FormRequest
     public function approveRules() : array {
         return [
             'vehicle_assignment_id' => ['required', 'exists:vehicle_assignments,id'],
+            'signatories' => ['required', 'array'],
+            'signatories.*.id' => ['required', 'exists:signatories,id'],
+            'signatories.*.label' => ['required', 'string', 'max:255'],
         ];
     }
 }

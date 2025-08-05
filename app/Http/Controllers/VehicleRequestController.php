@@ -8,6 +8,7 @@ use App\Models\VehicleRequest;
 use App\Services\VehicleRequestManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function PHPSTORM_META\map;
 
@@ -45,11 +46,14 @@ class VehicleRequestController extends Controller
 
     public function approve(VehicleRequestValidation $request, int|string $id): JsonResponse
     {
-        $vehicleRequest = VehicleRequest::findOrFail($id);
-        $vehicleAssignment = VehicleAssignment::find($request->get('vehicle_assignment_id'));
-        
-        $vehicleRequest = $this->vehicleRequestManager->approve($vehicleRequest, $vehicleAssignment);
+        return DB::transaction(function() use ($request, $id) {
+            $vehicleRequest = VehicleRequest::findOrFail($id);
+            $vehicleAssignment = VehicleAssignment::find($request->get('vehicle_assignment_id'));
+            
+            $this->vehicleRequestManager->addSignatories($vehicleRequest, $request->validated('signatories'));
+            $vehicleRequest = $this->vehicleRequestManager->approve($vehicleRequest, $vehicleAssignment);
 
-        return $this->ok($vehicleRequest->toArray());
+            return $this->ok($vehicleRequest->toArray());
+        });
     }
 }

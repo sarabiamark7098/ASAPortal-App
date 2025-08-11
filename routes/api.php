@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\SignatoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);
+Route::get('/signatories', [SignatoryController::class, 'index']);
 
 Route::get('/divisions', [OfficesController::class, 'fetchDivisions']);
 Route::get('/offices/{id}', [OfficesController::class, 'fetchOfficesByDivision']);

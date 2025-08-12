@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('requester_position')->nullable();
             $table->string('requester_contact_number')->nullable();
             $table->string('requester_email')->nullable();
+            $table->boolean('is_vehicle_available')->nullable();
             $table->enum('status', Status::values())->index();
             $table->timestamps();
             $table->softDeletes();

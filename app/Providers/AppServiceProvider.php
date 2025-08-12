@@ -9,6 +9,8 @@ use App\Services\VehicleAssignmentService;
 use App\Services\VehicleRequestManager;
 use App\Services\VehicleRequestService;
 use Illuminate\Support\ServiceProvider;
+use App\Policies\VehicleRequestPolicy;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::policy(VehicleRequest::class, VehicleRequestPolicy::class);
     }
 }

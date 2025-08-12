@@ -120,7 +120,7 @@ class VehicleRequestTest extends TestCase
         yield ['requester_name'];
     }
 
-    public function test_it_can_approve_vehicle_request(): void
+    public function test_it_can_process_available_vehicle_request(): void
     {
         $this->produceVehiceAssignment();
         Signatory::factory(20)->create();
@@ -140,21 +140,78 @@ class VehicleRequestTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/approve", [
+        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/process", [
             'vehicle_assignment_id' => $vehicleAssignment->id,
             'signatories' => $signatories,
+            'is_vehicle_available' => true
         ]);
 
         $response->assertStatus(200);
-        $responseJson = $response->decodeResponseJson();
+        $vehiceRequestResponse = $response->decodeResponseJson();
 
         $vehicleRequest = $vehicleRequest->fresh();
 
         $this->assertDatabaseCount('vehicle_requests', 1);
-        $this->assertNotEmpty($responseJson);
-        $this->assertEquals($vehicleAssignment->id, $responseJson['vehicle_assignment_id']);
-        $this->assertEquals(Status::APPROVED->value, $responseJson['status']);
+        $this->assertNotEmpty($vehiceRequestResponse);
+        $this->assertEquals($vehicleAssignment->id, $vehiceRequestResponse['vehicle_assignment_id']);
+        $this->assertEquals(Status::PROCESSED->value, $vehiceRequestResponse['status']);
+        $this->assertTrue($vehiceRequestResponse['is_vehicle_available']);
         $this->assertEquals(count($signatories), $vehicleRequest->signable()->count());
+    }
+
+    public function test_it_can_process_unavailable_vehicle_request(): void
+    {
+        $this->produceVehiceAssignment();
+        Signatory::factory(20)->create();
+
+        $vehicleRequest = VehicleRequest::factory()->create();
+        $vehicleRequestId = $vehicleRequest->id;
+
+        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/process", [
+            'is_vehicle_available' => false
+        ]);
+
+        $response->assertStatus(200);
+        $vehiceRequestResponse = $response->decodeResponseJson();
+
+        $vehicleRequest = $vehicleRequest->fresh();
+
+        $this->assertDatabaseCount('vehicle_requests', 1);
+        $this->assertNotEmpty($vehiceRequestResponse);
+        $this->assertEquals(Status::NO_AVAILABLE->value, $vehiceRequestResponse['status']);
+        $this->assertFalse($vehiceRequestResponse['is_vehicle_available']);
+    }
+
+    public function test_it_cannot_process_an_already_processd_vehicle_request(): void
+    {
+        $this->produceVehiceAssignment();
+        Signatory::factory(20)->create();
+
+        $vehicleRequest = VehicleRequest::factory()->create();
+        $vehicleRequest->status = Status::PROCESSED;
+        $vehicleRequest->save();
+
+        $vehicleAssignment = VehicleAssignment::first();
+        $vehicleRequestId = $vehicleRequest->id;
+
+        $signatories = [
+            [
+                'label' => 'Requested By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+            [
+                'label' => 'Approved By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+        ];
+
+        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/process", [
+            'vehicle_assignment_id' => $vehicleAssignment->id,
+            'signatories' => $signatories,
+            'is_vehicle_available' => true
+        ]);
+
+        $response->assertStatus(403);
     }
 
 }

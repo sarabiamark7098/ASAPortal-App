@@ -28,7 +28,7 @@ class VehicleRequestValidation extends FormRequest
         return match ($routeName) {
             'vehicle-requests.store' => $this->createRules(),
             'vehicle-requests.index' => $this->searchRules(),
-            'vehicle-requests.approve' => $this->approveRules(),
+            'vehicle-requests.process' => $this->processRules(),
             default => []
         };
     }
@@ -77,12 +77,19 @@ class VehicleRequestValidation extends FormRequest
         ];
     }
 
-    public function approveRules() : array {
-        return [
+    public function processRules() : array {
+        $isVehicleAvailable = (bool)request('is_vehicle_available');
+
+        $vehicleAvailableRules =  $isVehicleAvailable ? [
             'vehicle_assignment_id' => ['required', 'exists:vehicle_assignments,id'],
             'signatories' => ['required', 'array'],
             'signatories.*.id' => ['required', 'exists:signatories,id'],
             'signatories.*.label' => ['required', 'string', 'max:255'],
+        ] : [];
+        
+        return [
+            'is_vehicle_available' => ['required', 'boolean'],
+            ...$vehicleAvailableRules
         ];
     }
 }

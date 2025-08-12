@@ -48,7 +48,7 @@ class VehicleRequestServiceTest extends TestCase
         $this->assertEquals($count, count($result->items()));
     }
 
-    public function test_it_can_approve_vehicle_request(): void
+    public function test_it_can_assign_vehicle_on_vehicle_request(): void
     {
         $payload = VehicleRequest::factory()->make()->toArray();
         $vehicleRequest = $this->vehicleRequestService->create([
@@ -60,11 +60,10 @@ class VehicleRequestServiceTest extends TestCase
 
         $vehicleAssignment = VehicleAssignment::first();
 
-        $this->vehicleRequestService->approve($vehicleRequest, $vehicleAssignment);
+        $this->vehicleRequestService->setVehicleRequest($vehicleRequest)->assignVehicle($vehicleAssignment);
 
         $vehicleRequest = $vehicleRequest->fresh();
 
         $this->assertEquals($vehicleAssignment->id, $vehicleRequest->vehicle_assignment_id);
-        $this->assertEquals(Status::APPROVED, $vehicleRequest->status);
     }
 }

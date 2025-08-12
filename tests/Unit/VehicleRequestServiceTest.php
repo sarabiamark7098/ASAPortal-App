@@ -60,11 +60,11 @@ class VehicleRequestServiceTest extends TestCase
 
         $vehicleAssignment = VehicleAssignment::first();
 
-        $this->vehicleRequestService->approve($vehicleRequest, $vehicleAssignment);
+        $this->vehicleRequestService->process($vehicleRequest, $vehicleAssignment);
 
         $vehicleRequest = $vehicleRequest->fresh();
 
         $this->assertEquals($vehicleAssignment->id, $vehicleRequest->vehicle_assignment_id);
-        $this->assertEquals(Status::APPROVED, $vehicleRequest->status);
+        $this->assertEquals(Status::PROCESSED, $vehicleRequest->status);
     }
 }

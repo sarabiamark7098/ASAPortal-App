@@ -28,7 +28,7 @@ class VehicleRequestValidation extends FormRequest
         return match ($routeName) {
             'vehicle-requests.store' => $this->createRules(),
             'vehicle-requests.index' => $this->searchRules(),
-            'vehicle-requests.approve' => $this->approveRules(),
+            'vehicle-requests.process' => $this->processRules(),
             default => []
         };
     }
@@ -77,7 +77,7 @@ class VehicleRequestValidation extends FormRequest
         ];
     }
 
-    public function approveRules() : array {
+    public function processRules() : array {
         return [
             'vehicle_assignment_id' => ['required', 'exists:vehicle_assignments,id'],
             'signatories' => ['required', 'array'],

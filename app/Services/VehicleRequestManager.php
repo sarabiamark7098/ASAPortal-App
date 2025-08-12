@@ -11,6 +11,6 @@ use Illuminate\Database\Eloquent\Collection;
 interface VehicleRequestManager {
     public function search(int $perPage = 20) : Paginator;
     public function create(array $payload) : ?VehicleRequest;
-    public function approve(VehicleRequest $vehicleRequest, VehicleAssignment $vehicleAssignment) : VehicleRequest;
+    public function process(VehicleRequest $vehicleRequest, VehicleAssignment $vehicleAssignment) : VehicleRequest;
     public function addSignatories(VehicleRequest $vehicleRequest, array $payload);
 }

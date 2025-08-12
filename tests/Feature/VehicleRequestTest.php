@@ -120,7 +120,7 @@ class VehicleRequestTest extends TestCase
         yield ['requester_name'];
     }
 
-    public function test_it_can_approve_vehicle_request(): void
+    public function test_it_can_process_vehicle_request(): void
     {
         $this->produceVehiceAssignment();
         Signatory::factory(20)->create();
@@ -140,7 +140,7 @@ class VehicleRequestTest extends TestCase
             ],
         ];
 
-        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/approve", [
+        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/process", [
             'vehicle_assignment_id' => $vehicleAssignment->id,
             'signatories' => $signatories,
         ]);
@@ -153,8 +153,39 @@ class VehicleRequestTest extends TestCase
         $this->assertDatabaseCount('vehicle_requests', 1);
         $this->assertNotEmpty($responseJson);
         $this->assertEquals($vehicleAssignment->id, $responseJson['vehicle_assignment_id']);
-        $this->assertEquals(Status::APPROVED->value, $responseJson['status']);
+        $this->assertEquals(Status::PROCESSED->value, $responseJson['status']);
         $this->assertEquals(count($signatories), $vehicleRequest->signable()->count());
+    }
+
+    public function test_it_cannot_process_an_already_processd_vehicle_request(): void
+    {
+        $this->produceVehiceAssignment();
+        Signatory::factory(20)->create();
+
+        $vehicleRequest = VehicleRequest::factory()->create();
+        $vehicleRequest->status = Status::PROCESSED;
+        $vehicleRequest->save();
+
+        $vehicleAssignment = VehicleAssignment::first();
+        $vehicleRequestId = $vehicleRequest->id;
+
+        $signatories = [
+            [
+                'label' => 'Requested By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+            [
+                'label' => 'Approved By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+        ];
+
+        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/process", [
+            'vehicle_assignment_id' => $vehicleAssignment->id,
+            'signatories' => $signatories,
+        ]);
+
+        $response->assertStatus(403);
     }
 
 }

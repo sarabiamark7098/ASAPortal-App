@@ -20,10 +20,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('vehicle-requests')->name('vehicle-requests.')->group(function () {
         Route::post('/', [VehicleRequestController::class, 'store'])->name('store');
         Route::get('/', [VehicleRequestController::class, 'index'])->name('index');
-        Route::post('/{id}/approve', [VehicleRequestController::class, 'approve'])->name('approve');
+        Route::post('/{id}/process', [VehicleRequestController::class, 'process'])->name('process');
     });
 
     Route::prefix('vehicle-assignments')->name('vehicle-assignments.')->group(function () {
+        Route::get('/', [VehicleAssignmentController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('signatories')->name('signatories.')->group(function () {
         Route::get('/', [VehicleAssignmentController::class, 'index'])->name('index');
     });
 

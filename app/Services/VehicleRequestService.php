@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 class VehicleRequestService implements VehicleRequestManager
 {
     public Model $model;
+
+    public VehicleRequest $vehicleRequest;
     
     public function __construct(VehicleRequest $model)
     {
@@ -33,9 +35,9 @@ class VehicleRequestService implements VehicleRequestManager
         return $vehicleRequest;
     }
 
-    public function approve(VehicleRequest $vehicleRequest, VehicleAssignment $vehicleAssignment) : VehicleRequest {
+    public function process(VehicleRequest $vehicleRequest, VehicleAssignment $vehicleAssignment) : VehicleRequest {
         $vehicleRequest->vehicleAssignment()->associate($vehicleAssignment);
-        $vehicleRequest->status = Status::APPROVED;
+        $vehicleRequest->status = Status::PROCESSED;
         $vehicleRequest->save();
         return $vehicleRequest->fresh();
     }

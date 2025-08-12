@@ -11,10 +11,10 @@ class VehicleRequestPolicy
 {
     public function process(User $user, VehicleRequest $vehicleRequest): Response
     {
-        if($vehicleRequest->status == Status::PROCESSED){
-            return Response::deny('The vehicle request is already processed.');
+        if($vehicleRequest->status == Status::PENDING){
+            return Response::allow();
         }
 
-        return Response::allow();
+        return Response::deny('The vehicle request is on proccess.');
     }
 }

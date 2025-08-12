@@ -34,7 +34,7 @@ class VehicleRequest extends Model
         'requester_position',
         'requester_contact_number',
         'requester_email',
-        'is_available',
+        'is_vehicle_available',
         'status',
         'vehicle_assignment_id'
     ];
@@ -44,7 +44,7 @@ class VehicleRequest extends Model
         'requested_start' => 'date:Y-m-d',
         'requested_time' => 'datetime:H:i:s',
         'requested_end' => 'date:Y-m-d',
-        'is_available' => 'boolean',
+        'is_vehicle_available' => 'boolean',
         'status' => Status::class,
     ];
 

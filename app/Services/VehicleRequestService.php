@@ -14,13 +14,18 @@ class VehicleRequestService implements VehicleRequestManager
 {
     public Model $model;
 
-    public VehicleRequest $vehicleRequest;
+    private VehicleRequest $vehicleRequest;
     
     public function __construct(VehicleRequest $model)
     {
         $this->model = $model;
     }
     
+    public function setVehicleRequest(VehicleRequest $vehicleRequest) : self {
+        $this->vehicleRequest = $vehicleRequest;
+        return $this;
+    }
+
     public function search(int $perPage = 20) : Paginator {
         return $this->model->filtered()->paginate($perPage);
     }
@@ -35,19 +40,29 @@ class VehicleRequestService implements VehicleRequestManager
         return $vehicleRequest;
     }
 
-    public function process(VehicleRequest $vehicleRequest, VehicleAssignment $vehicleAssignment) : VehicleRequest {
-        $vehicleRequest->vehicleAssignment()->associate($vehicleAssignment);
-        $vehicleRequest->status = Status::PROCESSED;
-        $vehicleRequest->save();
-        return $vehicleRequest->fresh();
+    public function update(array $payload) : VehicleRequest {
+        $this->vehicleRequest->update($payload);
+        return $this->vehicleRequest->fresh();
     }
 
-    public function addSignatories(VehicleRequest $vehicleRequest, array $payload) {
+    public function assignVehicle(VehicleAssignment $vehicleAssignment) : VehicleRequest {
+        $this->vehicleRequest->vehicleAssignment()->associate($vehicleAssignment);
+        $this->vehicleRequest->save();
+        return $this->vehicleRequest->fresh();
+    }
+
+    public function updateStatus(Status $status) : VehicleRequest {
+        $this->vehicleRequest->status = $status;
+        $this->vehicleRequest->save();
+        return $this->vehicleRequest->fresh();
+    }
+
+    public function addSignatories(array $payload) {
 
         foreach ($payload as $signee) {
             $signatory = Signatory::find($signee['id']);
 
-            $vehicleRequest->signable()->create([
+            $this->vehicleRequest->signable()->create([
                 'label' => $signee['label'],
                 'full_name' => $signatory->full_name,
                 'position' => $signatory->position,

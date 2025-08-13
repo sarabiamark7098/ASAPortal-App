@@ -9,12 +9,13 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthService implements AuthManager
 {
-    public function authenticate(array $payload) : ?User {
+    public function authenticate(array $payload): ?User
+    {
         $loginType = filter_var($payload['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         $user = User::where($loginType, $payload['login'])->first();
 
-        if(!$user){
+        if (!$user) {
             throw new AuthenticationException('Invlid Credentials');
         }
 
@@ -25,11 +26,13 @@ class AuthService implements AuthManager
         return $user;
     }
 
-    public function generateToken(User $user, string $tokenName = 'auth_token') : string {
+    public function generateToken(User $user, string $tokenName = 'auth_token'): string
+    {
         return $user->createToken($tokenName)->plainTextToken;
     }
 
-    public function invalidateToken(string $token): bool {
+    public function invalidateToken(string $token): bool
+    {
         $sanctumToken = PersonalAccessToken::findToken($token);
 
         if (! $sanctumToken) {
@@ -39,7 +42,8 @@ class AuthService implements AuthManager
         return $sanctumToken->delete();
     }
 
-    public function getUser(User $user) : ?User {
+    public function getUser(User $user): ?User
+    {
         $user->load('roles', 'permissions');
         $user->roles = $user->getRoleNames();
         $user->permissions = $user->getPermissionNames();
@@ -47,7 +51,8 @@ class AuthService implements AuthManager
         return $user;
     }
 
-    public function invalidateUserTokens(User $user) {
+    public function invalidateUserTokens(User $user)
+    {
         $user->tokens()->delete();
     }
 }

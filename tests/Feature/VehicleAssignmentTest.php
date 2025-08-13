@@ -4,12 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class VehicleAssignmentTest extends TestCase
 {
-   use RefreshDatabase;
+    use RefreshDatabase;
 
     private string $baseUri = self::BASE_API_URI.'/vehicle-assignments';
 

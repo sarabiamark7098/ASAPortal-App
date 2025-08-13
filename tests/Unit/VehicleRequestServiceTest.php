@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Enums\Status;
 use App\Models\User;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
@@ -26,7 +25,7 @@ class VehicleRequestServiceTest extends TestCase
 
         $this->user = User::first();
     }
-    
+
     public function test_it_can_create_vehicle_request(): void
     {
         $payload = VehicleRequest::factory()->make()->toArray();

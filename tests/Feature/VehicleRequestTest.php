@@ -76,7 +76,7 @@ class VehicleRequestTest extends TestCase
     {
         $count = 10;
         VehicleRequest::factory()->count($count)->create();
-        
+
         $value = 'The quick brown fox jumps over the lazy dog.';
         $vehicleRequest = VehicleRequest::factory(1, [
             $field => $value
@@ -97,7 +97,7 @@ class VehicleRequestTest extends TestCase
     {
         $count = 10;
         VehicleRequest::factory()->count($count)->create();
-        
+
         $controlNumber = '2020-01-02-012345';
         $vehicleRequest = VehicleRequest::factory()->create()->first();
 

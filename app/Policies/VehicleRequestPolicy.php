@@ -11,7 +11,7 @@ class VehicleRequestPolicy
 {
     public function process(User $user, VehicleRequest $vehicleRequest): Response
     {
-        if($vehicleRequest->status == Status::PENDING){
+        if ($vehicleRequest->status == Status::PENDING) {
             return Response::allow();
         }
 

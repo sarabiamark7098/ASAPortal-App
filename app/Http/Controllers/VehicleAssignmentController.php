@@ -7,7 +7,8 @@ use Illuminate\Http\JsonResponse;
 
 class VehicleAssignmentController extends Controller
 {
-    public function index() : JsonResponse {
+    public function index(): JsonResponse
+    {
         $vehicleAssignments = VehicleAssignment::paginate(20);
 
         return $this->ok($vehicleAssignments->toArray());

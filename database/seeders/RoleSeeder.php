@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -12,14 +10,14 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-         $permissions = [
-            'manage all',
-            'view users',
-            'edit users',
-            'delete users',
-            'create users',
-            'assign roles',
-            'view dashboard',
+        $permissions = [
+           'manage all',
+           'view users',
+           'edit users',
+           'delete users',
+           'create users',
+           'assign roles',
+           'view dashboard',
         ];
 
         // Create permissions
@@ -28,12 +26,12 @@ class RoleSeeder extends Seeder
         }
 
 
-         $rolesWithPermissions = [
-            'superadmin' => Permission::all()->pluck('name')->toArray(), // all permissions
-            'supervisor' => ['view users', 'view dashboard'],
-            'manager' => ['view users', 'edit users', 'view dashboard'],
-            'driver' => ['view dashboard'],
-            'client' => [],
+        $rolesWithPermissions = [
+           'superadmin' => Permission::all()->pluck('name')->toArray(), // all permissions
+           'supervisor' => ['view users', 'view dashboard'],
+           'manager' => ['view users', 'edit users', 'view dashboard'],
+           'driver' => ['view dashboard'],
+           'client' => [],
         ];
 
         // Create roles and assign permissions

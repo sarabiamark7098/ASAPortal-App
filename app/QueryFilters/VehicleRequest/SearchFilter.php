@@ -15,7 +15,7 @@ class SearchFilter extends Filter
 
         $keywords = request($filterName);
 
-        return $builder->where(function($builder) use ($keywords) {
+        return $builder->where(function ($builder) use ($keywords) {
             $builder->orWhereFullText('requesting_office', $keywords);
             $builder->orWhereFullText('purpose', $keywords);
             $builder->orWhereFullText('passengers', $keywords);

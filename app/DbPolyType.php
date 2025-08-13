@@ -2,7 +2,7 @@
 
 namespace App;
 
-enum DbPolyType:string
+enum DbPolyType: string
 {
     case USER = 'user';
     case VEHICLE_REQUEST = 'vehicle_request';

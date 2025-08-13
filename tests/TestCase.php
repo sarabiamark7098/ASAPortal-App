@@ -19,14 +19,16 @@ abstract class TestCase extends BaseTestCase
         $this->withoutMiddleware(ThrottleRequests::class);
     }
 
-    public function produceUser() : User {
+    public function produceUser(): User
+    {
         return User::factory()->create()->first();
     }
 
-    protected function produceVehiceAssignment($count = 10) {
+    protected function produceVehiceAssignment($count = 10)
+    {
         $vehicleAssignmentManager = resolve(VehicleAssignmentManager::class);
-        
-        for ($i=0; $i < $count; $i++) { 
+
+        for ($i = 0; $i < $count; $i++) {
             $vehicle = Vehicle::factory()->create();
             $driver = Driver::factory()->create();
 

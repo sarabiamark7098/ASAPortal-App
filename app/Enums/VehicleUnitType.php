@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 
-enum VehicleUnitType:string
+enum VehicleUnitType: string
 {
     use EnumToArray;
-    
+
     case PICKUP = 'pickup';
     case VAN = 'van';
     case MPV = 'mpv';

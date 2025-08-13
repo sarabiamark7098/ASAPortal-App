@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\Status;
 use App\Http\Requests\VehicleRequestValidation;
-use App\Models\Vehicle;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use App\Services\Pdf\PdfManager;
@@ -14,8 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-
-use function PHPSTORM_META\map;
 
 class VehicleRequestController extends Controller
 {
@@ -64,12 +61,12 @@ class VehicleRequestController extends Controller
 
         Gate::authorize('process', $vehicleRequest);
 
-        return DB::transaction(function() use ($request, $vehicleRequest) {
+        return DB::transaction(function () use ($request, $vehicleRequest) {
             $status = Status::NO_AVAILABLE;
             $vehicleAssignment = VehicleAssignment::find($request->get('vehicle_assignment_id'));
             $isVehicleAvailable = (bool) $request->validated('is_vehicle_available');
 
-            if($isVehicleAvailable){
+            if ($isVehicleAvailable) {
                 $this->vehicleRequestManager->setVehicleRequest($vehicleRequest);
                 $this->vehicleRequestManager->addSignatories($request->validated('signatories'));
                 $this->vehicleRequestManager->assignVehicle($vehicleAssignment);

@@ -83,5 +83,5 @@ class AuthServiceTest extends TestCase
 
         $this->assertEmpty($user->tokens);
     }
-    
+
 }

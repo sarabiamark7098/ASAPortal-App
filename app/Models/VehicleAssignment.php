@@ -20,15 +20,18 @@ class VehicleAssignment extends Model
         'driver',
     ];
 
-    public function vehicle() : BelongsTo {
+    public function vehicle(): BelongsTo
+    {
         return $this->belongsTo(Vehicle::class);
     }
 
-    public function driver() : BelongsTo {
+    public function driver(): BelongsTo
+    {
         return $this->belongsTo(Driver::class);
     }
 
-    public function vehicleRequest() : BelongsTo {
+    public function vehicleRequest(): BelongsTo
+    {
         return $this->belongsTo(VehicleRequest::class);
     }
 

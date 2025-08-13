@@ -14,9 +14,8 @@ use App\Services\AuthManager;
 
 class AuthController extends Controller
 {
-
     private AuthManager $authManager;
-    
+
     public function __construct(AuthManager $authManager)
     {
         $this->authManager = $authManager;
@@ -26,7 +25,7 @@ class AuthController extends Controller
      */
     public function register(AuthRequest $request): JsonResponse
     {
-        return DB::transaction(function() use ($request){
+        return DB::transaction(function () use ($request) {
             $validated = $request->validated();
             $user = User::create([
                 'email'    => $validated['email'],
@@ -69,7 +68,7 @@ class AuthController extends Controller
         $user = $this->authManager->authenticate($request->validated());
 
         $this->authManager->invalidateUserTokens($user);
-        
+
         $token = $this->authManager->generateToken($user);
 
         activity()
@@ -102,7 +101,8 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
-    public function user(Request $request) : JsonResponse {
+    public function user(Request $request): JsonResponse
+    {
         $user = $request->user();
         $user->load('roles', 'permissions');
 

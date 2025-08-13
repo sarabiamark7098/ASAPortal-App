@@ -13,12 +13,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class VehicleRequest extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'date_requested',
@@ -63,11 +63,13 @@ class VehicleRequest extends Model
         });
     }
 
-    public function transactable() : MorphOne {
+    public function transactable(): MorphOne
+    {
         return $this->morphOne(Transaction::class, 'transactable');
     }
 
-    public function signable() : MorphMany {
+    public function signable(): MorphMany
+    {
         return $this->morphMany(FormSignatory::class, 'signable');
     }
 
@@ -87,7 +89,8 @@ class VehicleRequest extends Model
             ->thenReturn();
     }
 
-    public function vehicleAssignment() : BelongsTo {
+    public function vehicleAssignment(): BelongsTo
+    {
         return $this->belongsTo(VehicleAssignment::class)->withTrashed();
     }
 }

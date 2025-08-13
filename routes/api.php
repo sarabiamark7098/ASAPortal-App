@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -42,4 +43,4 @@ Route::get('/users', [UserController::class, 'getAllUsers']);
 Route::get('/divisions', [OfficesController::class, 'fetchDivisions']);
 Route::get('/offices/{id}', [OfficesController::class, 'fetchOfficesByDivision']);
 
-Route::put('/user/update/{id}',[UserController::class, 'updateUser']);
+Route::put('/user/update/{id}', [UserController::class, 'updateUser']);

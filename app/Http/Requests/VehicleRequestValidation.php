@@ -33,7 +33,8 @@ class VehicleRequestValidation extends FormRequest
         };
     }
 
-    public function createRules() : array {
+    public function createRules(): array
+    {
         return [
             'date_requested' => ['required', 'date'],
             'requesting_office' => ['required', 'string', 'max:255'],
@@ -50,7 +51,8 @@ class VehicleRequestValidation extends FormRequest
         ];
     }
 
-    public function searchRules() : array {
+    public function searchRules(): array
+    {
 
         $sortableColumns = [
             'date_requested',
@@ -68,7 +70,7 @@ class VehicleRequestValidation extends FormRequest
             'control_number',
             'status',
         ];
-        
+
         return [
             'search' => ['nullable', Rule::enum(Status::class)],
             'query' => ['nullable', 'string', 'max:255'],
@@ -77,7 +79,8 @@ class VehicleRequestValidation extends FormRequest
         ];
     }
 
-    public function processRules() : array {
+    public function processRules(): array
+    {
         $isVehicleAvailable = (bool)request('is_vehicle_available');
 
         $vehicleAvailableRules =  $isVehicleAvailable ? [
@@ -86,7 +89,7 @@ class VehicleRequestValidation extends FormRequest
             'signatories.*.id' => ['required', 'exists:signatories,id'],
             'signatories.*.label' => ['required', 'string', 'max:255'],
         ] : [];
-        
+
         return [
             'is_vehicle_available' => ['required', 'boolean'],
             ...$vehicleAvailableRules

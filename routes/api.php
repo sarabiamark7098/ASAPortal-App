@@ -33,6 +33,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
+Route::prefix('pdf')->name('pdf.')->group(function () {
+    Route::get('/vehicle-request/{id}', [VehicleRequestController::class, 'pdf'])->name('pdf');
+});
+
 Route::get('/users', [UserController::class, 'getAllUsers']);
 
 Route::get('/divisions', [OfficesController::class, 'fetchDivisions']);

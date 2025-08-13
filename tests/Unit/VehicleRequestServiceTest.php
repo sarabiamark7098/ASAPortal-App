@@ -6,7 +6,7 @@ use App\Enums\Status;
 use App\Models\User;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
-use App\Services\VehicleRequestService;
+use App\Services\Vehicle\VehicleRequestService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

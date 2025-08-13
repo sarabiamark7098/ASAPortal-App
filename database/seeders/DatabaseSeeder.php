@@ -6,7 +6,7 @@ use App\Models\Driver;
 use App\Models\Signatory;
 use App\Models\User;
 use App\Models\Vehicle;
-use App\Services\VehicleAssignmentManager;
+use App\Services\Vehicle\VehicleAssignmentManager;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

@@ -5,7 +5,7 @@ namespace Tests;
 use App\Models\Driver;
 use App\Models\User;
 use App\Models\Vehicle;
-use App\Services\VehicleAssignmentManager;
+use App\Services\Vehicle\VehicleAssignmentManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 

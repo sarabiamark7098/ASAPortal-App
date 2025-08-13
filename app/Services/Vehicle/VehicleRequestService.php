@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Vehicle;
 
 use App\Enums\Status;
 use App\Models\Signatory;

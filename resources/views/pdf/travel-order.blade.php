@@ -108,11 +108,11 @@
 </head>
 <body>
 
-    <img src="{{ public_path('images/DSWD-AS-GF-030_REV 03_TRAVEL ORDER FORM.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
+    <img src="{{ public_path('images/TRAVEL-ORDER-FORM.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
 
     <div class="content" id="control_number">{{ $control_number }}</div>
     <div class="content" id="check_date">{{ date("F j, Y",strtotime($updated_at)) }}</div>
-    <div class="content" id="driver_name">{{ $vehicle_assignment['driver']['first_name'] . " " . (!empty($vehicle_assignment['driver']['middle_name'][0])?$vehicle_assignment['driver']['middle_name'][0].". ": "") . $vehicle_assignment['driver']['last_name'] . " " . (!empty($vehicle_assignment['driver']['extension_name'])?$vehicle_assignment['driver']['extension_name']: "") }}</div>
+    <div class="content" id="driver_name">{{ $vehicle_assignment['driver']['full_name'] }}</div>
     <div class="content" id="vehicle">{{ $vehicle_assignment['vehicle']['unit_type'] ." - ".  $vehicle_assignment['vehicle']['plate_number']  }}</div>
     <div class="content" id="destination">{{ $destination }}</div>
     <div class="content" id="dates">{{ date("M j, Y",strtotime($requested_start)) . " - " . date("M j, Y",strtotime($requested_end)) }}</div>
@@ -123,7 +123,7 @@
             <div class="content" id="supervising_position">{{ $signatory['position'] }}</div>
         @endif
     @endforeach
-    <div class="content" id="ca_driver_name">{{ $vehicle_assignment['driver']['first_name'] . " " . (!empty($vehicle_assignment['driver']['middle_name'][0])?$vehicle_assignment['driver']['middle_name'][0].". ": "") . $vehicle_assignment['driver']['last_name'] . " " . (!empty($vehicle_assignment['driver']['extension_name'])?$vehicle_assignment['driver']['extension_name']: "") }}</div>
+    <div class="content" id="ca_driver_name">{{ $vehicle_assignment['driver']['full_name'] }}</div>
     <div class="content" id="ca_destination">{{ $destination }}</div>
     <div class="content" id="ca_dates">{{ date("M j, Y",strtotime($requested_start)) . " - " . date("M j, Y",strtotime($requested_end)) }}</div>
     <div class="content" id="ca_purpose">{{ $purpose }}</div>

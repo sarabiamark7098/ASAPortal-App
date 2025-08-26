@@ -38,7 +38,7 @@ class PdfController extends Controller
         return $this->pdfManager->setConfig($config)->viewToHtml('pdf.travel-order', $data)->make()->stream($filename);
     }
 
-    public function vehicleCNAS(string|int $id): Response
+    public function vehicleCnas(string|int $id): Response
     {
         $data = VehicleRequest::findOrFail($id)->toArray();
         $filename = 'vehicle-cnas.pdf';

@@ -39,7 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/vehicle-request/{id}', [PdfController::class, 'vehicleRequest'])->name('vehicle-request');
     Route::get('/travel-order/{id}', [PdfController::class, 'travelOrder'])->name('travel-order');
-    Route::get('/vehicle-cnas/{id}', [PdfController::class, 'vehicleCNAS'])->name('vehicle-cnas');
+    Route::get('/vehicle-cnas/{id}', [PdfController::class, 'vehicleCnas'])->name('vehicle-cnas');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

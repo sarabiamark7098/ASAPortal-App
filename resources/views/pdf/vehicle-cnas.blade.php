@@ -63,7 +63,7 @@
 </head>
 <body>
 
-    <img src="{{ public_path('images/CNAS - Vehicle.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
+    <img src="{{ public_path('images/CNAS-Vehicle.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
 
     <div class="content" id="control_number">{{ 'Control Number: '. $control_number }}</div>
     <div class="content" id="requesting_office">{{ $requesting_office }}</div>

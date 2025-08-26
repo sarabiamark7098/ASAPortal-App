@@ -295,7 +295,7 @@
 <body>
 
   <!-- Page 1 -->
-    <img src="{{ public_path('images/DSWD-AS-GF-027_REV 03_Request for Use of Vehicle.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
+    <img src="{{ public_path('images/Request-for-Use-of-Vehicle.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
 
     <div class="content" id="requesting_office">{{ $requesting_office }}</div>
     <div class="content" id="purpose">{{ $purpose }}</div>
@@ -322,7 +322,7 @@
     @if ($vehicle_assignment)
     <div class="content" id="plate_number">{{ $vehicle_assignment['vehicle']['plate_number'] }}</div>
     <div class="content" id="vehicle_type">{{ $vehicle_assignment['vehicle']['unit_type'] }}</div>
-    <div class="content" id="driver_name">{{ $vehicle_assignment['driver']['first_name'] . " " . (!empty($vehicle_assignment['driver']['middle_name'][0])?$vehicle_assignment['driver']['middle_name'][0].". ": "") . $vehicle_assignment['driver']['last_name'] . " " . (!empty($vehicle_assignment['driver']['extension_name'])?$vehicle_assignment['driver']['extension_name']: "") }}</div>
+    <div class="content" id="driver_name">{{ $vehicle_assignment['driver']['full_name'] }}</div>
     <div class="content" id="contact_number">{{ $vehicle_assignment['driver']['contact_number'] }}</div>
     @endif
 
@@ -339,12 +339,12 @@
         <div class="page-break"></div>
 
     <!-- Page 2 -->
-        <img src="{{ public_path('images/DSWD-AS-GF-031_REV 03_TRIP TICKET.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
+        <img src="{{ public_path('images/TRIP-TICKET.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
 
         <div class="content" id="page2_control_number">{{ $control_number }}</div>
         <div class="content" id="page2_plate_number">{{ $vehicle_assignment['vehicle']['plate_number'] }}</div>
         <div class="content" id="page2_date">{{ date("F j, Y",strtotime($requested_start)) ." - ". date("F j, Y",strtotime($requested_end)) }}</div>
-        <div class="content" id="page2_driver_name">{{ $vehicle_assignment['driver']['first_name'] . " " . (!empty($vehicle_assignment['driver']['middle_name'][0])?$vehicle_assignment['driver']['middle_name'][0].". ": "") . $vehicle_assignment['driver']['last_name'] . " " . (!empty($vehicle_assignment['driver']['extension_name'])?$vehicle_assignment['driver']['extension_name']: "") }}</div>
+        <div class="content" id="page2_driver_name">{{ $vehicle_assignment['driver']['full_name'] }}</div>
         <div class="content" id="page2_passengers">{{ $passengers }}</div>
         <div class="content" id="page2_destination">{{ $destination }}</div>
         <div class="content" id="page2_purpose">{{ $purpose }}</div>

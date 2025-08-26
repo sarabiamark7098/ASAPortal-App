@@ -76,7 +76,7 @@ class VehicleRequestTest extends TestCase
     {
         $count = 10;
         VehicleRequest::factory()->count($count)->create();
-        
+
         $value = 'The quick brown fox jumps over the lazy dog.';
         $vehicleRequest = VehicleRequest::factory(1, [
             $field => $value
@@ -97,7 +97,7 @@ class VehicleRequestTest extends TestCase
     {
         $count = 10;
         VehicleRequest::factory()->count($count)->create();
-        
+
         $controlNumber = '2020-01-02-012345';
         $vehicleRequest = VehicleRequest::factory()->create()->first();
 
@@ -163,11 +163,21 @@ class VehicleRequestTest extends TestCase
     {
         $this->produceVehiceAssignment();
         Signatory::factory(20)->create();
-
+        $signatories = [
+            [
+                'label' => 'Requested By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+            [
+                'label' => 'Approved By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+        ];
         $vehicleRequest = VehicleRequest::factory()->create();
         $vehicleRequestId = $vehicleRequest->id;
 
         $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/process", [
+            'signatories' => $signatories,
             'is_vehicle_available' => false
         ]);
 

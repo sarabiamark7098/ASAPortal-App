@@ -1,8 +1,10 @@
 <?php
+use App\Http\Controllers\SignatoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OfficesController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\VehicleAssignmentController;
 use App\Http\Controllers\VehicleRequestController;
 
@@ -28,13 +30,15 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('signatories')->name('signatories.')->group(function () {
-        Route::get('/', [VehicleAssignmentController::class, 'index'])->name('index');
+        Route::get('/', [SignatoryController::class, 'index'])->name('index');
     });
 
 });
 
 Route::prefix('pdf')->name('pdf.')->group(function () {
-    Route::get('/vehicle-request/{id}', [VehicleRequestController::class, 'pdf'])->name('pdf');
+    Route::get('/vehicle-request/{id}', [PdfController::class, 'vehicleRequest'])->name('vehicle-request');
+    Route::get('/travel-order/{id}', [PdfController::class, 'travelOrder'])->name('travel-order');
+    Route::get('/vehicle-cnas/{id}', [PdfController::class, 'vehicleCNAS'])->name('vehicle-cnas');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

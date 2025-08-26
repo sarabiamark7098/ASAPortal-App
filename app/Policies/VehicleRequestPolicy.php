@@ -14,7 +14,6 @@ class VehicleRequestPolicy
         if($vehicleRequest->status == Status::PENDING){
             return Response::allow();
         }
-
         return Response::deny('The vehicle request is on proccess.');
     }
 }

@@ -68,7 +68,7 @@ class VehicleRequestValidation extends FormRequest
             'control_number',
             'status',
         ];
-        
+
         return [
             'search' => ['nullable', Rule::enum(Status::class)],
             'query' => ['nullable', 'string', 'max:255'],
@@ -82,13 +82,14 @@ class VehicleRequestValidation extends FormRequest
 
         $vehicleAvailableRules =  $isVehicleAvailable ? [
             'vehicle_assignment_id' => ['required', 'exists:vehicle_assignments,id'],
+        ] : [
+        ];
+
+        return [
+            'is_vehicle_available' => ['required', 'boolean'],
             'signatories' => ['required', 'array'],
             'signatories.*.id' => ['required', 'exists:signatories,id'],
             'signatories.*.label' => ['required', 'string', 'max:255'],
-        ] : [];
-        
-        return [
-            'is_vehicle_available' => ['required', 'boolean'],
             ...$vehicleAvailableRules
         ];
     }

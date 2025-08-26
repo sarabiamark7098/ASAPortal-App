@@ -9,6 +9,10 @@ interface PdfManager
     /**
      * Save the PDF to a file
      */
+    public function setConfig(array $config): ?self;
+    /**
+     * Save the PDF to a file
+     */
     public function save(string $filename): ?string;
 
     /**

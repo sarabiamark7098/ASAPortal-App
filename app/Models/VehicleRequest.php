@@ -49,7 +49,7 @@ class VehicleRequest extends Model
     ];
 
     protected $with = [
-        'signable:id,full_name,position',
+        'signable:signable_id,label,full_name,position',
     ];
 
     protected static function boot(): void

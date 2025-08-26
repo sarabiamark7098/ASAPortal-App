@@ -25,13 +25,6 @@ class VehicleRequestController extends Controller
         $this->pdfManager = $pdfManager;
     }
 
-    public function pdf(string|int $id): Response
-    {
-        $data = VehicleRequest::findOrFail($id)->toArray();
-        $filename = 'vehicle-request.pdf';
-        return $this->pdfManager->viewToHtml('pdf.sample', $data)->make()->stream($filename);
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -65,10 +58,10 @@ class VehicleRequestController extends Controller
             $status = Status::NO_AVAILABLE;
             $vehicleAssignment = VehicleAssignment::find($request->get('vehicle_assignment_id'));
             $isVehicleAvailable = (bool) $request->validated('is_vehicle_available');
+            $this->vehicleRequestManager->setVehicleRequest($vehicleRequest);
+            $this->vehicleRequestManager->addSignatories($request->validated('signatories'));
 
-            if ($isVehicleAvailable) {
-                $this->vehicleRequestManager->setVehicleRequest($vehicleRequest);
-                $this->vehicleRequestManager->addSignatories($request->validated('signatories'));
+            if($isVehicleAvailable){
                 $this->vehicleRequestManager->assignVehicle($vehicleAssignment);
                 $status = Status::PROCESSED;
             }
@@ -81,4 +74,5 @@ class VehicleRequestController extends Controller
             return $this->ok($vehicleRequest->fresh()->toArray());
         });
     }
+
 }

@@ -85,13 +85,13 @@ class VehicleRequestValidation extends FormRequest
 
         $vehicleAvailableRules =  $isVehicleAvailable ? [
             'vehicle_assignment_id' => ['required', 'exists:vehicle_assignments,id'],
-            'signatories' => ['required', 'array'],
-            'signatories.*.id' => ['required', 'exists:signatories,id'],
-            'signatories.*.label' => ['required', 'string', 'max:255'],
         ] : [];
 
         return [
             'is_vehicle_available' => ['required', 'boolean'],
+            'signatories' => ['required', 'array'],
+            'signatories.*.id' => ['required', 'exists:signatories,id'],
+            'signatories.*.label' => ['required', 'string', 'max:255'],
             ...$vehicleAvailableRules
         ];
     }

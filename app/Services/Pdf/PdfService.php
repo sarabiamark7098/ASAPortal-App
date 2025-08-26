@@ -18,12 +18,16 @@ class PdfService implements PdfManager
 
     public function __construct(array $config = [])
     {
+        $this->setConfig($config);
+    }
+
+    /** {@inheritDoc} */
+    public function setConfig(array $config): self
+    {
         $defaultConfig = (new ConfigVariables())->getDefaults();
-
         $this->config = array_merge($defaultConfig, $config);
-
         $this->pdf = new Mpdf($this->config);
-
+        return $this;
     }
 
     /** {@inheritDoc} */

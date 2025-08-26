@@ -10,7 +10,6 @@ use App\Services\Pdf\PdfManager;
 use App\Services\Vehicle\VehicleRequestManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
@@ -61,7 +60,7 @@ class VehicleRequestController extends Controller
             $this->vehicleRequestManager->setVehicleRequest($vehicleRequest);
             $this->vehicleRequestManager->addSignatories($request->validated('signatories'));
 
-            if($isVehicleAvailable){
+            if ($isVehicleAvailable) {
                 $this->vehicleRequestManager->assignVehicle($vehicleAssignment);
                 $status = Status::PROCESSED;
             }

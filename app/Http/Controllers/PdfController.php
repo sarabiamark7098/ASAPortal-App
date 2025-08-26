@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\VehicleRequest;
 use App\Services\Pdf\PdfManager;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PdfController extends Controller

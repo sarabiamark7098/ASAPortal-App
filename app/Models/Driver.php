@@ -25,8 +25,9 @@ class Driver extends Model
     protected $appends = [
         'full_name',
     ];
+
     public function getFullNameAttribute(): string
     {
-        return $this->first_name . " " . (!empty($this->middle_name[0])?$this->middle_name[0].". ": "") . $this->last_name . " " . (!empty($this->extension_name)?$this->extension_name: "");
+        return trim($this->first_name . " " . (!empty($this->middle_name[0])?$this->middle_name[0].". ": "") . $this->last_name . " " . (!empty($this->extension_name)?$this->extension_name: ""));
     }
 }

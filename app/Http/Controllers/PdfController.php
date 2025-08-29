@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\VehicleRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Pdf\PdfManager;
 use Illuminate\Http\Response;
 
@@ -19,7 +20,7 @@ class PdfController extends Controller
     {
         $data = VehicleRequest::with(['vehicleAssignment'])->findOrFail($id)->toArray();
         $filename = 'vehicle-request.pdf';
-        // dd($data);
+
         $config = [
             'format' => [216, 330],
         ];

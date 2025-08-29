@@ -163,11 +163,21 @@ class VehicleRequestTest extends TestCase
     {
         $this->produceVehiceAssignment();
         Signatory::factory(20)->create();
-
+        $signatories = [
+            [
+                'label' => 'Requested By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+            [
+                'label' => 'Approved By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+        ];
         $vehicleRequest = VehicleRequest::factory()->create();
         $vehicleRequestId = $vehicleRequest->id;
 
         $response = $this->actingAs($this->user)->postJson("$this->baseUri/$vehicleRequestId/process", [
+            'signatories' => $signatories,
             'is_vehicle_available' => false
         ]);
 

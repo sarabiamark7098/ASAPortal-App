@@ -17,6 +17,9 @@ class AccountDetail extends Model
         'user_id',
         'office_id',
     ];
+    protected $appends = [
+        'full_name',
+    ];
 
     public function section()
     {
@@ -26,5 +29,10 @@ class AccountDetail extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return trim($this->first_name . " " . (!empty($this->middle_name[0])?$this->middle_name[0].". ": "") . $this->last_name . " " . (!empty($this->extension_name)?$this->extension_name: ""));
     }
 }

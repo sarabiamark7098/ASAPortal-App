@@ -273,5 +273,48 @@
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
         @endif
+
+
+
+
+        <table style="max-width: 100%;">
+                <tr>
+                    <td style="padding-left: 290px; border:1px solid black; width: 100%; height: 45px; vertical-align: middle;">
+                        <p id="auto-text" style="font-size: 13px">
+                    </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 290px; border:1px solid black; width: 100%; height: 60px; vertical-align: middle;">
+                        <p id="auto-text" style="font-size: 13px">
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 290px; border:1px solid black; width: 100%; height: 83px; vertical-align: middle;">
+                        <p id="auto-text" style="font-size: 13px">
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 290px; border:1px solid black; width: 100%; height: 30px; vertical-align: middle;">
+                        <p id="auto-text" style="font-size: 13px">
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 290px; border:1px solid black; width: 100%; height: 23px; vertical-align: middle;">
+                        <p id="auto-text" style="font-size: 13px">
+                            asdasd
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 290px; border:1px solid black; width: 100%; height: 23px; vertical-align: middle;">
+                        <p id="auto-text" style="font-size: 13px">
+                        </p>
+                    </td>
+                </tr>
+            </table>
     </body>
 </html>

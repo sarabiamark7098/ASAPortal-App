@@ -10,7 +10,6 @@ use App\Services\Pdf\PdfManager;
 use App\Services\Vehicle\VehicleRequestManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
@@ -23,13 +22,6 @@ class VehicleRequestController extends Controller
     {
         $this->vehicleRequestManager = $vehicleRequestManager;
         $this->pdfManager = $pdfManager;
-    }
-
-    public function pdf(string|int $id): Response
-    {
-        $data = VehicleRequest::findOrFail($id)->toArray();
-        $filename = 'vehicle-request.pdf';
-        return $this->pdfManager->viewToHtml('pdf.sample', $data)->make()->stream($filename);
     }
 
     /**
@@ -65,10 +57,10 @@ class VehicleRequestController extends Controller
             $status = Status::NO_AVAILABLE;
             $vehicleAssignment = VehicleAssignment::find($request->get('vehicle_assignment_id'));
             $isVehicleAvailable = (bool) $request->validated('is_vehicle_available');
+            $this->vehicleRequestManager->setVehicleRequest($vehicleRequest);
+            $this->vehicleRequestManager->addSignatories($request->validated('signatories'));
 
             if ($isVehicleAvailable) {
-                $this->vehicleRequestManager->setVehicleRequest($vehicleRequest);
-                $this->vehicleRequestManager->addSignatories($request->validated('signatories'));
                 $this->vehicleRequestManager->assignVehicle($vehicleAssignment);
                 $status = Status::PROCESSED;
             }
@@ -81,4 +73,5 @@ class VehicleRequestController extends Controller
             return $this->ok($vehicleRequest->fresh()->toArray());
         });
     }
+
 }

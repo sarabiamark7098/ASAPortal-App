@@ -22,4 +22,12 @@ class Driver extends Model
         'email',
         'contact_number',
     ];
+    protected $appends = [
+        'full_name',
+    ];
+
+    public function getFullNameAttribute(): string
+    {
+        return trim($this->first_name . " " . (!empty($this->middle_name[0])?$this->middle_name[0].". ": "") . $this->last_name . " " . (!empty($this->extension_name)?$this->extension_name: ""));
+    }
 }

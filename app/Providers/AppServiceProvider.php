@@ -28,7 +28,12 @@ class AppServiceProvider extends ServiceProvider
             return new VehicleAssignmentService(new VehicleAssignment());
         });
         $this->app->bind(PdfManager::class, function () {
-            return new PdfService([]);
+            return new PdfService([
+                'margin_left' => 0,
+                'margin_right' => 0,
+                'margin_top' => 0,
+                'margin_bottom' => 0,
+            ]);
         });
     }
 

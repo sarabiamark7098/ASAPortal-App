@@ -29,6 +29,7 @@ class VehicleRequestValidation extends FormRequest
             'vehicle-requests.store' => $this->createRules(),
             'vehicle-requests.index' => $this->searchRules(),
             'vehicle-requests.process' => $this->processRules(),
+            'vehicle-requests.update' => $this->updateRules(),
             default => []
         };
     }
@@ -93,6 +94,13 @@ class VehicleRequestValidation extends FormRequest
             'signatories.*.id' => ['required', 'exists:signatories,id'],
             'signatories.*.label' => ['required', 'string', 'max:255'],
             ...$vehicleAvailableRules
+        ];
+    }
+
+    public function updateRules(): array
+    {
+        return [
+            'status' => ['required', Rule::in([Status::APPROVED->value, Status::DISAPPROVED->value])],
         ];
     }
 }

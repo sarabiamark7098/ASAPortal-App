@@ -73,5 +73,17 @@ class VehicleRequestController extends Controller
             return $this->ok($vehicleRequest->fresh()->toArray());
         });
     }
+    public function update(VehicleRequestValidation $request, string|int $id): JsonResponse
+    {
+        $vehicleRequest = VehicleRequest::findOrFail($id);
+
+        Gate::authorize('update', $vehicleRequest);
+
+        $vehicleRequest->update([
+            'status' => Status::from($request->get('status'))
+        ]);
+
+        return $this->ok($vehicleRequest->fresh()->toArray());
+    }
 
 }

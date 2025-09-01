@@ -35,7 +35,9 @@ class DriverRequest extends FormRequest
     {
         return [
             'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'extension_name' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:drivers'],
             'contact_number' => ['required', 'string', 'max:20'],
             'position' => ['required', 'string', 'max:255'],
@@ -57,7 +59,9 @@ class DriverRequest extends FormRequest
     {
         return [
             'first_name' => ['sometimes', 'string', 'max:255'],
+            'middle_name' => ['sometimes', 'string', 'max:255'],
             'last_name' => ['sometimes', 'string', 'max:255'],
+            'extension_name' => ['sometimes', 'string', 'max:255'],
             'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:drivers,email,' . $this->route('id')],
             'contact_number' => ['sometimes', 'string', 'max:20'],
             'position' => ['sometimes', 'string', 'max:255'],

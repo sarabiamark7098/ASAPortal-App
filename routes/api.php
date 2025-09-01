@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\SignatoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [VehicleRequestController::class, 'store'])->name('store');
         Route::get('/', [VehicleRequestController::class, 'index'])->name('index');
         Route::post('/{id}/process', [VehicleRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [VehicleRequestController::class, 'update'])->name('update');
     });
 
     Route::prefix('vehicle-assignments')->name('vehicle-assignments.')->group(function () {

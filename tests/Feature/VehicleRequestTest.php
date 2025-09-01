@@ -224,4 +224,32 @@ class VehicleRequestTest extends TestCase
         $response->assertStatus(403);
     }
 
+     #[DataProvider('approveDisapproveDataProvider')]
+    public function test_it_approve_or_disapproved_form_request(string $status): void
+    {
+
+        $vehicleRequest = VehicleRequest::factory()->create();
+
+        $vehicleRequest->status = Status::PROCESSED;
+        $vehicleRequest->save();
+
+        $vehicleRequestId = $vehicleRequest->id;
+
+
+        $response = $this->actingAs($this->user)->putJson("$this->baseUri/$vehicleRequestId", [
+            'status' => $status,
+        ]);
+
+        $response->assertStatus(200);
+        $vehicleRequest = $vehicleRequest->fresh();
+
+        $this->assertEquals($status, $vehicleRequest->status->value);
+    }
+
+    public static function approveDisapproveDataProvider(): \Generator
+    {
+        yield [Status::APPROVED->value];
+        yield [Status::DISAPPROVED->value];
+    }
+
 }

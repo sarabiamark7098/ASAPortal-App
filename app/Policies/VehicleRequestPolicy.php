@@ -16,4 +16,11 @@ class VehicleRequestPolicy
         }
         return Response::deny('The vehicle request is on proccess.');
     }
+    public function update(User $user, VehicleRequest $vehicleRequest): Response
+    {
+        if ($vehicleRequest->status == Status::PROCESSED) {
+            return Response::allow();
+        }
+        return Response::deny('The vehicle request is on proccess.');
+    }
 }

@@ -35,6 +35,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('signatories')->name('signatories.')->group(function () {
         Route::get('/', [SignatoryController::class, 'index'])->name('index');
     });
+    Route::prefix('drivers')->name('drivers.')->group(function () {
+        Route::get('/', [DriverController::class, 'index'])->name('index');
+        Route::post('/', [DriverController::class, 'store'])->name('store');
+        Route::put('/{id}', [DriverController::class, 'update'])->name('update');
+    });
 
 });
 

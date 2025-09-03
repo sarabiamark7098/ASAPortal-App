@@ -32,4 +32,4 @@ deploy_nonprod:
     - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $APP@$STAGING_SRV1:$APP_DIR
   script:
     - ssh $APP@$STAGING_SRV1 'hostname'
-    - ssh $APP@$STAGING_SRV1 "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan optimize:clear && $PHP_82_PATH artisan migrate:fresh"
+    - ssh $APP@$STAGING_SRV1 "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan migrate:fresh --seed"

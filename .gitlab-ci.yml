@@ -37,7 +37,7 @@ deploy_nonprod:
     name: nonprod
   before_script:
     - echo "$LARAVEL_ENV" > .env
-    - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $APP@$NONPROD_SRV:$APP_DIR
+    - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $NONPROD_USR@$NONPROD_SRV:$APP_DIR
   script:
-    - ssh $APP@$NONPROD_SRV 'hostname'
-    - ssh $APP@$NONPROD_SRV "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan migrate:fresh --seed"
+    - ssh $NONPROD_USR@$NONPROD_SRV 'hostname'
+    - ssh $NONPROD_USR@$NONPROD_SRV "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan migrate:fresh --seed"

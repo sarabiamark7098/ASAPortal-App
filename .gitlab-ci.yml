@@ -1,6 +1,7 @@
 stages:
   - preparation
   - test
+  - deploy_nonprod
 
 check_testing_env:
   environment:
@@ -21,3 +22,14 @@ php_unit_test:
   script:
     - ssh $USR@$TESTING_SRV 'hostname'
     - ssh $USR@$TESTING_SRV "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan test"
+
+deploy_nonprod:
+  stage: deploy_nonprod
+  environment:
+    name: nonprod
+  before_script:
+    - echo "$LARAVEL_ENV" > .env
+    - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $APP@$STAGING_SRV1:$APP_DIR
+  script:
+    - ssh $APP@$STAGING_SRV1 'hostname'
+    - ssh $APP@$STAGING_SRV1 "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan optimize:clear && $PHP_82_PATH artisan migrate:fresh"

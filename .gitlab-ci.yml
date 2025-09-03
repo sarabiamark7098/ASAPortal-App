@@ -40,4 +40,4 @@ deploy_nonprod:
     - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $NONPROD_USR@$NONPROD_SRV:$APP_DIR
   script:
     - ssh $NONPROD_USR@$NONPROD_SRV 'hostname'
-    - ssh $NONPROD_USR@$NONPROD_SRV "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan migrate:fresh --seed"
+    - ssh $NONPROD_USR@$NONPROD_SRV "cd $APP_DIR && composer install --no-interaction && php artisan migrate:fresh --seed"

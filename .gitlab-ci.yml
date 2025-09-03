@@ -36,6 +36,7 @@ deploy_nonprod:
   environment:
     name: nonprod
   before_script:
+    - echo "$LARAVEL_ENV" > .env
     - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $NONPROD_USR@$NONPROD_SRV:$APP_DIR
   script:
     - ssh $NONPROD_USR@$NONPROD_SRV 'hostname'

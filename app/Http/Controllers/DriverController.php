@@ -21,6 +21,12 @@ class DriverController extends Controller
         return response()->json($drivers);
     }
 
+    public function fetch(DriverRequest $request)
+    {
+        $drivers = Driver::all();
+        return response()->json($drivers);
+    }
+
     public function store(DriverRequest $request) {
         $driver = Driver::create($request->validated());
         return response()->json($driver, 201);

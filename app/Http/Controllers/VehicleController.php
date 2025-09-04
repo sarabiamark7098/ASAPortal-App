@@ -6,6 +6,7 @@ use App\Http\Requests\VehicleRequest;
 use App\Models\Vehicle;
 use App\Services\Vehicle\VehicleManager;
 use Illuminate\Http\Request;
+use App\Enums\VehicleUnitType;
 
 class VehicleController extends Controller
 {
@@ -22,7 +23,12 @@ class VehicleController extends Controller
         return response()->json($vehicles);
     }
 
-    public function getAll()
+    public function type()
+    {
+        return response()->json(VehicleUnitType::asLabel());
+    }
+
+    public function fetch()
     {
         $vehicles = Vehicle::all();
         return response()->json($vehicles);

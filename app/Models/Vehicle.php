@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use App\Enums\VehicleUnitType;
+use App\QueryFilters\Generic\SortFilter;
+use App\QueryFilters\Vehicle\SearchFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Pipeline\Pipeline;
 
 class Vehicle extends Model
 {
@@ -26,4 +30,15 @@ class Vehicle extends Model
     protected $casts = [
         'unit_type' => VehicleUnitType::class,
     ];
+
+    public function scopeFiltered(Builder $builder): Builder
+    {
+        return app(Pipeline::class)
+            ->send($builder)
+            ->through([
+                SortFilter::class,
+                SearchFilter::class,
+            ])
+            ->thenReturn();
+    }
 }

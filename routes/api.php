@@ -40,6 +40,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [DriverController::class, 'store'])->name('store');
         Route::put('/{id}', [DriverController::class, 'update'])->name('update');
     });
+    Route::prefix('vehicles')->name('vehicles.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\VehicleController::class, 'index'])->name('index');
+        Route::get('/all', [\App\Http\Controllers\VehicleController::class, 'getAll'])->name('all');
+        Route::post('/', [\App\Http\Controllers\VehicleController::class, 'store'])->name('store');
+        Route::put('/{id}', [\App\Http\Controllers\VehicleController::class, 'update'])->name('update');
+    });
 
 });
 

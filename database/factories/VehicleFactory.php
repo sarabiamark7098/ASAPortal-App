@@ -22,7 +22,7 @@ class VehicleFactory extends Factory
         $faker->addProvider(new \Faker\Provider\FakeCar($faker));
 
         return [
-            'plate_number' => $faker->vehicleRegistration(),
+        'plate_number' => $faker->vehicleRegistration(),
             'unit_type' => fake()->randomElement(VehicleUnitType::values()),
             'brand' => $faker->vehicleBrand(),
             'model' => $faker->vehicleModel(),

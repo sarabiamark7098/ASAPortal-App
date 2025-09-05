@@ -44,7 +44,7 @@ class VehicleTest extends TestCase
             'model' => $faker->vehicleModel(),
             'purchase_year' => $faker->year(),
             'model_year' => $faker->year(),
-            'chasis_number' => $faker->ean13(),
+            'chassis_number' => $faker->ean13(),
             'engine_number' => $faker->ean13()
         ];
 
@@ -63,7 +63,7 @@ class VehicleTest extends TestCase
             'model' => 'Corolla',
             'purchase_year' => 2020,
             'model_year' => 2020,
-            'chasis_number' => '1HGBH41JXMN109186',
+            'chassis_number' => '1HGBH41JXMN109186',
             'engine_number' => '2HGBH41JXMN109186'
         ]);
 
@@ -76,7 +76,7 @@ class VehicleTest extends TestCase
     public function test_vehicle_update(): void
     {
         $vehicle = Vehicle::factory()->create();
-        
+
         $updatedData = [
             'plate_number' => 'XYZ-789',
             'unit_type' => 'suv',
@@ -84,7 +84,7 @@ class VehicleTest extends TestCase
             'model' => 'F-150',
             'purchase_year' => 2021,
             'model_year' => 2021,
-            'chasis_number' => '1HGBH41JXMN109186',
+            'chassis_number' => '1HGBH41JXMN109186',
             'engine_number' => '2HGBH41JXMN109186'
         ];
 

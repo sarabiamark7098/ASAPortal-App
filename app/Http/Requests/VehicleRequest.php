@@ -41,7 +41,7 @@ class VehicleRequest extends FormRequest
             'purchase_year' => ['nullable', 'integer', 'min:1886', 'max:' . date('Y')],
             'model_year' => ['nullable', 'integer', 'min:1886', 'max:' . date('Y')],
             'engine_number' => ['nullable', 'string', 'max:255', 'unique:vehicles'],
-            'chasis_number' => ['nullable', 'string', 'max:255', 'unique:vehicles'],
+            'chassis_number' => ['nullable', 'string', 'max:255', 'unique:vehicles'],
         ];
     }
 
@@ -64,7 +64,7 @@ class VehicleRequest extends FormRequest
             'purchase_year' => ['nullable', 'integer', 'min:1886', 'max:' . date('Y')],
             'model_year' => ['nullable', 'integer', 'min:1886', 'max:' . date('Y')],
             'engine_number' => ['nullable', 'string', 'max:255', 'unique:vehicles,engine_number,' . $this->route('id')],
-            'chasis_number' => ['nullable', 'string', 'max:255', 'unique:vehicles,chasis_number,' . $this->route('id')],
+            'chassis_number' => ['nullable', 'string', 'max:255', 'unique:vehicles,chassis_number,' . $this->route('id')],
         ];
 
     }

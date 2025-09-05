@@ -24,7 +24,11 @@ class Vehicle extends Model
         'purchase_year',
         'model_year',
         'engine_number',
-        'chasis_number',
+        'chassis_number',
+    ];
+
+    protected $with = [
+        'vehicleAssignment',
     ];
 
     protected $casts = [
@@ -40,5 +44,10 @@ class Vehicle extends Model
                 SearchFilter::class,
             ])
             ->thenReturn();
+    }
+
+    public function vehicleAssignment()
+    {
+        return $this->hasOne(VehicleAssignment::class)->without('vehicle');
     }
 }

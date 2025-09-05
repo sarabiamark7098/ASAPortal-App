@@ -55,7 +55,7 @@ class VehicleRequestServiceTest extends TestCase
             'user_id' => $this->user->id
         ]);
 
-        $this->produceVehiceAssignment();
+        $this->produceVehicleAssignment();
 
         $vehicleAssignment = VehicleAssignment::first();
 

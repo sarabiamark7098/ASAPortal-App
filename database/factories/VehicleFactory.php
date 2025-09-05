@@ -29,7 +29,7 @@ class VehicleFactory extends Factory
             'purchase_year' => fake()->year(),
             'model_year' => fake()->year(),
             'engine_number' => fake()->ean13(),
-            'chasis_number' => fake()->ean13(),
+            'chassis_number' => fake()->ean13(),
         ];
     }
 }

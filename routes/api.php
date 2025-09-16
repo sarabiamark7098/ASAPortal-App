@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\SignatoryController;
 use App\Http\Controllers\UserController;
@@ -36,8 +37,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [VehicleAssignmentController::class, 'update'])->name('update');
     });
 
+    Route::prefix('conference-requests')->name('conference-requests.')->group(function () {
+        Route::post('/', [ConferenceRequestController::class, 'store'])->name('store');
+        Route::get('/', [ConferenceRequestController::class, 'index'])->name('index');
+        Route::post('/{id}/process', [ConferenceRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [ConferenceRequestController::class, 'update'])->name('update');
+    });
+
     Route::prefix('signatories')->name('signatories.')->group(function () {
         Route::get('/', [SignatoryController::class, 'index'])->name('index');
+        Route::get('/fetch', [SignatoryController::class, 'fetch'])->name('fetch');
+        Route::post('/', [SignatoryController::class, 'store'])->name('store');
+        Route::put('/{id}', [SignatoryController::class, 'update'])->name('update');
     });
     Route::prefix('drivers')->name('drivers.')->group(function () {
         Route::get('/', [DriverController::class, 'index'])->name('index');

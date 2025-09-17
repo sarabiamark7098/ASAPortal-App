@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssistanceRequestController;
 use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\SignatoryController;
@@ -42,6 +43,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [ConferenceRequestController::class, 'index'])->name('index');
         Route::post('/{id}/process', [ConferenceRequestController::class, 'process'])->name('process');
         Route::put('/{id}', [ConferenceRequestController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('assistance-requests')->name('assistance-requests.')->group(function () {
+        Route::post('/', [AssistanceRequestController::class, 'store'])->name('store');
+        Route::get('/', [AssistanceRequestController::class, 'index'])->name('index');
+        Route::post('/{id}', [AssistanceRequestController::class, 'process'])->name('process');
     });
 
     Route::prefix('signatories')->name('signatories.')->group(function () {

@@ -41,6 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('conference-requests')->name('conference-requests.')->group(function () {
         Route::post('/', [ConferenceRequestController::class, 'store'])->name('store');
         Route::get('/', [ConferenceRequestController::class, 'index'])->name('index');
+        Route::get('/{room}', [ConferenceRequestController::class, 'fetch'])->name('fetch');
         Route::post('/{id}/process', [ConferenceRequestController::class, 'process'])->name('process');
         Route::put('/{id}', [ConferenceRequestController::class, 'update'])->name('update');
     });

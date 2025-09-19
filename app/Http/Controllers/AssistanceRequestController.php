@@ -28,7 +28,7 @@ class AssistanceRequestController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $assistanceRequest = $this->assistanceRequestManager->search();
+        $assistanceRequest = $this->assistanceRequestManager->search(20);
 
         return $this->ok($assistanceRequest->toArray());
     }

@@ -41,7 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('conference-requests')->name('conference-requests.')->group(function () {
         Route::post('/', [ConferenceRequestController::class, 'store'])->name('store');
         Route::get('/', [ConferenceRequestController::class, 'index'])->name('index');
-        Route::get('/{room}', [ConferenceRequestController::class, 'fetch'])->name('fetch');
         Route::post('/{id}/process', [ConferenceRequestController::class, 'process'])->name('process');
         Route::put('/{id}', [ConferenceRequestController::class, 'update'])->name('update');
     });
@@ -49,7 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('assistance-requests')->name('assistance-requests.')->group(function () {
         Route::post('/', [AssistanceRequestController::class, 'store'])->name('store');
         Route::get('/', [AssistanceRequestController::class, 'index'])->name('index');
-        Route::post('/{id}', [AssistanceRequestController::class, 'process'])->name('process');
+        Route::post('/{id}/process', [AssistanceRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [AssistanceRequestController::class, 'update'])->name('update');
     });
 
     Route::prefix('signatories')->name('signatories.')->group(function () {
@@ -78,6 +78,8 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/vehicle-request/{id}', [PdfController::class, 'vehicleRequest'])->name('vehicle-request');
     Route::get('/travel-order/{id}', [PdfController::class, 'travelOrder'])->name('travel-order');
     Route::get('/vehicle-cnas/{id}', [PdfController::class, 'vehicleCnas'])->name('vehicle-cnas');
+    Route::get('/conference-request/{id}', [PdfController::class, 'conferenceRequest'])->name('conference-request');
+    Route::get('/conference-cnas/{id}', [PdfController::class, 'conferenceCnas'])->name('conference-cnas');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

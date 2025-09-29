@@ -2,6 +2,7 @@
 
 namespace App\Services\Conference;
 
+use App\Enums\ConferenceRoom;
 use App\Enums\Status;
 use App\Models\ConferenceRequest;
 use Illuminate\Contracts\Pagination\Paginator;

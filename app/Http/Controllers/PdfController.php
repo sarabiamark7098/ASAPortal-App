@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ConferenceRequest;
 use App\Models\VehicleRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Pdf\PdfManager;
@@ -49,5 +50,28 @@ class PdfController extends Controller
         ];
 
         return $this->pdfManager->setConfig($config)->viewToHtml('pdf.vehicle-cnas', $data)->make()->stream($filename);
+    }
+
+    public function conferenceRequest(string|int $id): Response
+    {
+        $data = ConferenceRequest::findOrFail($id)->toArray();
+        $filename = 'conference-request.pdf';
+
+        $config = [
+            'format' => 'A4',
+        ];
+
+        return $this->pdfManager->setConfig($config)->viewToHtml('pdf.conference-request', $data)->make()->stream($filename);
+    }
+    public function conferenceCnas(string|int $id): Response
+    {
+        $data = ConferenceRequest::findOrFail($id)->toArray();
+        $filename = 'conference-cnas.pdf';
+
+        $config = [
+            'format' => 'A4',
+        ];
+
+        return $this->pdfManager->setConfig($config)->viewToHtml('pdf.conference-cnas', $data)->make()->stream($filename);
     }
 }

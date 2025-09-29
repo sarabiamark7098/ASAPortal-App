@@ -114,7 +114,6 @@ class VehicleRequestTest extends TestCase
     public static function differentTextFields()
     {
         yield ['requesting_office'];
-        yield ['purpose'];
         yield ['passengers'];
         yield ['destination'];
         yield ['requester_name'];

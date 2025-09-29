@@ -118,10 +118,12 @@ class AssistanceRequestTest extends TestCase
         yield ['requester_name'];
     }
 
-     #[DataProvider('approveDisapproveDataProvider')]
-    public function test_it_approve_or_disapproved_form_request(string $status): void
+    public function test_it_can_process_assistance_request(): void
     {
         Signatory::factory(20)->create();
+
+        $assistanceRequest = AssistanceRequest::factory()->create();
+        $assistanceRequestId = $assistanceRequest->id;
 
         $signatories = [
             [
@@ -133,14 +135,9 @@ class AssistanceRequestTest extends TestCase
                 'id' => fake()->randomElement(Signatory::pluck('id')),
             ],
         ];
-        $assistanceRequest = AssistanceRequest::factory()->create([
-            'status' => Status::PENDING,
-        ]);
 
-        $assistanceRequestId = $assistanceRequest->id;
-        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$assistanceRequestId", [
+        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$assistanceRequestId/process", [
             'signatories' => $signatories,
-            'status' => $status,
         ]);
 
         $response->assertStatus(200);
@@ -150,8 +147,58 @@ class AssistanceRequestTest extends TestCase
 
         $this->assertDatabaseCount('assistance_requests', 1);
         $this->assertNotEmpty($assistanceRequestResponse);
-        $this->assertEquals($status, $assistanceRequest->status->value);
+        $this->assertEquals(Status::PROCESSED->value, $assistanceRequestResponse['status']);
         $this->assertEquals(count($signatories), $assistanceRequest->signable()->count());
+    }
+
+    public function test_it_cannot_process_an_already_processed_assistance_request(): void
+    {
+        Signatory::factory(20)->create();
+
+        $assistanceRequest = AssistanceRequest::factory()->create();
+        $assistanceRequest->status = Status::PROCESSED;
+        $assistanceRequest->save();
+
+        $assistanceRequest = AssistanceRequest::first();
+        $assistanceRequestId = $assistanceRequest->id;
+
+        $signatories = [
+            [
+                'label' => 'Requested By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+            [
+                'label' => 'Approved By',
+                'id' => fake()->randomElement(Signatory::pluck('id')),
+            ],
+        ];
+
+        $response = $this->actingAs($this->user)->postJson("$this->baseUri/$assistanceRequestId/process", [
+            'signatories' => $signatories,
+        ]);
+
+        $response->assertStatus(403);
+    }
+
+     #[DataProvider('approveDisapproveDataProvider')]
+    public function test_it_approve_or_disapproved_form_request(string $status): void
+    {
+
+        $assistanceRequest = AssistanceRequest::factory()->create();
+
+        $assistanceRequest->status = Status::PROCESSED;
+        $assistanceRequest->save();
+
+        $assistanceRequestId = $assistanceRequest->id;
+
+        $response = $this->actingAs($this->user)->putJson("$this->baseUri/$assistanceRequestId", [
+            'status' => $status,
+        ]);
+
+        $response->assertStatus(200);
+        $assistanceRequest = $assistanceRequest->fresh();
+
+        $this->assertEquals($status, $assistanceRequest->status->value);
     }
 
     public static function approveDisapproveDataProvider(): \Generator

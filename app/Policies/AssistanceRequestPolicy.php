@@ -16,4 +16,11 @@ class AssistanceRequestPolicy
         }
         return Response::deny('The technical assistance request is on proccess.');
     }
+    public function update(User $user, AssistanceRequest $assistanceRequest): Response
+    {
+        if ($assistanceRequest->status == Status::PROCESSED) {
+            return Response::allow();
+        }
+        return Response::deny('The technical assistance request is on proccess.');
+    }
 }

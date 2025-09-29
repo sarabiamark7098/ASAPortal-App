@@ -29,6 +29,7 @@ class AssistanceRequestValidation extends FormRequest
             'assistance-requests.store' => $this->createRules(),
             'assistance-requests.index' => $this->searchRules(),
             'assistance-requests.process' => $this->processRules(),
+            'assistance-requests.update' => $this->updateRules(),
             default => []
         };
     }
@@ -37,6 +38,7 @@ class AssistanceRequestValidation extends FormRequest
     {
         return [
             'date_requested' => ['required', 'date'],
+            'drn' => ['nullable', 'string', 'max:255'],
             'requesting_office' => ['required', 'string', 'max:255'],
             'details' => ['required', 'string'],
             'request_type' => ['required', 'array'],
@@ -55,6 +57,7 @@ class AssistanceRequestValidation extends FormRequest
 
         $sortableColumns = [
             'date_requested',
+            'drn',
             'requesting_office',
             'details',
             'request_type',
@@ -83,6 +86,12 @@ class AssistanceRequestValidation extends FormRequest
             'signatories' => ['required', 'array'],
             'signatories.*.id' => ['required', 'exists:signatories,id'],
             'signatories.*.label' => ['required', 'string', 'max:255'],
+        ];
+    }
+
+    public function updateRules(): array
+    {
+        return [
             'status' => ['required', Rule::in([Status::APPROVED->value, Status::DISAPPROVED->value])],
         ];
     }

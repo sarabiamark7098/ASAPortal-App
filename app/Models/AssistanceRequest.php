@@ -21,6 +21,7 @@ class AssistanceRequest extends Model
 
     protected $fillable = [
         'date_requested',
+        'drn',
         'requesting_office',
         'control_number',
         'details',

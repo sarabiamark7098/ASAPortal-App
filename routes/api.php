@@ -80,6 +80,7 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/vehicle-cnas/{id}', [PdfController::class, 'vehicleCnas'])->name('vehicle-cnas');
     Route::get('/conference-request/{id}', [PdfController::class, 'conferenceRequest'])->name('conference-request');
     Route::get('/conference-cnas/{id}', [PdfController::class, 'conferenceCnas'])->name('conference-cnas');
+    Route::get('/technical-assistance-request/{id}', [PdfController::class, 'technicalAssistanceRequest'])->name('technical-assistance-request');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

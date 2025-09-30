@@ -53,15 +53,28 @@ class AssistanceRequestController extends Controller
         Gate::authorize('process', $assistanceRequest);
 
         return DB::transaction(function () use ($request, $assistanceRequest) {
+            $status = Status::PROCESSED;
             $this->assistanceRequestManager->setAssistanceRequest($assistanceRequest);
             $this->assistanceRequestManager->addSignatories($request->validated('signatories'));
 
             $assistanceRequest->update([
-                'status' => Status::from($request->get('status'))
+                'status' => $status
             ]);
 
             return $this->ok($assistanceRequest->fresh()->toArray());
         });
+    }
+    public function update(AssistanceRequestValidation $request, string|int $id): JsonResponse
+    {
+        $assistanceRequest = AssistanceRequest::findOrFail($id);
+
+        Gate::authorize('update', $assistanceRequest);
+
+        $assistanceRequest->update([
+            'status' => Status::from($request->get('status'))
+        ]);
+
+        return $this->ok($assistanceRequest->fresh()->toArray());
     }
 
 }

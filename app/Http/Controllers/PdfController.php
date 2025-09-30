@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssistanceRequest;
 use App\Models\ConferenceRequest;
 use App\Models\VehicleRequest;
 use Illuminate\Support\Facades\Auth;
@@ -73,5 +74,17 @@ class PdfController extends Controller
         ];
 
         return $this->pdfManager->setConfig($config)->viewToHtml('pdf.conference-cnas', $data)->make()->stream($filename);
+    }
+
+    public function technicalAssistanceRequest(string|int $id): Response
+    {
+        $data = AssistanceRequest::findOrFail($id)->toArray();
+        $filename = 'technical-assistance-request.pdf';
+
+        $config = [
+            'format' => 'A4',
+        ];
+
+        return $this->pdfManager->setConfig($config)->viewToHtml('pdf.technical-assistance-request', $data)->make()->stream($filename);
     }
 }

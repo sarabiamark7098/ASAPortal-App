@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssistanceRequestController;
 use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\JanitorialRequestController;
 use App\Http\Controllers\SignatoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
@@ -52,12 +53,20 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [AssistanceRequestController::class, 'update'])->name('update');
     });
 
+    Route::prefix('janitorial-requests')->name('janitorial-requests.')->group(function () {
+        Route::post('/', [JanitorialRequestController::class, 'store'])->name('store');
+        Route::get('/', [JanitorialRequestController::class, 'index'])->name('index');
+        Route::post('/{id}/process', [JanitorialRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [JanitorialRequestController::class, 'update'])->name('update');
+    });
+
     Route::prefix('signatories')->name('signatories.')->group(function () {
         Route::get('/', [SignatoryController::class, 'index'])->name('index');
         Route::get('/fetch', [SignatoryController::class, 'fetch'])->name('fetch');
         Route::post('/', [SignatoryController::class, 'store'])->name('store');
         Route::put('/{id}', [SignatoryController::class, 'update'])->name('update');
     });
+
     Route::prefix('drivers')->name('drivers.')->group(function () {
         Route::get('/', [DriverController::class, 'index'])->name('index');
         Route::get('/fetch', [DriverController::class, 'fetch'])->name('fetch');

@@ -11,24 +11,27 @@ use App\Models\VehicleRequest;
 use App\Models\ConferenceRequest;
 use App\Models\Vehicle;
 use App\Models\Driver;
+use App\Models\JanitorialRequest;
 use App\Models\Signatory;
 
 // Managers
 use App\Services\Assistance\AssistanceRequestManager;
-use App\Services\Assistance\AssistanceRequestService;
 use App\Services\Vehicle\VehicleRequestManager;
 use App\Services\Vehicle\VehicleAssignmentManager;
 use App\Services\Conference\ConferenceRequestManager;
+use App\Services\Janitorial\JanitorialRequestManager;
 use App\Services\Vehicle\VehicleManager;
 use App\Services\Driver\DriverManager;
 use App\Services\Signatory\SignatoryManager;
 use App\Services\Pdf\PdfManager;
 
 // Services
+use App\Services\Assistance\AssistanceRequestService;
 use App\Services\Vehicle\VehicleRequestService;
 use App\Services\Vehicle\VehicleAssignmentService;
 use App\Services\Conference\ConferenceRequestService;
 use App\Services\Vehicle\VehicleService;
+use App\Services\Janitorial\JanitorialRequestService;
 use App\Services\Driver\DriverService;
 use App\Services\Signatory\SignatoryService;
 use App\Services\Pdf\PdfService;
@@ -81,6 +84,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(AirTravelRequestManager::class, function () {
             return new AirTravelRequestService(new AirTravelRequest());
+        });
+        $this->app->bind(JanitorialRequestManager::class, function () {
+            return new JanitorialRequestService(new JanitorialRequest());
         });
     }
 

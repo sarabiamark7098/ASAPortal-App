@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AssistanceRequest;
 use App\Models\ConferenceRequest;
 use App\Models\VehicleRequest;
+use App\Models\JanitorialRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Pdf\PdfManager;
 use Illuminate\Http\Response;
@@ -86,5 +87,17 @@ class PdfController extends Controller
         ];
 
         return $this->pdfManager->setConfig($config)->viewToHtml('pdf.technical-assistance-request', $data)->make()->stream($filename);
+    }
+
+    public function janitorialServicesRequest(string|int $id): Response
+    {
+        $data = JanitorialRequest::findOrFail($id)->toArray();
+        $filename = 'janitorial-request.pdf';
+
+        $config = [
+            'format' => 'A4',
+        ];
+
+        return $this->pdfManager->setConfig($config)->viewToHtml('pdf.janitorial-request', $data)->make()->stream($filename);
     }
 }

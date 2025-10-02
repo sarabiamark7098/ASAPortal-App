@@ -90,6 +90,7 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/conference-request/{id}', [PdfController::class, 'conferenceRequest'])->name('conference-request');
     Route::get('/conference-cnas/{id}', [PdfController::class, 'conferenceCnas'])->name('conference-cnas');
     Route::get('/technical-assistance-request/{id}', [PdfController::class, 'technicalAssistanceRequest'])->name('technical-assistance-request');
+    Route::get('/janitorial-request/{id}', [PdfController::class, 'janitorialServicesRequest'])->name('janitorial-request');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

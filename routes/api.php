@@ -4,6 +4,7 @@ use App\Http\Controllers\AssistanceRequestController;
 use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\JanitorialRequestController;
+use App\Http\Controllers\OvernightParkingRequestController;
 use App\Http\Controllers\SignatoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
@@ -53,6 +54,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [AssistanceRequestController::class, 'update'])->name('update');
     });
 
+    Route::prefix('overnight-parking-requests')->name('overnight-parking-requests.')->group(function () {
+        Route::post('/', [OvernightParkingRequestController::class, 'store'])->name('store');
+        Route::get('/', [OvernightParkingRequestController::class, 'index'])->name('index');
+        Route::post('/{id}/process', [OvernightParkingRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [OvernightParkingRequestController::class, 'update'])->name('update');
+    });
+
     Route::prefix('janitorial-requests')->name('janitorial-requests.')->group(function () {
         Route::post('/', [JanitorialRequestController::class, 'store'])->name('store');
         Route::get('/', [JanitorialRequestController::class, 'index'])->name('index');
@@ -91,6 +99,7 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/conference-cnas/{id}', [PdfController::class, 'conferenceCnas'])->name('conference-cnas');
     Route::get('/technical-assistance-request/{id}', [PdfController::class, 'technicalAssistanceRequest'])->name('technical-assistance-request');
     Route::get('/janitorial-request/{id}', [PdfController::class, 'janitorialServicesRequest'])->name('janitorial-request');
+    Route::get('/overnight-parking-request/{id}', [PdfController::class, 'overnightParkingRequest'])->name('overnight-parking-request');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

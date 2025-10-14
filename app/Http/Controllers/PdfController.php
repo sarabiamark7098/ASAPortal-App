@@ -6,6 +6,7 @@ use App\Models\AssistanceRequest;
 use App\Models\ConferenceRequest;
 use App\Models\VehicleRequest;
 use App\Models\JanitorialRequest;
+use App\Models\OvernightParkingRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Pdf\PdfManager;
 use Illuminate\Http\Response;
@@ -76,7 +77,6 @@ class PdfController extends Controller
 
         return $this->pdfManager->setConfig($config)->viewToHtml('pdf.conference-cnas', $data)->make()->stream($filename);
     }
-
     public function technicalAssistanceRequest(string|int $id): Response
     {
         $data = AssistanceRequest::findOrFail($id)->toArray();
@@ -87,6 +87,18 @@ class PdfController extends Controller
         ];
 
         return $this->pdfManager->setConfig($config)->viewToHtml('pdf.technical-assistance-request', $data)->make()->stream($filename);
+    }
+
+    public function overnightParkingRequest(string|int $id): Response
+    {
+        $data = OvernightParkingRequest::findOrFail($id)->toArray();
+        $filename = 'overnight-parking-request.pdf';
+
+        $config = [
+            'format' => 'A4',
+        ];
+
+        return $this->pdfManager->setConfig($config)->viewToHtml('pdf.overnight-parking-request', $data)->make()->stream($filename);
     }
 
     public function janitorialServicesRequest(string|int $id): Response

@@ -38,7 +38,7 @@ use App\Services\Driver\DriverService;
 use App\Services\Signatory\SignatoryService;
 use App\Services\Pdf\PdfService;
 use App\Services\OvernightParking\OvernightParkingRequestService;
-use App\Services\Assistance\AirTravelRequestService;
+use App\Services\AirTravel\AirTravelRequestService;
 
 // Providers
 use Illuminate\Support\ServiceProvider;

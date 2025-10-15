@@ -43,28 +43,23 @@ class AirTravelRequestController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        return $this->created($airTravelRequest->toArray());
-    }
-
-    public function process(AirTravelRequestValidation $request, string|int $id): JsonResponse
-    {
-        $airTravelRequest = AirTravelRequest::findOrFail($id);
+        $airTravelRequest = AirTravelRequest::findOrFail($airTravelRequest->id);
 
         Gate::authorize('process', $airTravelRequest);
 
         return DB::transaction(function () use ($request, $airTravelRequest) {
             $this->airTravelRequestManager->setAirTravelRequest($airTravelRequest);
             $this->airTravelRequestManager->addSignatories($request->validated('signatories'));
+            $this->airTravelRequestManager->addPassengers($request->validated('passengers'));
+            $this->airTravelRequestManager->addFlights($request->validated('flights'));
 
-            $status = Status::PROCESSED;
+            $airTravelRequest->update(['status' => Status::PROCESSED]);
 
-            $airTravelRequest->fresh()->update([
-                'status' => $status
-            ]);
-
-            return $this->ok($airTravelRequest->fresh()->toArray());
+            return $this->created($airTravelRequest->fresh()->toArray());
         });
+
     }
+
     public function update(AirTravelRequestValidation $request, string|int $id): JsonResponse
     {
         $airTravelRequest = AirTravelRequest::findOrFail($id);

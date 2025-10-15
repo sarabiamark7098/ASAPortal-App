@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Assistance;
+namespace App\Services\AirTravel;
 
 use App\Enums\Status;
 use App\Models\Signatory;
@@ -57,27 +57,27 @@ class AirTravelRequestService implements AirTravelRequestManager
     public function addPassengers(array $payload)
     {
         foreach ($payload as $passenger) {
-            $this->airTravelRequest->passenger()->create([
-                'first_name' => $passenger->first_name,
-                'last_name' => $passenger->last_name,
-                'birth_date' => $passenger->birth_date,
-                'position' => $passenger->position,
-                'email' => $passenger->email,
-                'contact_number' => $passenger->contact_number,
+            $this->airTravelRequest->passengers()->create([
+                'first_name' => $passenger['first_name'],
+                'last_name' => $passenger['last_name'],
+                'birth_date' => $passenger['birth_date'],
+                'position' => $passenger['position'],
+                'email' => $passenger['email'],
+                'contact_number' => $passenger['contact_number'],
             ]);
         }
     }
     public function addFlights(array $payload)
     {
         foreach ($payload as $flight) {
-            $this->airTravelRequest->flight()->create([
-                'destination' => $flight->destination,
-                'date_departure' => $flight->date_departure,
-                'departure_etd' => $flight->departure_etd,
-                'departure_eta' => $flight->departure_eta,
-                'date_arrival' => $flight->date_arrival,
-                'arrival_etd' => $flight->arrival_etd,
-                'arrival_eta' => $flight->arrival_eta,
+            $this->airTravelRequest->flights()->create([
+                'destination_from' => $flight['destination_from'],
+                'destination_to' => $flight['destination_to'],
+                'trip_mode' => $flight['trip_mode'],
+                'departure_date' => $flight['departure_date'],
+                'etd' => $flight['etd'],
+                'eta' => $flight['eta'],
+
             ]);
         }
     }

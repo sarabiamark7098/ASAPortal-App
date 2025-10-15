@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AirTravelRequestController;
 use App\Http\Controllers\AssistanceRequestController;
 use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
@@ -45,6 +46,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [ConferenceRequestController::class, 'index'])->name('index');
         Route::post('/{id}/process', [ConferenceRequestController::class, 'process'])->name('process');
         Route::put('/{id}', [ConferenceRequestController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('air-travel-requests')->name('air-travel-requests.')->group(function () {
+        Route::post('/', [AirTravelRequestController::class, 'store'])->name('store');
+        Route::get('/', [AirTravelRequestController::class, 'index'])->name('index');
+        Route::put('/{id}', [AirTravelRequestController::class, 'update'])->name('update');
     });
 
     Route::prefix('assistance-requests')->name('assistance-requests.')->group(function () {

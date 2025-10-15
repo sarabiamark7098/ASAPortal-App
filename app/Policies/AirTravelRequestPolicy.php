@@ -16,4 +16,12 @@ class AirTravelRequestPolicy
         }
         return Response::deny('The air travel order request is on proccess.');
     }
+
+    public function update(User $user, AirTravelRequest $airTravelRequest): Response
+    {
+        if ($airTravelRequest->status == Status::PROCESSED) {
+            return Response::allow();
+        }
+        return Response::deny('The air travel order request is not yet processed.');
+    }
 }

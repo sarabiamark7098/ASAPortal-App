@@ -1,10 +1,19 @@
 stages:
   - preparation
   - test
+  - deploy_nonprod
 
 check_testing_env:
   environment:
     name: testing
+  stage: preparation
+  script:
+    - echo "$LARAVEL_ENV" > .env
+    - grep -E '^APP_KEY=' .env || (echo "APP_KEY missing!" && exit 1)
+
+check_nonprod_env:
+  environment:
+    name: nonprod
   stage: preparation
   script:
     - echo "$LARAVEL_ENV" > .env
@@ -21,3 +30,14 @@ php_unit_test:
   script:
     - ssh $USR@$TESTING_SRV 'hostname'
     - ssh $USR@$TESTING_SRV "cd $APP_DIR && $PHP_82_PATH /usr/local/bin/composer install --no-interaction && $PHP_82_PATH artisan test"
+
+deploy_nonprod:
+  stage: deploy_nonprod
+  environment:
+    name: nonprod
+  before_script:
+    - echo "$LARAVEL_ENV" > .env
+    - rsync -az --delete --exclude=".git" --exclude="node_modules" --exclude="vendor" ./ $NONPROD_USR@$NONPROD_SRV:$NONPROD_DIR
+  script:
+    - ssh $NONPROD_USR@$NONPROD_SRV 'hostname'
+    - ssh $NONPROD_USR@$NONPROD_SRV "cd $NONPROD_DIR && composer install --no-interaction && php artisan migrate:fresh --seed"

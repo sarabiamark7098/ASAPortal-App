@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->date('date_requested');
             $table->string('requesting_office')->fulltext()->nullable();
+            $table->string('drn')->nullable()->unique();
             $table->string('control_number')->nullable()->unique();
             $table->json('request_type')->nullable();
             $table->json('request_nature')->nullable();

@@ -20,7 +20,7 @@ return new class () extends Migration {
             $table->integer('purchase_year');
             $table->integer('model_year');
             $table->string('engine_number');
-            $table->string('chasis_number');
+            $table->string('chassis_number');
             $table->timestamps();
             $table->softDeletes();
         });

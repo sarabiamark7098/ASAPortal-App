@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Driver;
+use App\Models\Vehicle;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use App\Services\Driver\DriverService;
@@ -10,6 +11,8 @@ use App\Services\Vehicle\VehicleAssignmentManager;
 use App\Services\Vehicle\VehicleAssignmentService;
 use App\Services\Vehicle\VehicleRequestManager;
 use App\Services\Vehicle\VehicleRequestService;
+use App\Services\Vehicle\VehicleManager;
+use App\Services\Vehicle\VehicleService;
 use Illuminate\Support\ServiceProvider;
 use App\Policies\VehicleRequestPolicy;
 use App\Services\Driver\DriverManager;
@@ -40,6 +43,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(DriverManager::class, function () {
             return new DriverService(new Driver());
+        });
+        $this->app->bind(VehicleManager::class, function () {
+            return new VehicleService(new Vehicle());
         });
     }
 

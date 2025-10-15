@@ -3,6 +3,7 @@
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\SignatoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OfficesController;
@@ -30,6 +31,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('vehicle-assignments')->name('vehicle-assignments.')->group(function () {
         Route::get('/', [VehicleAssignmentController::class, 'index'])->name('index');
+        Route::get('/fetch', [VehicleAssignmentController::class, 'fetch'])->name('fetch');
+        Route::post('/', [VehicleAssignmentController::class, 'store'])->name('store');
+        Route::put('/{id}', [VehicleAssignmentController::class, 'update'])->name('update');
     });
 
     Route::prefix('signatories')->name('signatories.')->group(function () {
@@ -37,8 +41,16 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::prefix('drivers')->name('drivers.')->group(function () {
         Route::get('/', [DriverController::class, 'index'])->name('index');
+        Route::get('/fetch', [DriverController::class, 'fetch'])->name('fetch');
         Route::post('/', [DriverController::class, 'store'])->name('store');
         Route::put('/{id}', [DriverController::class, 'update'])->name('update');
+    });
+    Route::prefix('vehicles')->name('vehicles.')->group(function () {
+        Route::get('/', [VehicleController::class, 'index'])->name('index');
+        Route::get('/fetch', [VehicleController::class, 'fetch'])->name('fetch');
+        Route::get('/type', [VehicleController::class, 'type'])->name('type');
+        Route::post('/', [VehicleController::class, 'store'])->name('store');
+        Route::put('/{id}', [VehicleController::class, 'update'])->name('update');
     });
 
 });

@@ -122,7 +122,7 @@ class VehicleRequestTest extends TestCase
 
     public function test_it_can_process_available_vehicle_request(): void
     {
-        $this->produceVehiceAssignment();
+        $this->produceVehicleAssignment();
         Signatory::factory(20)->create();
 
         $vehicleRequest = VehicleRequest::factory()->create();
@@ -161,7 +161,7 @@ class VehicleRequestTest extends TestCase
 
     public function test_it_can_process_unavailable_vehicle_request(): void
     {
-        $this->produceVehiceAssignment();
+        $this->produceVehicleAssignment();
         Signatory::factory(20)->create();
         $signatories = [
             [
@@ -194,7 +194,7 @@ class VehicleRequestTest extends TestCase
 
     public function test_it_cannot_process_an_already_processd_vehicle_request(): void
     {
-        $this->produceVehiceAssignment();
+        $this->produceVehicleAssignment();
         Signatory::factory(20)->create();
 
         $vehicleRequest = VehicleRequest::factory()->create();

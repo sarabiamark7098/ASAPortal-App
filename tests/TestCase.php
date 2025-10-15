@@ -24,7 +24,7 @@ abstract class TestCase extends BaseTestCase
         return User::factory()->create()->first();
     }
 
-    protected function produceVehiceAssignment($count = 10)
+    protected function produceVehicleAssignment($count = 10)
     {
         $vehicleAssignmentManager = resolve(VehicleAssignmentManager::class);
 

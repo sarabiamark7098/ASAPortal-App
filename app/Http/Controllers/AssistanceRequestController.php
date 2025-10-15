@@ -77,4 +77,16 @@ class AssistanceRequestController extends Controller
         return $this->ok($assistanceRequest->fresh()->toArray());
     }
 
+    public function update(AssistanceRequestValidation $request, string|int $id): JsonResponse
+    {
+        $assistanceRequest = AssistanceRequest::findOrFail($id);
+
+        Gate::authorize('update', $assistanceRequest);
+
+        $assistanceRequest->update([
+            'status' => Status::from($request->get('status'))
+        ]);
+
+        return $this->ok($assistanceRequest->fresh()->toArray());
+    }
 }

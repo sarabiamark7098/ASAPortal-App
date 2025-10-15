@@ -38,6 +38,7 @@ class AssistanceRequestValidation extends FormRequest
     {
         return [
             'date_requested' => ['required', 'date'],
+            'drn' => ['nullable', 'string', 'max:255'],
             'requesting_office' => ['required', 'string', 'max:255'],
             'details' => ['required', 'string'],
             'request_type' => ['required', 'array'],
@@ -56,6 +57,7 @@ class AssistanceRequestValidation extends FormRequest
 
         $sortableColumns = [
             'date_requested',
+            'drn',
             'requesting_office',
             'details',
             'request_type',

@@ -28,7 +28,6 @@ class AirTravelRequestValidation extends FormRequest
         return match ($routeName) {
             'air-travel-requests.store' => $this->createRules(),
             'air-travel-requests.index' => $this->searchRules(),
-            'air-travel-requests.process' => $this->processRules(),
             'air-travel-requests.update' => $this->updateRules(),
             default => []
         };
@@ -88,31 +87,6 @@ class AirTravelRequestValidation extends FormRequest
             'query' => ['nullable', 'string', 'max:255'],
             'sort_by' => ['nullable', 'string', 'max:255', Rule::in($sortableColumns)],
             'sort_order' => ['nullable', 'string', 'max:255', Rule::in(['desc', 'asc'])],
-        ];
-    }
-
-    public function processRules(): array
-    {
-        return [
-            'signatories' => ['required', 'array'],
-            'signatories.*.id' => ['required', 'exists:signatories,id'],
-            'signatories.*.label' => ['required', 'string', 'max:255'],
-
-            'flights' => ['required', 'array'],
-            'flights.*.destination_from' => ['required', 'string', 'max:255'],
-            'flights.*.destination_to' => ['required', 'string', 'max:255'],
-            'flights.*.trip_mode' => ['required', 'string', 'max:255'],
-            'flights.*.departure_date' => ['required', 'date'],
-            'flights.*.etd' => ['required', 'date_format:H:i:s'],
-            'flights.*.eta' => ['required', 'date_format:H:i:s'],
-
-            'passengers' => ['required', 'array'],
-            'passengers.*.first_name' => ['required', 'string', 'max:255'],
-            'passengers.*.last_name' => ['required', 'string', 'max:255'],
-            'passenger.*.birth_date' => ['required', 'date'],
-            'passengers.*.position' => ['required', 'string', 'max:255'],
-            'passengers.*.email' => ['required', 'string', 'max:255'],
-            'passengers.*.contact_number' => ['required', 'string', 'max:255'],
         ];
     }
 

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // Models
+
+use App\Models\AssistanceRequest;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use App\Models\ConferenceRequest;
@@ -11,6 +13,8 @@ use App\Models\Driver;
 use App\Models\Signatory;
 
 // Managers
+use App\Services\Assistance\AssistanceRequestManager;
+use App\Services\Assistance\AssistanceRequestService;
 use App\Services\Vehicle\VehicleRequestManager;
 use App\Services\Vehicle\VehicleAssignmentManager;
 use App\Services\Conference\ConferenceRequestManager;
@@ -69,6 +73,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(ConferenceRequestManager::class, function () {
             return new ConferenceRequestService(new ConferenceRequest());
+        });
+        $this->app->bind(AssistanceRequestManager::class, function () {
+            return new AssistanceRequestService(new AssistanceRequest());
         });
     }
 

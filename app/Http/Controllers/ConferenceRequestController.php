@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ConferenceRoom;
 use App\Enums\Status;
 use App\Http\Requests\ConferenceRequestValidation;
 use App\Models\ConferenceRequest;
@@ -33,11 +32,6 @@ class ConferenceRequestController extends Controller
         $conferenceRequests = $this->conferenceRequestManager->search();
 
         return $this->ok($conferenceRequests->toArray());
-    }
-
-    public function fetch(Request $request)
-    {
-        
     }
 
     /**

@@ -19,7 +19,7 @@ class ConferenceRequestService implements ConferenceRequestManager
         $this->model = $model;
     }
 
-    public function setConferenceRequest(ConferenceRequest $conferenceRequest): self
+     public function setConferenceRequest(ConferenceRequest $conferenceRequest): self
     {
         $this->conferenceRequest = $conferenceRequest;
         return $this;

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\DbPolyType;
 use App\Models\AccountDetail;
+use App\Models\AirTravelRequest;
 use App\Models\AssistanceRequest;
 use App\Models\ConferenceRequest;
 use App\Models\Transaction;
@@ -33,6 +34,7 @@ class PolyMorphMapProvider extends ServiceProvider
             DbPolyType::VEHICLE_REQUEST->value => VehicleRequest::class,
             DbPolyType::ASSISTANCE_REQUEST->value => AssistanceRequest::class,
             DbPolyType::CONFERENCE_REQUEST->value => ConferenceRequest::class,
+            DbPolyType::AIR_TRAVEL_REQUEST->value => AirTravelRequest::class,
             DbPolyType::TRANSACTION->value => Transaction::class,
         ]);
 

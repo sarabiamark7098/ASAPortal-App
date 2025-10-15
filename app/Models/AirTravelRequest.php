@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Status;
-use App\QueryFilters\AssistanceRequest\SearchFilter;
+use App\QueryFilters\AirTravelRequest\SearchFilter;
 use App\QueryFilters\Generic\SortFilter;
 use App\QueryFilters\Generic\StatusFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,44 +14,39 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pipeline\Pipeline;
 
-class AssistanceRequest extends Model
+class AirTravelRequest extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
-        'date_requested',
-        'drn',
         'requesting_office',
-        'control_number',
-        'details',
-        'request_type',
-        'request_nature',
-        'other_type',
-        'other_nature',
+        'date_requested',
+        'fund_source',
+        'trip_type',
         'requester_name',
         'requester_position',
         'requester_contact_number',
         'requester_email',
-        'status'
+        'status',
     ];
 
     protected $casts = [
         'date_requested' => 'date:Y-m-d',
-        'request_type' => 'array',
-        'request_nature' => 'array',
         'status' => Status::class,
     ];
 
     protected $with = [
         'signable:signable_id,label,full_name,position',
+        'passenger:first_name,last_name,birth_date,position,email,contact_number',
+        'flight:destination,date_departure,departure_etd,departure_eta,date_arrival,arrival_etd,arrival_eta',
     ];
 
-    protected static function boot(): void
+     protected static function boot(): void
     {
         parent::boot();
 
-        static::created(function (AssistanceRequest $model) {
+        static::created(function (VehicleRequest $model) {
             $model->control_number = date('Y-m-').str_pad($model->id, 6, '0', STR_PAD_LEFT);
             $model->status = Status::PENDING;
             $model->save();
@@ -66,6 +61,16 @@ class AssistanceRequest extends Model
     public function signable(): MorphMany
     {
         return $this->morphMany(FormSignatory::class, 'signable');
+    }
+
+    public function passenger()
+    {
+        return $this->morphMany(FormPassenger::class, 'passenger');
+    }
+
+    public function flight()
+    {
+        return $this->morphMany(FormFlight::class, 'flight');
     }
 
     /**

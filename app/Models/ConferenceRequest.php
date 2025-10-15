@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ConferenceRoom;
 use App\Enums\Status;
 use App\QueryFilters\ConferenceRequest\SearchFilter;
+use App\QueryFilters\Generic\RoomFilter;
 use App\QueryFilters\Generic\SortFilter;
 use App\QueryFilters\Generic\StatusFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -88,6 +89,7 @@ class ConferenceRequest extends Model
                 StatusFilter::class,
                 SortFilter::class,
                 SearchFilter::class,
+                RoomFilter::class,
             ])
             ->thenReturn();
     }

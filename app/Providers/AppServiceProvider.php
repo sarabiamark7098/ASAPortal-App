@@ -4,6 +4,7 @@ namespace App\Providers;
 
 // Models
 
+use App\Models\AirTravelRequest;
 use App\Models\AssistanceRequest;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
@@ -38,7 +39,8 @@ use Illuminate\Support\ServiceProvider;
 // Policies
 use App\Policies\ConferenceRequestPolicy;
 use App\Policies\VehicleRequestPolicy;
-
+use App\Services\AirTravel\AirTravelRequestManager;
+use App\Services\Assistance\AirTravelRequestService;
 use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
@@ -76,6 +78,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(AssistanceRequestManager::class, function () {
             return new AssistanceRequestService(new AssistanceRequest());
+        });
+        $this->app->bind(AirTravelRequestManager::class, function () {
+            return new AirTravelRequestService(new AirTravelRequest());
         });
     }
 

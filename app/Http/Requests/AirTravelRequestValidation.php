@@ -6,7 +6,7 @@ use App\Enums\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class AssistanceRequestValidation extends FormRequest
+class AirTravelRequestValidation extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,9 @@ class AssistanceRequestValidation extends FormRequest
         $routeName = $this->route()->getName();
 
         return match ($routeName) {
-            'assistance-requests.store' => $this->createRules(),
-            'assistance-requests.index' => $this->searchRules(),
-            'assistance-requests.process' => $this->processRules(),
-            'assistance-requests.update' => $this->updateRules(),
+            'air-travel-requests.store' => $this->createRules(),
+            'air-travel-requests.index' => $this->searchRules(),
+            'air-travel-requests.process' => $this->processRules(),
             default => []
         };
     }
@@ -38,13 +37,9 @@ class AssistanceRequestValidation extends FormRequest
     {
         return [
             'date_requested' => ['required', 'date'],
-            'drn' => ['nullable', 'string', 'max:255'],
             'requesting_office' => ['required', 'string', 'max:255'],
-            'details' => ['required', 'string'],
-            'request_type' => ['required', 'array'],
-            'request_nature' => ['required', 'array'],
-            'other_type' => ['nullable', 'string', 'max:255'],
-            'other_nature' => ['nullable', 'string', 'max:255'],
+            'fund_source' => ['required', 'string', 'max:255'],
+            'trip_type' => ['required', 'boolean'],
             'requester_name' => ['required', 'string', 'max:255'],
             'requester_position' => ['required', 'string', 'max:255'],
             'requester_contact_number' => ['required', 'string', 'max:255'],
@@ -57,13 +52,9 @@ class AssistanceRequestValidation extends FormRequest
 
         $sortableColumns = [
             'date_requested',
-            'drn',
             'requesting_office',
-            'details',
-            'request_type',
-            'request_nature',
-            'other_type',
-            'other_nature',
+            'fund_source',
+            'trip_type',
             'requester_name',
             'requester_position',
             'requester_contact_number',
@@ -86,12 +77,6 @@ class AssistanceRequestValidation extends FormRequest
             'signatories' => ['required', 'array'],
             'signatories.*.id' => ['required', 'exists:signatories,id'],
             'signatories.*.label' => ['required', 'string', 'max:255'],
-        ];
-    }
-
-    public function updateRules(): array
-    {
-        return [
             'status' => ['required', Rule::in([Status::APPROVED->value, Status::DISAPPROVED->value])],
         ];
     }

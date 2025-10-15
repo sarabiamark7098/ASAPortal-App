@@ -29,7 +29,7 @@ class ConferenceRequestController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $conferenceRequests = $this->conferenceRequestManager->search();
+        $conferenceRequests = $this->conferenceRequestManager->search(20);
 
         return $this->ok($conferenceRequests->toArray());
     }

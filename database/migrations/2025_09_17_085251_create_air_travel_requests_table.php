@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('requesting_office')->fulltext()->nullable();
             $table->string('control_number')->nullable()->unique();
             $table->string('fund_source')->nullable();
-            $table->boolean('trip_ticket_type')->nullable();
+            $table->string('trip_ticket_type')->nullable();
             $table->string('requester_name')->fulltext()->nullable();
             $table->string('requester_position')->nullable();
             $table->string('requester_contact_number')->nullable();

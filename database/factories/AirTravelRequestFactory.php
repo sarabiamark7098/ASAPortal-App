@@ -20,7 +20,7 @@ class AirTravelRequestFactory extends Factory
             'date_requested' => fake()->date(),
             'requesting_office' => fake()->sentence(),
             'fund_source' => fake()->word(),
-            'trip_ticket_type' => fake()->boolean(),
+            'trip_ticket_type' => fake()->randomElements(['Round Trip', 'One Way']),
             'requester_name' => fake()->name(),
             'requester_position' => fake()->jobTitle(),
             'requester_contact_number' => fake()->phoneNumber(),

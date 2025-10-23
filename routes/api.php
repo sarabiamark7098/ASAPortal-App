@@ -78,6 +78,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('signatories')->name('signatories.')->group(function () {
         Route::get('/', [SignatoryController::class, 'index'])->name('index');
         Route::get('/fetch', [SignatoryController::class, 'fetch'])->name('fetch');
+        Route::get('/get', [SignatoryController::class, 'get'])->name('get');
         Route::post('/', [SignatoryController::class, 'store'])->name('store');
         Route::put('/{id}', [SignatoryController::class, 'update'])->name('update');
     });
@@ -107,6 +108,7 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/technical-assistance-request/{id}', [PdfController::class, 'technicalAssistanceRequest'])->name('technical-assistance-request');
     Route::get('/janitorial-request/{id}', [PdfController::class, 'janitorialServicesRequest'])->name('janitorial-request');
     Route::get('/overnight-parking-request/{id}', [PdfController::class, 'overnightParkingRequest'])->name('overnight-parking-request');
+    Route::get('/air-travel-request/{id}', [PdfController::class, 'airTravelRequest'])->name('air-travel-request');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

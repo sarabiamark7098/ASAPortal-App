@@ -39,7 +39,7 @@ class AirTravelRequestValidation extends FormRequest
             'date_requested' => ['required', 'date'],
             'requesting_office' => ['required', 'string', 'max:255'],
             'fund_source' => ['required', 'string', 'max:255'],
-            'trip_ticket_type' => ['required', 'boolean'],
+            'trip_ticket_type' => ['required', 'string', 'max:255'],
             'requester_name' => ['required', 'string', 'max:255'],
             'requester_position' => ['required', 'string', 'max:255'],
             'requester_contact_number' => ['required', 'string', 'max:255'],

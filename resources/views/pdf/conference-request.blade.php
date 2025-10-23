@@ -121,7 +121,7 @@
     <div class="content" id="date_received">{{ date("F j, Y",strtotime($updated_at)) }}</div>
     <div class="content" id="requesting_office">{{ $requesting_office }}</div>
     <div class="content" id="purpose">{{ $purpose }}</div>
-    <div class="content" id="requested_datetime">{{ date("F j, Y",strtotime($requested_start)) }} - {{ date("F j, Y",strtotime($requested_end)) }} <br> {{ date("h:i a",strtotime($requested_time_start)) }} - {{ date("h:i a",strtotime($requested_time_end)) }}</div>
+    <div class="content" id="requested_datetime">{{ date("F j, Y",strtotime($requested_start)) }} - {{ date("F j, Y",strtotime($requested_end)) }} <br> {{ date("h:i A",strtotime($requested_time_start)) }} - {{ date("h:i A",strtotime($requested_time_end)) }}</div>
     <div class="content" id="pax">{{ $number_of_persons }} PAX</div>
     <div class="content" id="focal">{{ $requester_name }}-{{ $requester_contact_number }}</div>
     <div class="content" id="facility">{{ $conference_room==='seminar'?'Seminar Hall':($conference_room==='magiting'?'Magiting Conference Room':($conference_room==='maagap'?'Maagap Conference Room':'')) }}</div>

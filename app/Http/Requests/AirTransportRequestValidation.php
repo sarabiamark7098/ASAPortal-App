@@ -6,7 +6,7 @@ use App\Enums\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class AirTravelRequestValidation extends FormRequest
+class AirTransportRequestValidation extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,9 @@ class AirTravelRequestValidation extends FormRequest
         $routeName = $this->route()->getName();
 
         return match ($routeName) {
-            'air-travel-requests.store' => $this->createRules(),
-            'air-travel-requests.index' => $this->searchRules(),
-            'air-travel-requests.update' => $this->updateRules(),
+            'air-transport-requests.store' => $this->createRules(),
+            'air-transport-requests.index' => $this->searchRules(),
+            'air-transport-requests.update' => $this->updateRules(),
             default => []
         };
     }

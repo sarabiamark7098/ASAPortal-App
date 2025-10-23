@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('form_flights', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('air_travel_request_id')->nullable()->constrained('air_travel_requests')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('air_transport_request_id')->nullable()->constrained('air_transport_requests')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('destination_from')->nullable();
             $table->string('destination_to')->nullable();
             $table->string('trip_mode')->nullable();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\QueryFilters\AirTravelRequest;
+namespace App\QueryFilters\AirTransportRequest;
 
 use App\QueryFilters\Filter;
 use Illuminate\Database\Eloquent\Builder;

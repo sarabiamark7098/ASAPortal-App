@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AirTravelRequestController;
+use App\Http\Controllers\AirTransportRequestController;
 use App\Http\Controllers\AssistanceRequestController;
 use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
@@ -48,10 +48,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [ConferenceRequestController::class, 'update'])->name('update');
     });
 
-    Route::prefix('air-travel-requests')->name('air-travel-requests.')->group(function () {
-        Route::post('/', [AirTravelRequestController::class, 'store'])->name('store');
-        Route::get('/', [AirTravelRequestController::class, 'index'])->name('index');
-        Route::put('/{id}', [AirTravelRequestController::class, 'update'])->name('update');
+    Route::prefix('air-transport-requests')->name('air-transport-requests.')->group(function () {
+        Route::post('/', [AirTransportRequestController::class, 'store'])->name('store');
+        Route::get('/', [AirTransportRequestController::class, 'index'])->name('index');
+        Route::put('/{id}', [AirTransportRequestController::class, 'update'])->name('update');
     });
 
     Route::prefix('assistance-requests')->name('assistance-requests.')->group(function () {
@@ -108,7 +108,7 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/technical-assistance-request/{id}', [PdfController::class, 'technicalAssistanceRequest'])->name('technical-assistance-request');
     Route::get('/janitorial-request/{id}', [PdfController::class, 'janitorialServicesRequest'])->name('janitorial-request');
     Route::get('/overnight-parking-request/{id}', [PdfController::class, 'overnightParkingRequest'])->name('overnight-parking-request');
-    Route::get('/air-travel-request/{id}', [PdfController::class, 'airTravelRequest'])->name('air-travel-request');
+    Route::get('/air-transport-request/{id}', [PdfController::class, 'airTransportRequest'])->name('air-transport-request');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

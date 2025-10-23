@@ -6,7 +6,7 @@ use App\Enums\Status;
 use App\Models\FormPassenger;
 use App\Models\Signatory;
 use App\Models\User;
-use App\Models\AirTravelRequest;
+use App\Models\AirTransportRequest;
 use App\Models\FormFlight;
 use Database\Factories\FlightFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Schema;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class AirTravelOrderRequestTest extends TestCase
+class AirTransportOrderRequestTest extends TestCase
 {
     use RefreshDatabase;
 
-    private string $baseUri = self::BASE_API_URI.'/air-travel-requests';
+    private string $baseUri = self::BASE_API_URI.'/air-transport-requests';
 
     private string $authToken;
 
@@ -35,7 +35,7 @@ class AirTravelOrderRequestTest extends TestCase
         $this->user->syncRoles(['superadmin']);
     }
 
-    public function test_it_can_create_air_travel_request(): void
+    public function test_it_can_create_air_transport_request(): void
     {
         Signatory::factory()->count(10)->create();
         $signatories = [
@@ -51,7 +51,7 @@ class AirTravelOrderRequestTest extends TestCase
 
         $countFlights = 4;
         $countPassengers = 5;
-        $payload = AirTravelRequest::factory()->make()->toArray();
+        $payload = AirTransportRequest::factory()->make()->toArray();
         $payload = [
             ...$payload,
             'signatories' => $signatories,
@@ -63,16 +63,16 @@ class AirTravelOrderRequestTest extends TestCase
         $response->assertStatus(201);
         $responseJson = $response->decodeResponseJson();
 
-        $this->assertDatabaseCount('air_travel_requests', 1);
+        $this->assertDatabaseCount('air_transport_requests', 1);
         $this->assertNotEmpty($responseJson);
         $this->assertCount($countFlights, $responseJson['flights']);
         $this->assertCount($countPassengers, $responseJson['passengers']);
     }
 
-    public function test_it_can_fetch_air_travel_requests(): void
+    public function test_it_can_fetch_air_transport_requests(): void
     {
         $count = 10;
-        AirTravelRequest::factory()->count($count)->create();
+        AirTransportRequest::factory()->count($count)->create();
 
         $response = $this->actingAs($this->user)->getJson($this->baseUri);
         $response->assertStatus(200);
@@ -81,10 +81,10 @@ class AirTravelOrderRequestTest extends TestCase
         $this->assertEquals($count, count($responseJson['data']));
     }
 
-    public function test_it_can_sort_air_travel_requests(): void
+    public function test_it_can_sort_air_transport_requests(): void
     {
         $count = 10;
-        AirTravelRequest::factory()->count($count)->create();
+        AirTransportRequest::factory()->count($count)->create();
 
         $response = $this->actingAs($this->user)->getJson($this->baseUri.'?sort_by=id&sort_order=desc');
         $response->assertStatus(200);
@@ -92,18 +92,18 @@ class AirTravelOrderRequestTest extends TestCase
         $responseJson = $response->decodeResponseJson();
         $this->assertEquals($count, count($responseJson['data']));
 
-        $lastRow = AirTravelRequest::orderBy('id', 'desc')->first();
+        $lastRow = AirTransportRequest::orderBy('id', 'desc')->first();
         $this->assertEquals($lastRow->id, $response['data'][0]['id']);
     }
 
     #[DataProvider('differentTextFields')]
-    public function test_it_can_search_text_air_travel_requests(string $field): void
+    public function test_it_can_search_text_air_transport_requests(string $field): void
     {
         $count = 10;
-        AirTravelRequest::factory()->count($count)->create();
+        AirTransportRequest::factory()->count($count)->create();
 
         $value = 'The quick brown fox jumps over the lazy dog.';
-        $airTravelRequest = AirTravelRequest::factory(1, [
+        $airTransportRequest = AirTransportRequest::factory(1, [
             $field => $value
         ])->create()->first();
 
@@ -114,28 +114,28 @@ class AirTravelOrderRequestTest extends TestCase
 
         $responseJson = $response->decodeResponseJson();
 
-        $this->assertEquals($airTravelRequest->id, $responseJson['data'][0]['id']);
+        $this->assertEquals($airTransportRequest->id, $responseJson['data'][0]['id']);
 
         Schema::disableForeignKeyConstraints();
-        AirTravelRequest::query()->truncate();
+        AirTransportRequest::query()->truncate();
     }
 
-    public function test_it_can_search_air_travel_requests_using_control_number(): void
+    public function test_it_can_search_air_transport_requests_using_control_number(): void
     {
         $count = 10;
-        AirTravelRequest::factory()->count($count)->create();
+        AirTransportRequest::factory()->count($count)->create();
 
         $controlNumber = '2020-01-02-012345';
-        $airTravelRequest = AirTravelRequest::factory()->create()->first();
+        $airTransportRequest = AirTransportRequest::factory()->create()->first();
 
-        $airTravelRequest->control_number = $controlNumber;
-        $airTravelRequest->save();
+        $airTransportRequest->control_number = $controlNumber;
+        $airTransportRequest->save();
 
         $response = $this->actingAs($this->user)->getJson("$this->baseUri?query=12345");
         $response->assertStatus(200);
         $response = $response->decodeResponseJson();
 
-        $this->assertEquals($airTravelRequest->id, $response['data'][0]['id']);
+        $this->assertEquals($airTransportRequest->id, $response['data'][0]['id']);
     }
 
     public static function differentTextFields()
@@ -150,21 +150,21 @@ class AirTravelOrderRequestTest extends TestCase
     public function test_it_approve_or_disapproved_form_request(string $status): void
     {
 
-        $airTravelRequest = AirTravelRequest::factory()->create();
+        $airTransportRequest = AirTransportRequest::factory()->create();
 
-        $airTravelRequest->status = Status::PROCESSED;
-        $airTravelRequest->save();
+        $airTransportRequest->status = Status::PROCESSED;
+        $airTransportRequest->save();
 
-        $airTravelRequestId = $airTravelRequest->id;
+        $airTransportRequestId = $airTransportRequest->id;
 
-        $response = $this->actingAs($this->user)->putJson("$this->baseUri/$airTravelRequestId", [
+        $response = $this->actingAs($this->user)->putJson("$this->baseUri/$airTransportRequestId", [
             'status' => $status,
         ]);
 
         $response->assertStatus(200);
-        $airTravelRequest = $airTravelRequest->fresh();
+        $airTransportRequest = $airTransportRequest->fresh();
 
-        $this->assertEquals($status, $airTravelRequest->status->value);
+        $this->assertEquals($status, $airTransportRequest->status->value);
     }
 
     public static function approveDisapproveDataProvider(): \Generator

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 // Models
 
-use App\Models\AirTravelRequest;
+use App\Models\AirTransportRequest;
 use App\Models\AssistanceRequest;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
@@ -25,7 +25,7 @@ use App\Services\Driver\DriverManager;
 use App\Services\Signatory\SignatoryManager;
 use App\Services\Pdf\PdfManager;
 use App\Services\OvernightParking\OvernightParkingRequestManager;
-use App\Services\AirTravel\AirTravelRequestManager;
+use App\Services\AirTransport\AirTransportRequestManager;
 
 // Services
 use App\Services\Assistance\AssistanceRequestService;
@@ -38,7 +38,7 @@ use App\Services\Driver\DriverService;
 use App\Services\Signatory\SignatoryService;
 use App\Services\Pdf\PdfService;
 use App\Services\OvernightParking\OvernightParkingRequestService;
-use App\Services\AirTravel\AirTravelRequestService;
+use App\Services\AirTransport\AirTransportRequestService;
 
 // Providers
 use Illuminate\Support\ServiceProvider;
@@ -46,7 +46,7 @@ use Illuminate\Support\ServiceProvider;
 // Policies
 use App\Policies\ConferenceRequestPolicy;
 use App\Policies\VehicleRequestPolicy;
-use App\Policies\AirTravelRequestPolicy;
+use App\Policies\AirTransportRequestPolicy;
 use App\Policies\AssistanceRequestPolicy;
 use App\Policies\JanitorialRequestPolicy;
 use App\Policies\OvernightParkingRequestPolicy;
@@ -89,8 +89,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AssistanceRequestManager::class, function () {
             return new AssistanceRequestService(new AssistanceRequest());
         });
-        $this->app->bind(AirTravelRequestManager::class, function () {
-            return new AirTravelRequestService(new AirTravelRequest());
+        $this->app->bind(AirTransportRequestManager::class, function () {
+            return new AirTransportRequestService(new AirTransportRequest());
         });
         $this->app->bind(JanitorialRequestManager::class, function () {
             return new JanitorialRequestService(new JanitorialRequest());
@@ -108,7 +108,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(VehicleRequest::class, VehicleRequestPolicy::class);
         Gate::policy(ConferenceRequest::class, ConferenceRequestPolicy::class);
         Gate::policy(AssistanceRequest::class, AssistanceRequestPolicy::class);
-        Gate::policy(AirTravelRequest::class, AirTravelRequestPolicy::class);
+        Gate::policy(AirTransportRequest::class, AirTransportRequestPolicy::class);
         Gate::policy(OvernightParkingRequest::class, OvernightParkingRequestPolicy::class);
         Gate::policy(JanitorialRequest::class, JanitorialRequestPolicy::class);
     }

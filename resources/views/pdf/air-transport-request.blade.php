@@ -70,7 +70,7 @@
 </head>
 <body>
 
-    <img src="{{ public_path('images/Request-for-Air-Travel-Order.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
+    <img src="{{ public_path('images/Request-for-Air-Transport-Order.jpg') }}" style="position:absolute; top:0; left:0; width:215.9mm; height:330.2mm; z-index:-1000;" alt="form">
 
     <div class="content" id="control_number">{{ $control_number }}</div>
     <div class="content" id="date_requested">{{ date("F j, Y",strtotime($date_requested)) }}</div>

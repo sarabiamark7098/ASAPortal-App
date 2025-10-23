@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Status;
-use App\QueryFilters\AirTravelRequest\SearchFilter;
+use App\QueryFilters\AirTransportRequest\SearchFilter;
 use App\QueryFilters\Generic\SortFilter;
 use App\QueryFilters\Generic\StatusFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pipeline\Pipeline;
 
-class AirTravelRequest extends Model
+class AirTransportRequest extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -46,7 +46,7 @@ class AirTravelRequest extends Model
     {
         parent::boot();
 
-        static::created(function (AirTravelRequest $model) {
+        static::created(function (AirTransportRequest $model) {
             $model->control_number = date('Y-m-').str_pad($model->id, 6, '0', STR_PAD_LEFT);
             $model->status = Status::PENDING;
             $model->save();

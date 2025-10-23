@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('air_travel_requests', function (Blueprint $table) {
+        Schema::create('air_transport_requests', function (Blueprint $table) {
             $table->id();
             $table->date('date_requested');
             $table->string('requesting_office')->fulltext()->nullable();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('air_travel_requests');
+        Schema::dropIfExists('air_transport_requests');
     }
 };

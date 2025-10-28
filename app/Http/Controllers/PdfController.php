@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AirTransportRequest;
 use App\Models\AssistanceRequest;
 use App\Models\ConferenceRequest;
+use App\Models\EntryRequest;
 use App\Models\VehicleRequest;
 use App\Models\JanitorialRequest;
 use App\Models\OvernightParkingRequest;
@@ -124,5 +125,16 @@ class PdfController extends Controller
         ];
 
         return $this->pdfManager->setConfig($config)->viewToHtml('pdf.air-transport-request', $data)->make()->stream($filename);
+    }
+    public function entryRequest(string|int $id): Response
+    {
+        $data = EntryRequest::findOrFail($id)->toArray();
+        $filename = 'entry-request.pdf';
+
+        $config = [
+            'format' => 'A4',
+        ];
+
+        return $this->pdfManager->setConfig($config)->viewToHtml('pdf.entry-request', $data)->make()->stream($filename);
     }
 }

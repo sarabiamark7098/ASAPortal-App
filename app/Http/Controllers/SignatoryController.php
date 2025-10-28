@@ -46,4 +46,11 @@ class SignatoryController extends Controller
         return response()->json($signatory);
     }
 
+    public function destroy($id): JsonResponse
+    {
+        $signatory = Signatory::findOrFail($id);
+        $signatory->delete();
+        return response()->json(null, 204);
+    }
+
 }

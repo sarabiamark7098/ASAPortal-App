@@ -8,6 +8,9 @@ use App\Models\EntryRequest;
 use App\Services\Entry\EntryRequestManager;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EntryRequestService implements EntryRequestManager
 {
@@ -76,6 +79,34 @@ class EntryRequestService implements EntryRequestManager
                 'position' => $signatory->position,
             ]);
         }
+    }
+
+    public function uploadFiles(array $payload): EntryRequest
+    {
+        foreach ($payload as $file) {
+            $disk = config('filesystems.default', 'local');
+            $uploadedFile = $file['file'];
+            $extension = $uploadedFile->getClientOriginalExtension() ?? 'bin';
+            $datePart = Carbon::now()->format('Ymd-His');
+            $randomPart = Str::random(6);
+            $filename = "{$datePart}-{$randomPart}.{$extension}";
+
+            // Optional: folder by date for better organization
+            $folder = Carbon::now()->format('Y-m-d');
+            $path = "entry_request_uploads/{$folder}/{$filename}";
+
+            // Upload file to SFTP or configured disk
+            $success = Storage::disk($disk)->put($path, file_get_contents($uploadedFile->getRealPath()));
+            if (!$success) {
+                throw new \Exception('File upload failed for ' . $uploadedFile->getClientOriginalName() . ' ' . $path);
+            }
+            $this->entryRequest->fileable()->create([
+                'label' => $file['label'],
+                'filename' => $filename,
+                'path' => $path,
+            ]);
+        }
+        return $this->entryRequest->fresh('fileable');
     }
 
 }

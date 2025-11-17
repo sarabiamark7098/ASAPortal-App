@@ -48,10 +48,12 @@ class AirTransportRequestController extends Controller
         Gate::authorize('process', $airTransportRequest);
 
         return DB::transaction(function () use ($request, $airTransportRequest) {
+
             $this->airTransportRequestManager->setAirTransportRequest($airTransportRequest);
             $this->airTransportRequestManager->addSignatories($request->validated('signatories'));
             $this->airTransportRequestManager->addPassengers($request->validated('passengers'));
             $this->airTransportRequestManager->addFlights($request->validated('flights'));
+            $this->airTransportRequestManager->uploadFiles($request->validated('files'));
 
             $airTransportRequest->update(['status' => Status::PROCESSED]);
 

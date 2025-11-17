@@ -48,7 +48,11 @@ class OvernightParkingRequestValidation extends FormRequest
             'requester_name' => ['required', 'string', 'max:255'],
             'requester_position' => ['required', 'string', 'max:255'],
             'requester_contact_number' => ['required', 'string', 'max:255'],
-            'requester_email' => ['required', 'string', 'max:255']
+            'requester_email' => ['required', 'string', 'max:255'],
+
+            'files' => ['required', 'array'],
+            'files.*.label' => ['required', 'string', 'max:255'],
+            'files.*.file' => ['required'],
         ];
     }
 

@@ -41,6 +41,16 @@
         left: 37%;
     }
 
+    #requester_signature {
+        width: 15%;
+        height: 60px;
+        top: 230mm;
+        left: 25%;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-align: center;
+    }
+
     #requester {
         width: 35%;
         height: 22px;
@@ -142,6 +152,12 @@
         @if ($index == 15)
         <div class="content" style="width: 37%; height: 20px; top: {{ 132 + ($index * 5.55) }}mm; left: 12.5%;">{{ $guest['full_name']}}</div>
         <div class="content" style="width: 37%; height: 20px; top: {{ 132 + ($index * 5.55) }}mm; left: 50.5%;">{{ $guest['purpose']}}</div>
+        @endif
+    @endforeach
+
+    @foreach ($fileable as $index => $files)
+        @if ($files['label'] === 'Signature')
+            <div class="content" id="requester_signature"><img src="{{ public_path('images/saved/'.$files['path']) }}" alt="" width="110" height="58"></div>
         @endif
     @endforeach
 

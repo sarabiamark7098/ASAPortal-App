@@ -44,7 +44,14 @@ class ConferenceRequestController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        return $this->created($conferenceRequest->toArray());
+        $conferenceRequest = ConferenceRequest::findOrFail($conferenceRequest->id);
+        return DB::transaction(function () use ($request, $conferenceRequest) {
+            $this->conferenceRequestManager->setConferenceRequest($conferenceRequest);
+            $this->conferenceRequestManager->uploadFiles($request->validated('files'));
+
+            return $this->created($conferenceRequest->fresh()->toArray());
+        });
+
     }
 
     public function process(ConferenceRequestValidation $request, string|int $id): JsonResponse

@@ -63,6 +63,10 @@ class AirTransportRequestValidation extends FormRequest
             'passengers.*.position' => ['required', 'string', 'max:255'],
             'passengers.*.email' => ['required', 'string', 'max:255'],
             'passengers.*.contact_number' => ['required', 'string', 'max:255'],
+
+            'files' => ['required', 'array'],
+            'files.*.label' => ['required', 'string', 'max:255'],
+            'files.*.file' => ['required'],
         ];
     }
 

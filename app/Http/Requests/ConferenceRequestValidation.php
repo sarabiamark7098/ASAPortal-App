@@ -51,6 +51,10 @@ class ConferenceRequestValidation extends FormRequest
             'requester_position' => ['required', 'string', 'max:255'],
             'requester_contact_number' => ['required', 'string', 'max:255'],
             'requester_email' => ['required', 'string', 'max:255'],
+
+            'files' => ['required', 'array'],
+            'files.*.label' => ['required', 'string', 'max:255'],
+            'files.*.file' => ['required'],
         ];
     }
 

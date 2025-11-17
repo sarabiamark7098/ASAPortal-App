@@ -7,6 +7,7 @@ use App\Models\Signatory;
 use App\Models\User;
 use App\Models\AssistanceRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -33,14 +34,32 @@ class AssistanceRequestTest extends TestCase
 
     public function test_it_can_create_assistance_request(): void
     {
+        $countUploads = 2;
         $payload = AssistanceRequest::factory()->make()->toArray();
-        $response = $this->actingAs($this->user)->postJson($this->baseUri, $payload);
+
+        $files = [];
+        for ($i = 0; $i < $countUploads; $i++) {
+            $files[] = [
+                'label' => fake()->randomElement(['Document', 'Approval', 'Signature']),
+                'file' => UploadedFile::fake()->image('fake_image_'.$i.'.jpg', 500, 500),
+            ];
+        }
+
+        $payload = [
+            ...$payload,
+            'files' => $files,
+        ];
+
+        $response = $this->actingAs($this->user)->post($this->baseUri, $payload, [
+            'Content-Type' => 'multipart/form-data',
+        ]);
 
         $response->assertStatus(201);
         $responseJson = $response->decodeResponseJson();
 
         $this->assertDatabaseCount('assistance_requests', 1);
         $this->assertNotEmpty($responseJson);
+        $this->assertCount($countUploads, $responseJson['fileable']);
     }
 
     public function test_it_can_fetch_assistance_requests(): void

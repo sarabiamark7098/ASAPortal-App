@@ -50,6 +50,7 @@ class VehicleRequest extends Model
 
     protected $with = [
         'signable:signable_id,label,full_name,position',
+        'fileable:fileable_id,label,filename,path',
     ];
 
     protected static function boot(): void
@@ -71,6 +72,11 @@ class VehicleRequest extends Model
     public function signable(): MorphMany
     {
         return $this->morphMany(FormSignatory::class, 'signable');
+    }
+
+    public function fileable(): MorphMany
+    {
+        return $this->morphMany(FormFileUpload::class, 'fileable');
     }
 
     /**

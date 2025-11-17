@@ -15,4 +15,5 @@ interface JanitorialRequestManager
     public function addSignatories(array $payload);
     public function addJanitors(array $payload);
     public function updateStatus(Status $status): JanitorialRequest;
+    public function uploadFiles(array $payload): JanitorialRequest;
 }

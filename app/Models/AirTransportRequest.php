@@ -40,6 +40,7 @@ class AirTransportRequest extends Model
         'signable:signable_id,label,full_name,position',
         'passengers',
         'flights',
+        'fileable:fileable_id,label,filename,path',
     ];
 
      protected static function boot(): void
@@ -71,6 +72,11 @@ class AirTransportRequest extends Model
     public function flights()
     {
         return $this->hasMany(related: FormFlight::class);
+    }
+    
+    public function fileable(): MorphMany
+    {
+        return $this->morphMany(FormFileUpload::class, 'fileable');
     }
 
     /**

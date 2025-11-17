@@ -46,6 +46,7 @@ class JanitorialRequest extends Model
     protected $with = [
         'signable:signable_id,label,full_name,position',
         'janitorable:janitorable_id,full_name',
+        'fileable:fileable_id,label,filename,path',
     ];
 
     protected static function boot(): void
@@ -71,6 +72,11 @@ class JanitorialRequest extends Model
     public function janitorable(): MorphMany
     {
         return $this->morphMany(FormJanitor::class, 'janitorable');
+    }
+
+    public function fileable(): MorphMany
+    {
+        return $this->morphMany(FormFileUpload::class, 'fileable');
     }
 
     /**

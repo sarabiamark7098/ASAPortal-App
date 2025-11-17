@@ -51,6 +51,7 @@ class EntryRequestController extends Controller
             $this->entryRequestManager->setEntryRequest($entryRequest);
             $this->entryRequestManager->addGuests($request->validated('guests'));
             $this->entryRequestManager->addSignatories($request->validated('signatories'));
+            $this->entryRequestManager->uploadFiles($request->validated('files'));
 
             $entryRequest->update(['status' => Status::PROCESSED]);
 

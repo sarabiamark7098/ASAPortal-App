@@ -85,6 +85,15 @@
         left: 12%;
         text-align: center;
     }
+    #requester_signature{
+        width: 15%;
+        height: 60px;
+        top: 230mm;
+        left: 25%;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-align: center;
+    }
     #requester_position {
         width: 38%;
         height: 22px;
@@ -127,7 +136,11 @@
     <div class="content" id="facility">{{ $conference_room==='seminar'?'Seminar Hall':($conference_room==='magiting'?'Magiting Conference Room':($conference_room==='maagap'?'Maagap Conference Room':'')) }}</div>
     <div class="content" id="building">{{ $conference_room==='seminar'?'Sapphire Building':($conference_room==='magiting'?'Emerald Building':($conference_room==='maagap'?'Emerald Building':'')) }}</div>
 
-
+    @foreach ($fileable as $index => $files)
+        @if ($files['label'] === 'Signature')
+            <div class="content" id="requester_signature"><img src="{{ public_path('images/saved/'.$files['path']) }}" alt="" width="110" height="58"></div>
+        @endif
+    @endforeach
     <div class="content" id="requester">{{ $requester_name }}</div>
     <div class="content" id="requester_position">{{ $requester_position }}</div>
     @foreach($signable as $index => $signatory)

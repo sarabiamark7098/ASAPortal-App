@@ -15,4 +15,5 @@ interface ConferenceRequestManager
     public function update(array $payload): ConferenceRequest;
     public function addSignatories(array $payload);
     public function updateStatus(Status $status): ConferenceRequest;
+    public function uploadFiles(array $payload): ConferenceRequest;
 }

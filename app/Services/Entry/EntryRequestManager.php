@@ -15,4 +15,5 @@ interface EntryRequestManager
     public function addGuests(array $payload);
     public function addSignatories(array $payload);
     public function updateStatus(Status $status): EntryRequest;
+    public function uploadFiles(array $payload): EntryRequest;
 }

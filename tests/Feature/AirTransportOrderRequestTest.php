@@ -7,9 +7,11 @@ use App\Models\FormPassenger;
 use App\Models\Signatory;
 use App\Models\User;
 use App\Models\AirTransportRequest;
+use App\Models\FormFileUpload;
 use App\Models\FormFlight;
 use Database\Factories\FlightFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -51,22 +53,37 @@ class AirTransportOrderRequestTest extends TestCase
 
         $countFlights = 4;
         $countPassengers = 5;
+        $countUploads = 2;
         $payload = AirTransportRequest::factory()->make()->toArray();
+
+        $files = [];
+        for ($i = 0; $i < $countUploads; $i++) {
+            $files[] = [
+                'label' => fake()->randomElement(['Document', 'Approval', 'Signature']),
+                'file' => UploadedFile::fake()->image('fake_image_'.$i.'.jpg', 500, 500),
+            ];
+        }
+
         $payload = [
             ...$payload,
             'signatories' => $signatories,
             'flights' => FormFlight::factory()->count($countFlights)->make()->toArray(),
             'passengers' => FormPassenger::factory()->count($countPassengers)->make()->toArray(),
+            'files' => $files,
         ];
-        $response = $this->actingAs($this->user)->postJson($this->baseUri, $payload);
+
+        $response = $this->actingAs($this->user)->post($this->baseUri, $payload, [
+            'Content-Type' => 'multipart/form-data',
+        ]);
 
         $response->assertStatus(201);
-        $responseJson = $response->decodeResponseJson();
 
+        $responseJson = $response->decodeResponseJson();
         $this->assertDatabaseCount('air_transport_requests', 1);
         $this->assertNotEmpty($responseJson);
         $this->assertCount($countFlights, $responseJson['flights']);
         $this->assertCount($countPassengers, $responseJson['passengers']);
+        $this->assertCount($countUploads, $responseJson['fileable']);
     }
 
     public function test_it_can_fetch_air_transport_requests(): void

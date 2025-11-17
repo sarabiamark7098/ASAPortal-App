@@ -222,7 +222,7 @@
 
     @foreach ($fileable as $index => $files)
         @if ($files['label'] === 'Signature')
-            <div class="content" id="requester_signature"><img src="{{ public_path('images/saved/'.$files['path']) }}" alt="" width="110" height="58"></div>
+            <div class="content" id="requester_signature"><img src="{!! storage_path('app/private/'.$files['path']) !!}" alt="" width="110" height="58"></div>
         @endif
     @endforeach
     <div class="content" id="requester_name">{{ $requester_name }}</div>
@@ -246,7 +246,7 @@
 
     @foreach ($fileable as $index => $files)
         @if ($files['label'] === 'Signature')
-            <div class="content" id="page_2_requester_signature"><img src="{{ public_path('images/saved/'.$files['path']) }}" alt="" width="110" height="58"></div>
+            <div class="content" id="page_2_requester_signature"><img src="{!! storage_path('app/private/'.$files['path']) !!}" alt="" width="110" height="58"></div>
         @endif
     @endforeach
     <div class="content" id="page_2_requester_name">{{ $requester_name }}</div>

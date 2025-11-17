@@ -32,8 +32,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            // 'root' => storage_path('app/private'),
-            'root' => public_path('images/saved'),
+            'root' => storage_path('app/private'),
             'visibility' => 'public',
             'serve' => true,
             'throw' => false,
@@ -69,10 +68,6 @@ return [
             'username' => env('SFTP_USERNAME'),
             'password' => env('SFTP_PASSWORD'),
             'root' => env('SFTP_ROOT'),
-            // 'privateKey' => env('SFTP_PRIVATE_KEY'),
-            // 'passphrase' => env('SFTP_PASSPHRASE'),
-            // 'visibility' => 'private',
-            // 'directory_visibility' => 'private',
 
         ]
     ],

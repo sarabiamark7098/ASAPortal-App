@@ -74,26 +74,14 @@ class OvernightParkingRequestService implements OvernightParkingRequestManager
     public function uploadFiles(array $payload): OvernightParkingRequest
     {
         foreach ($payload as $file) {
-            $disk = config('filesystems.default', 'local');
-            $uploadedFile = $file['file'];
-            $extension = $uploadedFile->getClientOriginalExtension() ?? 'bin';
-            $datePart = Carbon::now()->format('Ymd-His');
-            $randomPart = Str::random(6);
-            $filename = "{$datePart}-{$randomPart}.{$extension}";
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'overnight_parking_request_uploads');
 
-            // Optional: folder by date for better organization
-            $folder = Carbon::now()->format('Y-m-d');
-            $path = "overnight_parking_request_uploads/{$folder}/{$filename}";
-
-            // Upload file to SFTP or configured disk
-            $success = Storage::disk($disk)->put($path, file_get_contents($uploadedFile->getRealPath()));
-            if (!$success) {
-                throw new \Exception('File upload failed for ' . $uploadedFile->getClientOriginalName() . ' ' . $path);
-            }
+            // Attach the uploaded file to the polymorphic relation
             $this->overnightParkingRequest->fileable()->create([
                 'label' => $file['label'],
-                'filename' => $filename,
-                'path' => $path,
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
             ]);
         }
         return $this->overnightParkingRequest->fresh('fileable');

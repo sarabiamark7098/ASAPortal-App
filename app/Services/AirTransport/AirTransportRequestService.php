@@ -8,9 +8,6 @@ use App\Models\AirTransportRequest;
 use App\Services\AirTransport\AirTransportRequestManager;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class AirTransportRequestService implements AirTransportRequestManager
 {
@@ -102,28 +99,17 @@ class AirTransportRequestService implements AirTransportRequestManager
     public function uploadFiles(array $payload): AirTransportRequest
     {
         foreach ($payload as $file) {
-            $disk = config('filesystems.default', 'local');
-            $uploadedFile = $file['file'];
-            $extension = $uploadedFile->getClientOriginalExtension() ?? 'bin';
-            $datePart = Carbon::now()->format('Ymd-His');
-            $randomPart = Str::random(6);
-            $filename = "{$datePart}-{$randomPart}.{$extension}";
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'air_transport_request_uploads');
 
-            // Optional: folder by date for better organization
-            $folder = Carbon::now()->format('Y-m-d');
-            $path = "air_transport_request_uploads/{$folder}/{$filename}";
-
-            // Upload file to SFTP or configured disk
-            $success = Storage::disk($disk)->put($path, file_get_contents($uploadedFile->getRealPath()));
-            if (!$success) {
-                throw new \Exception('File upload failed for ' . $uploadedFile->getClientOriginalName() . ' ' . $path);
-            }
+            // Attach the uploaded file to the polymorphic relation
             $this->airTransportRequest->fileable()->create([
                 'label' => $file['label'],
-                'filename' => $filename,
-                'path' => $path,
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
             ]);
         }
+
         return $this->airTransportRequest->fresh('fileable');
     }
 

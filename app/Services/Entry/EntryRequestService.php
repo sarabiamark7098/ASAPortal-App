@@ -84,26 +84,14 @@ class EntryRequestService implements EntryRequestManager
     public function uploadFiles(array $payload): EntryRequest
     {
         foreach ($payload as $file) {
-            $disk = config('filesystems.default', 'local');
-            $uploadedFile = $file['file'];
-            $extension = $uploadedFile->getClientOriginalExtension() ?? 'bin';
-            $datePart = Carbon::now()->format('Ymd-His');
-            $randomPart = Str::random(6);
-            $filename = "{$datePart}-{$randomPart}.{$extension}";
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'entry_request_uploads');
 
-            // Optional: folder by date for better organization
-            $folder = Carbon::now()->format('Y-m-d');
-            $path = "entry_request_uploads/{$folder}/{$filename}";
-
-            // Upload file to SFTP or configured disk
-            $success = Storage::disk($disk)->put($path, file_get_contents($uploadedFile->getRealPath()));
-            if (!$success) {
-                throw new \Exception('File upload failed for ' . $uploadedFile->getClientOriginalName() . ' ' . $path);
-            }
+            // Attach the uploaded file to the polymorphic relation
             $this->entryRequest->fileable()->create([
                 'label' => $file['label'],
-                'filename' => $filename,
-                'path' => $path,
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
             ]);
         }
         return $this->entryRequest->fresh('fileable');

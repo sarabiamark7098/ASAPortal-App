@@ -25,6 +25,13 @@ class SignatoryController extends Controller
     {
         return $this->ok(Signatory::all()->toArray());
     }
+    public function get(SignatoryRequest $request)
+    {
+        $search = $request->get('request'); // get ?request=Regional Director
+        $signatory = Signatory::where('position', 'like', '%' . $search . '%')->first();
+
+        return response()->json($signatory);
+    }
 
     public function store(SignatoryRequest $request): JsonResponse
     {

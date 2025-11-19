@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AirTransportRequest;
 use App\Models\AssistanceRequest;
 use App\Models\ConferenceRequest;
 use App\Models\VehicleRequest;
@@ -111,5 +112,17 @@ class PdfController extends Controller
         ];
 
         return $this->pdfManager->setConfig($config)->viewToHtml('pdf.janitorial-request', $data)->make()->stream($filename);
+    }
+    public function airTransportRequest(string|int $id): Response
+    {
+        $data = AirTransportRequest::findOrFail($id)->toArray();
+        $filename = 'janitorial-request.pdf';
+
+        $config = [
+            'format' => 'A4',
+            'orientation' => 'L'
+        ];
+
+        return $this->pdfManager->setConfig($config)->viewToHtml('pdf.air-transport-request', $data)->make()->stream($filename);
     }
 }

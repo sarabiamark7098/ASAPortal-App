@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('form_flights', function (Blueprint $table) {
             $table->id();
-            $table->morphs('flight');
+            $table->foreignId('air_transport_request_id')->nullable()->constrained('air_transport_requests')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('destination_from')->nullable();
             $table->string('destination_to')->nullable();
-            $table->boolean('trip_mode')->nullable();
-            $table->date('date')->nullable();
+            $table->string('trip_mode')->nullable();
+            $table->date('departure_date')->nullable();
             $table->time('etd')->nullable();
             $table->time('eta')->nullable();
             $table->timestamps();

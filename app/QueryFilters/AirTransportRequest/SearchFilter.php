@@ -1,6 +1,6 @@
 <?php
 
-namespace App\QueryFilters\AirTravelRequest;
+namespace App\QueryFilters\AirTransportRequest;
 
 use App\QueryFilters\Filter;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,7 +17,7 @@ class SearchFilter extends Filter
 
         return $builder->where(function ($builder) use ($keywords) {
             $builder->orWhereFullText('requesting_office', $keywords);
-            $builder->orWhere('fund_source', $keywords);
+            $builder->orWhere('fund_source', 'like', "%$keywords%");
             $builder->orWhereFullText('requester_name', $keywords);
             $builder->orWhere('control_number', 'like', "%$keywords%");
         });

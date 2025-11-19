@@ -9,4 +9,5 @@ class FormJanitor extends Model
     protected $fillable = [
         'full_name',
     ];
+    
 }

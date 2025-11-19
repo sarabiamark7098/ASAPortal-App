@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Status;
-use App\QueryFilters\AirTravelRequest\SearchFilter;
+use App\QueryFilters\AirTransportRequest\SearchFilter;
 use App\QueryFilters\Generic\SortFilter;
 use App\QueryFilters\Generic\StatusFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pipeline\Pipeline;
 
-class AirTravelRequest extends Model
+class AirTransportRequest extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -23,7 +23,7 @@ class AirTravelRequest extends Model
         'requesting_office',
         'date_requested',
         'fund_source',
-        'trip_type',
+        'trip_ticket_type',
         'requester_name',
         'requester_position',
         'requester_contact_number',
@@ -38,15 +38,15 @@ class AirTravelRequest extends Model
 
     protected $with = [
         'signable:signable_id,label,full_name,position',
-        'passenger:first_name,last_name,birth_date,position,email,contact_number',
-        'flight:destination,date_departure,departure_etd,departure_eta,date_arrival,arrival_etd,arrival_eta',
+        'passengers',
+        'flights',
     ];
 
      protected static function boot(): void
     {
         parent::boot();
 
-        static::created(function (VehicleRequest $model) {
+        static::created(function (AirTransportRequest $model) {
             $model->control_number = date('Y-m-').str_pad($model->id, 6, '0', STR_PAD_LEFT);
             $model->status = Status::PENDING;
             $model->save();
@@ -63,14 +63,14 @@ class AirTravelRequest extends Model
         return $this->morphMany(FormSignatory::class, 'signable');
     }
 
-    public function passenger()
+    public function passengers()
     {
-        return $this->morphMany(FormPassenger::class, 'passenger');
+        return $this->hasMany(FormPassenger::class);
     }
 
-    public function flight()
+    public function flights()
     {
-        return $this->morphMany(FormFlight::class, 'flight');
+        return $this->hasMany(related: FormFlight::class);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AirTransportRequestController;
 use App\Http\Controllers\AssistanceRequestController;
 use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
@@ -47,6 +48,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [ConferenceRequestController::class, 'update'])->name('update');
     });
 
+    Route::prefix('air-transport-requests')->name('air-transport-requests.')->group(function () {
+        Route::post('/', [AirTransportRequestController::class, 'store'])->name('store');
+        Route::get('/', [AirTransportRequestController::class, 'index'])->name('index');
+        Route::put('/{id}', [AirTransportRequestController::class, 'update'])->name('update');
+    });
+
     Route::prefix('assistance-requests')->name('assistance-requests.')->group(function () {
         Route::post('/', [AssistanceRequestController::class, 'store'])->name('store');
         Route::get('/', [AssistanceRequestController::class, 'index'])->name('index');
@@ -71,6 +78,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('signatories')->name('signatories.')->group(function () {
         Route::get('/', [SignatoryController::class, 'index'])->name('index');
         Route::get('/fetch', [SignatoryController::class, 'fetch'])->name('fetch');
+        Route::get('/get', [SignatoryController::class, 'get'])->name('get');
         Route::post('/', [SignatoryController::class, 'store'])->name('store');
         Route::put('/{id}', [SignatoryController::class, 'update'])->name('update');
     });
@@ -100,6 +108,7 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/technical-assistance-request/{id}', [PdfController::class, 'technicalAssistanceRequest'])->name('technical-assistance-request');
     Route::get('/janitorial-request/{id}', [PdfController::class, 'janitorialServicesRequest'])->name('janitorial-request');
     Route::get('/overnight-parking-request/{id}', [PdfController::class, 'overnightParkingRequest'])->name('overnight-parking-request');
+    Route::get('/air-transport-request/{id}', [PdfController::class, 'airTransportRequest'])->name('air-transport-request');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

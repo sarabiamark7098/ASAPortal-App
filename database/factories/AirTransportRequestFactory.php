@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AirTravelRequest>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AirTransportRequest>
  */
-class AirTravelRequestFactory extends Factory
+class AirTransportRequestFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class AirTravelRequestFactory extends Factory
             'date_requested' => fake()->date(),
             'requesting_office' => fake()->sentence(),
             'fund_source' => fake()->word(),
-            'trip' => fake()->boolean(),
+            'trip_ticket_type' => fake()->randomElement(['Round-Trip', 'One-Way']),
             'requester_name' => fake()->name(),
             'requester_position' => fake()->jobTitle(),
             'requester_contact_number' => fake()->phoneNumber(),

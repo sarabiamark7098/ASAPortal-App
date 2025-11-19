@@ -70,7 +70,7 @@
     <div class="content" id="requesting_office">{{ $requesting_office }}</div>
     <div class="content" id="purpose">{{ $purpose }}</div>
     <div class="content" id="pax">{{ $number_of_persons }} PAX</div>
-    <div class="content" id="requested_datetime">{{ date("M j, Y",strtotime($requested_start)) }} - {{ date("M j, Y",strtotime($requested_end)) }} / {{ date("h:i a",strtotime($requested_time_start)) }} - {{ date("h:i a",strtotime($requested_time_end)) }}</div>
+    <div class="content" id="requested_datetime">{{ date("M j, Y",strtotime($requested_start)) }} - {{ date("M j, Y",strtotime($requested_end)) }} / {{ date("h:i A",strtotime($requested_time_start)) }} - {{ date("h:i A",strtotime($requested_time_end)) }}</div>
 
     @foreach($signable as $index => $signatory)
         @if($signatory['label'] === "CNAS Approving")

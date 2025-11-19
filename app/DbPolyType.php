@@ -10,7 +10,7 @@ enum DbPolyType: string
     case TRANSACTION = 'transaction';
     case CONFERENCE_REQUEST = 'conference_request';
     case ASSISTANCE_REQUEST = 'assistance_request';
-    case AIR_TRAVEL_REQUEST = 'air_travel_request';
+    case AIR_TRANSPORT_REQUEST = 'air_transport_request';
     case OVERNIGHT_PARKING_REQUEST = 'overnight_parking_request';
     case JANITORIAL_REQUEST = 'janitorial_request';
 }

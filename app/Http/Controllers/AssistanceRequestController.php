@@ -76,5 +76,4 @@ class AssistanceRequestController extends Controller
 
         return $this->ok($assistanceRequest->fresh()->toArray());
     }
-
 }

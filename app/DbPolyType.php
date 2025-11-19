@@ -11,6 +11,7 @@ enum DbPolyType: string
     case CONFERENCE_REQUEST = 'conference_request';
     case ASSISTANCE_REQUEST = 'assistance_request';
     case AIR_TRANSPORT_REQUEST = 'air_transport_request';
+    case ENTRY_REQUEST = 'entry_request';
     case OVERNIGHT_PARKING_REQUEST = 'overnight_parking_request';
     case JANITORIAL_REQUEST = 'janitorial_request';
 }

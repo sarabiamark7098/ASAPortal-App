@@ -4,6 +4,7 @@ use App\Http\Controllers\AirTransportRequestController;
 use App\Http\Controllers\AssistanceRequestController;
 use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\EntryRequestController;
 use App\Http\Controllers\JanitorialRequestController;
 use App\Http\Controllers\OvernightParkingRequestController;
 use App\Http\Controllers\SignatoryController;
@@ -52,6 +53,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [AirTransportRequestController::class, 'store'])->name('store');
         Route::get('/', [AirTransportRequestController::class, 'index'])->name('index');
         Route::put('/{id}', [AirTransportRequestController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('entry-requests')->name('entry-requests.')->group(function () {
+        Route::post('/', [EntryRequestController::class, 'store'])->name('store');
+        Route::get('/', [EntryRequestController::class, 'index'])->name('index');
+        Route::put('/{id}', [EntryRequestController::class, 'update'])->name('update');
     });
 
     Route::prefix('assistance-requests')->name('assistance-requests.')->group(function () {
@@ -109,6 +116,7 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/janitorial-request/{id}', [PdfController::class, 'janitorialServicesRequest'])->name('janitorial-request');
     Route::get('/overnight-parking-request/{id}', [PdfController::class, 'overnightParkingRequest'])->name('overnight-parking-request');
     Route::get('/air-transport-request/{id}', [PdfController::class, 'airTransportRequest'])->name('air-transport-request');
+    Route::get('/entry-request/{id}', [PdfController::class, 'entryRequest'])->name('entry-request');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

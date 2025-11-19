@@ -4,20 +4,22 @@ namespace App\Providers;
 
 // Models
 
-use App\Models\AirTransportRequest;
-use App\Models\AssistanceRequest;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
+use App\Models\AssistanceRequest;
 use App\Models\ConferenceRequest;
 use App\Models\Vehicle;
 use App\Models\Driver;
 use App\Models\JanitorialRequest;
 use App\Models\OvernightParkingRequest;
+use App\Models\AirTransportRequest;
 use App\Models\Signatory;
+use App\Models\EntryRequest;
+
 // Managers
-use App\Services\Assistance\AssistanceRequestManager;
 use App\Services\Vehicle\VehicleRequestManager;
 use App\Services\Vehicle\VehicleAssignmentManager;
+use App\Services\Assistance\AssistanceRequestManager;
 use App\Services\Conference\ConferenceRequestManager;
 use App\Services\Janitorial\JanitorialRequestManager;
 use App\Services\Vehicle\VehicleManager;
@@ -26,6 +28,7 @@ use App\Services\Signatory\SignatoryManager;
 use App\Services\Pdf\PdfManager;
 use App\Services\OvernightParking\OvernightParkingRequestManager;
 use App\Services\AirTransport\AirTransportRequestManager;
+use App\Services\Entry\EntryRequestManager;
 
 // Services
 use App\Services\Assistance\AssistanceRequestService;
@@ -39,6 +42,7 @@ use App\Services\Signatory\SignatoryService;
 use App\Services\Pdf\PdfService;
 use App\Services\OvernightParking\OvernightParkingRequestService;
 use App\Services\AirTransport\AirTransportRequestService;
+use App\Services\Entry\EntryRequestService;
 
 // Providers
 use Illuminate\Support\ServiceProvider;
@@ -50,7 +54,7 @@ use App\Policies\AirTransportRequestPolicy;
 use App\Policies\AssistanceRequestPolicy;
 use App\Policies\JanitorialRequestPolicy;
 use App\Policies\OvernightParkingRequestPolicy;
-
+use App\Policies\EntryRequestPolicy;
 use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
@@ -92,6 +96,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AirTransportRequestManager::class, function () {
             return new AirTransportRequestService(new AirTransportRequest());
         });
+        $this->app->bind(EntryRequestManager::class, function () {
+            return new EntryRequestService(new EntryRequest());
+        });
         $this->app->bind(JanitorialRequestManager::class, function () {
             return new JanitorialRequestService(new JanitorialRequest());
         });
@@ -110,6 +117,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(AssistanceRequest::class, AssistanceRequestPolicy::class);
         Gate::policy(AirTransportRequest::class, AirTransportRequestPolicy::class);
         Gate::policy(OvernightParkingRequest::class, OvernightParkingRequestPolicy::class);
+        Gate::policy(EntryRequest::class, EntryRequestPolicy::class);
         Gate::policy(JanitorialRequest::class, JanitorialRequestPolicy::class);
     }
 }

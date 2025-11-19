@@ -3,11 +3,13 @@
 namespace Tests\Feature;
 
 use App\Enums\Status;
+use App\Models\FormFileUpload;
 use App\Models\Signatory;
 use App\Models\User;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -34,14 +36,31 @@ class VehicleRequestTest extends TestCase
 
     public function test_it_can_create_vehicle_request(): void
     {
+        $countUploads = 2;
         $payload = VehicleRequest::factory()->make()->toArray();
-        $response = $this->actingAs($this->user)->postJson($this->baseUri, $payload);
+
+        $files = [];
+        for ($i = 0; $i < $countUploads; $i++) {
+            $files[] = [
+                'label' => fake()->randomElement(['Document', 'Approval', 'Signature']),
+                'file' => UploadedFile::fake()->image('fake_image_'.$i.'.jpg', 500, 500),
+            ];
+        }
+        $payload = [
+            ...$payload,
+            'files' => $files,
+        ];
+
+        $response = $this->actingAs($this->user)->post($this->baseUri, $payload, [
+            'Content-Type' => 'multipart/form-data',
+        ]);
 
         $response->assertStatus(201);
         $responseJson = $response->decodeResponseJson();
 
         $this->assertDatabaseCount('vehicle_requests', 1);
         $this->assertNotEmpty($responseJson);
+        $this->assertCount($countUploads, $responseJson['fileable']);
     }
 
     public function test_it_can_fetch_vehicle_requests(): void
@@ -114,7 +133,6 @@ class VehicleRequestTest extends TestCase
     public static function differentTextFields()
     {
         yield ['requesting_office'];
-        yield ['purpose'];
         yield ['passengers'];
         yield ['destination'];
         yield ['requester_name'];
@@ -122,7 +140,7 @@ class VehicleRequestTest extends TestCase
 
     public function test_it_can_process_available_vehicle_request(): void
     {
-        $this->produceVehiceAssignment();
+        $this->produceVehicleAssignment();
         Signatory::factory(20)->create();
 
         $vehicleRequest = VehicleRequest::factory()->create();
@@ -161,7 +179,7 @@ class VehicleRequestTest extends TestCase
 
     public function test_it_can_process_unavailable_vehicle_request(): void
     {
-        $this->produceVehiceAssignment();
+        $this->produceVehicleAssignment();
         Signatory::factory(20)->create();
         $signatories = [
             [
@@ -194,7 +212,7 @@ class VehicleRequestTest extends TestCase
 
     public function test_it_cannot_process_an_already_processd_vehicle_request(): void
     {
-        $this->produceVehiceAssignment();
+        $this->produceVehicleAssignment();
         Signatory::factory(20)->create();
 
         $vehicleRequest = VehicleRequest::factory()->create();

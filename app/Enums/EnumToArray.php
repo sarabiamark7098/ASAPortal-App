@@ -18,4 +18,11 @@ trait EnumToArray
     {
         return array_combine(self::names(), self::values());
     }
+    public static function asLabel(): array
+    {
+        return array_map(fn($case) => [
+            'label' => ucfirst($case->name),
+            'value' => $case->value,
+        ], self::cases());
+    }
 }

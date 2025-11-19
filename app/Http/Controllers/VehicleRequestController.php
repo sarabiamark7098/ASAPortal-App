@@ -44,7 +44,13 @@ class VehicleRequestController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        return $this->created($vehicleRequest->toArray());
+        $vehicleRequest = VehicleRequest::findOrFail($vehicleRequest->id);
+        return DB::transaction(function () use ($request, $vehicleRequest) {
+            $this->vehicleRequestManager->setVehicleRequest($vehicleRequest);
+            $this->vehicleRequestManager->uploadFiles($request->validated('files'));
+
+            return $this->created($vehicleRequest->fresh()->toArray());
+        });
     }
 
     public function process(VehicleRequestValidation $request, string|int $id): JsonResponse

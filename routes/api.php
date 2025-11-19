@@ -1,8 +1,15 @@
 <?php
 
+use App\Http\Controllers\AirTransportRequestController;
+use App\Http\Controllers\AssistanceRequestController;
+use App\Http\Controllers\ConferenceRequestController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\EntryRequestController;
+use App\Http\Controllers\JanitorialRequestController;
+use App\Http\Controllers\OvernightParkingRequestController;
 use App\Http\Controllers\SignatoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OfficesController;
@@ -30,10 +37,72 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('vehicle-assignments')->name('vehicle-assignments.')->group(function () {
         Route::get('/', [VehicleAssignmentController::class, 'index'])->name('index');
+        Route::get('/fetch', [VehicleAssignmentController::class, 'fetch'])->name('fetch');
+        Route::post('/', [VehicleAssignmentController::class, 'store'])->name('store');
+        Route::put('/{id}', [VehicleAssignmentController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('conference-requests')->name('conference-requests.')->group(function () {
+        Route::post('/', [ConferenceRequestController::class, 'store'])->name('store');
+        Route::get('/', [ConferenceRequestController::class, 'index'])->name('index');
+        Route::post('/{id}/process', [ConferenceRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [ConferenceRequestController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('air-transport-requests')->name('air-transport-requests.')->group(function () {
+        Route::post('/', [AirTransportRequestController::class, 'store'])->name('store');
+        Route::get('/', [AirTransportRequestController::class, 'index'])->name('index');
+        Route::put('/{id}', [AirTransportRequestController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('entry-requests')->name('entry-requests.')->group(function () {
+        Route::post('/', [EntryRequestController::class, 'store'])->name('store');
+        Route::get('/', [EntryRequestController::class, 'index'])->name('index');
+        Route::put('/{id}', [EntryRequestController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('assistance-requests')->name('assistance-requests.')->group(function () {
+        Route::post('/', [AssistanceRequestController::class, 'store'])->name('store');
+        Route::get('/', [AssistanceRequestController::class, 'index'])->name('index');
+        Route::post('/{id}/process', [AssistanceRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [AssistanceRequestController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('overnight-parking-requests')->name('overnight-parking-requests.')->group(function () {
+        Route::post('/', [OvernightParkingRequestController::class, 'store'])->name('store');
+        Route::get('/', [OvernightParkingRequestController::class, 'index'])->name('index');
+        Route::post('/{id}/process', [OvernightParkingRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [OvernightParkingRequestController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('janitorial-requests')->name('janitorial-requests.')->group(function () {
+        Route::post('/', [JanitorialRequestController::class, 'store'])->name('store');
+        Route::get('/', [JanitorialRequestController::class, 'index'])->name('index');
+        Route::post('/{id}/process', [JanitorialRequestController::class, 'process'])->name('process');
+        Route::put('/{id}', [JanitorialRequestController::class, 'update'])->name('update');
     });
 
     Route::prefix('signatories')->name('signatories.')->group(function () {
         Route::get('/', [SignatoryController::class, 'index'])->name('index');
+        Route::get('/fetch', [SignatoryController::class, 'fetch'])->name('fetch');
+        Route::get('/get', [SignatoryController::class, 'get'])->name('get');
+        Route::post('/', [SignatoryController::class, 'store'])->name('store');
+        Route::put('/{id}', [SignatoryController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SignatoryController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('drivers')->name('drivers.')->group(function () {
+        Route::get('/', [DriverController::class, 'index'])->name('index');
+        Route::get('/fetch', [DriverController::class, 'fetch'])->name('fetch');
+        Route::post('/', [DriverController::class, 'store'])->name('store');
+        Route::put('/{id}', [DriverController::class, 'update'])->name('update');
+    });
+    Route::prefix('vehicles')->name('vehicles.')->group(function () {
+        Route::get('/', [VehicleController::class, 'index'])->name('index');
+        Route::get('/fetch', [VehicleController::class, 'fetch'])->name('fetch');
+        Route::get('/type', [VehicleController::class, 'type'])->name('type');
+        Route::post('/', [VehicleController::class, 'store'])->name('store');
+        Route::put('/{id}', [VehicleController::class, 'update'])->name('update');
     });
 
 });
@@ -42,6 +111,13 @@ Route::prefix('pdf')->name('pdf.')->group(function () {
     Route::get('/vehicle-request/{id}', [PdfController::class, 'vehicleRequest'])->name('vehicle-request');
     Route::get('/travel-order/{id}', [PdfController::class, 'travelOrder'])->name('travel-order');
     Route::get('/vehicle-cnas/{id}', [PdfController::class, 'vehicleCnas'])->name('vehicle-cnas');
+    Route::get('/conference-request/{id}', [PdfController::class, 'conferenceRequest'])->name('conference-request');
+    Route::get('/conference-cnas/{id}', [PdfController::class, 'conferenceCnas'])->name('conference-cnas');
+    Route::get('/technical-assistance-request/{id}', [PdfController::class, 'technicalAssistanceRequest'])->name('technical-assistance-request');
+    Route::get('/janitorial-request/{id}', [PdfController::class, 'janitorialServicesRequest'])->name('janitorial-request');
+    Route::get('/overnight-parking-request/{id}', [PdfController::class, 'overnightParkingRequest'])->name('overnight-parking-request');
+    Route::get('/air-transport-request/{id}', [PdfController::class, 'airTransportRequest'])->name('air-transport-request');
+    Route::get('/entry-request/{id}', [PdfController::class, 'entryRequest'])->name('entry-request');
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);

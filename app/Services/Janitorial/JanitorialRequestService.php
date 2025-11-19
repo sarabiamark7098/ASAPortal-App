@@ -7,6 +7,9 @@ use App\Models\Signatory;
 use App\Models\JanitorialRequest;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class JanitorialRequestService implements JanitorialRequestManager
 {
@@ -74,4 +77,21 @@ class JanitorialRequestService implements JanitorialRequestManager
             ]);
         }
     }
+
+    public function uploadFiles(array $payload): JanitorialRequest
+    {
+        foreach ($payload as $file) {
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'janitorial_request_uploads');
+
+            // Attach the uploaded file to the polymorphic relation
+            $this->janitorialRequest->fileable()->create([
+                'label' => $file['label'],
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
+            ]);
+        }
+        return $this->janitorialRequest->fresh('fileable');
+    }
+
 }

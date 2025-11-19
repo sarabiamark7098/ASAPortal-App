@@ -14,4 +14,5 @@ interface OvernightParkingRequestManager
     public function update(array $payload): OvernightParkingRequest;
     public function addSignatories(array $payload);
     public function updateStatus(Status $status): OvernightParkingRequest;
+    public function uploadFiles(array $payload): OvernightParkingRequest;
 }

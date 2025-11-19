@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class FormFileUpload extends Model
 {
     protected $fillable = [
-        'user_id',
+        'label',
+        'filename',
+        'path',
     ];
-    
 }

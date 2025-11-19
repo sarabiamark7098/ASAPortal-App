@@ -7,7 +7,9 @@ use App\Models\FormGuest;
 use App\Models\Signatory;
 use App\Models\User;
 use App\Models\EntryRequest;
+use App\Models\FormFileUpload;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -48,14 +50,27 @@ class EntryRequestTest extends TestCase
         ];
 
         $countGuests = 5;
+        $countUploads = 2;
         $payload = EntryRequest::factory()->make()->toArray();
+
+        $files = [];
+        for ($i = 0; $i < $countUploads; $i++) {
+            $files[] = [
+                'label' => fake()->randomElement(['Document', 'Approval', 'Signature']),
+                'file' => UploadedFile::fake()->image('fake_image_'.$i.'.jpg', 500, 500),
+            ];
+        }
+
         $payload = [
             ...$payload,
             'signatories' => $signatories,
             'guests' => FormGuest::factory()->count($countGuests)->make()->toArray(),
+            'files' => $files,
         ];
 
-        $response = $this->actingAs($this->user)->postJson($this->baseUri, $payload);
+        $response = $this->actingAs($this->user)->post($this->baseUri, $payload, [
+            'Content-Type' => 'multipart/form-data',
+        ]);
 
         $response->assertStatus(201);
         $responseJson = $response->decodeResponseJson();
@@ -63,6 +78,7 @@ class EntryRequestTest extends TestCase
         $this->assertDatabaseCount('entry_requests', 1);
         $this->assertNotEmpty($responseJson);
         $this->assertCount($countGuests, $responseJson['guests']);
+        $this->assertCount($countUploads, $responseJson['fileable']);
     }
 
     public function test_it_can_fetch_entry_requests(): void

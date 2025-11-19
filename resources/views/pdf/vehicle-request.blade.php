@@ -65,6 +65,15 @@
         text-align: center;
         font-weight: bold;
     }
+
+    #requester_signature {
+        width: 15%;
+        height: 60px;
+        top: 140mm;
+        left: 27%;
+        text-align: center;
+        font-weight: bold;
+    }
     #date_requested {
         width: 25%;
         height: 18px;
@@ -303,6 +312,12 @@
     <div class="content" id="destination">{{ $destination }}</div>
     <div class="content" id="requested_start">{{ $requested_start }}</div>
     <div class="content" id="requested_time">{{ $requested_time }}</div>
+    @foreach ($fileable as $index => $files)
+        @if ($files['label'] === 'Signature')
+            <div class="content" id="requester_signature"><img src="{!! storage_path('app/private/'.$files['path']) !!}" alt="" width="110" height="58"></div>
+        @endif
+    @endforeach
+
     <div class="content" id="requester_name">{{ $requester_name }}</div>
     <div class="content" id="date_requested">{{ date("F j, Y",strtotime($date_requested)) }}</div>
 

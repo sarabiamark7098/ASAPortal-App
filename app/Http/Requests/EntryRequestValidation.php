@@ -51,6 +51,10 @@ class EntryRequestValidation extends FormRequest
             'guests' => ['required', 'array'],
             'guests'.'*'.'full_name' => ['required', 'string', 'max:255'],
             'guests'.'*'.'purpose' => ['required', 'string'],
+
+            'files' => ['required', 'array'],
+            'files.*.label' => ['required', 'string', 'max:255'],
+            'files.*.file' => ['required'],
         ];
     }
 

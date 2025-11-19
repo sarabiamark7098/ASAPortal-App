@@ -16,4 +16,5 @@ interface AirTransportRequestManager
     public function addFlights(array $payload);
     public function addSignatories(array $payload);
     public function updateStatus(Status $status): AirTransportRequest;
+    public function uploadFiles(array $payload): AirTransportRequest;
 }

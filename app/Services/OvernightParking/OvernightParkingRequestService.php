@@ -7,6 +7,9 @@ use App\Models\Signatory;
 use App\Models\OvernightParkingRequest;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class OvernightParkingRequestService implements OvernightParkingRequestManager
 {
@@ -66,6 +69,22 @@ class OvernightParkingRequestService implements OvernightParkingRequestManager
                 'position' => $signatory->position,
             ]);
         }
+    }
+
+    public function uploadFiles(array $payload): OvernightParkingRequest
+    {
+        foreach ($payload as $file) {
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'overnight_parking_request_uploads');
+
+            // Attach the uploaded file to the polymorphic relation
+            $this->overnightParkingRequest->fileable()->create([
+                'label' => $file['label'],
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
+            ]);
+        }
+        return $this->overnightParkingRequest->fresh('fileable');
     }
 
 }

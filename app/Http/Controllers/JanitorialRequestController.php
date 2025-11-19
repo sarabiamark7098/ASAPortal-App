@@ -43,7 +43,13 @@ class JanitorialRequestController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        return $this->created($janitorialRequest->toArray());
+        $janitorialRequest = JanitorialRequest::findOrFail($janitorialRequest->id);
+        return DB::transaction(function () use ($request, $janitorialRequest) {
+            $this->janitorialRequestManager->setJanitorialRequest($janitorialRequest);
+            $this->janitorialRequestManager->uploadFiles($request->validated('files'));
+
+            return $this->created($janitorialRequest->fresh()->toArray());
+        });
     }
 
     public function process(JanitorialRequestValidation $request, string|int $id): JsonResponse

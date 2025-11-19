@@ -25,6 +25,7 @@ class PdfController extends Controller
     public function vehicleRequest(string|int $id): Response
     {
         $data = VehicleRequest::with(['vehicleAssignment'])->findOrFail($id)->toArray();
+
         $filename = 'vehicle-request.pdf';
 
         $config = [

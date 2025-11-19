@@ -96,4 +96,21 @@ class AirTransportRequestService implements AirTransportRequestManager
         }
     }
 
+    public function uploadFiles(array $payload): AirTransportRequest
+    {
+        foreach ($payload as $file) {
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'air_transport_request_uploads');
+
+            // Attach the uploaded file to the polymorphic relation
+            $this->airTransportRequest->fileable()->create([
+                'label' => $file['label'],
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
+            ]);
+        }
+
+        return $this->airTransportRequest->fresh('fileable');
+    }
+
 }

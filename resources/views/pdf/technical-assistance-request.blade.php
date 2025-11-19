@@ -47,6 +47,15 @@
         font-weight: bold;
         text-align: center;
     }
+    #requester_signature {
+        width: 15%;
+        height: 60px;
+        top: 190mm;
+        left: 25%;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-align: center;
+    }
     #requester_position {
         width: 34%;
         height: 22px;
@@ -166,6 +175,11 @@
         @endif
     @endforeach
     <div class="content" id="details">{{ $details }}</div>
+    @foreach ($fileable as $index => $files)
+        @if ($files['label'] === 'Signature')
+            <div class="content" id="requester_signature"><img src="{!! storage_path('app/private/'.$files['path']) !!}" alt="" width="110" height="58"></div>
+        @endif
+    @endforeach
     <div class="content" id="requester">{{ $requester_name }}</div>
     <div class="content" id="requester_position">{{ $requester_position }}</div>
     @foreach($signable as $index => $signatory)

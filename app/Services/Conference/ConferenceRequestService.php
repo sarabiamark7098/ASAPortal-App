@@ -7,6 +7,9 @@ use App\Models\Signatory;
 use App\Models\ConferenceRequest;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ConferenceRequestService implements ConferenceRequestManager
 {
@@ -66,6 +69,22 @@ class ConferenceRequestService implements ConferenceRequestManager
                 'position' => $signatory->position,
             ]);
         }
+    }
+
+    public function uploadFiles(array $payload): ConferenceRequest
+    {
+        foreach ($payload as $file) {
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'conference_request_uploads');
+
+            // Attach the uploaded file to the polymorphic relation
+            $this->conferenceRequest->fileable()->create([
+                'label' => $file['label'],
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
+            ]);
+        }
+        return $this->conferenceRequest->fresh('fileable');
     }
 
 }

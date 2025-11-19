@@ -3,11 +3,15 @@
 namespace App\Services\Vehicle;
 
 use App\Enums\Status;
+use App\Http\Requests\VehicleRequest as RequestsVehicleRequest;
 use App\Models\Signatory;
 use App\Models\VehicleAssignment;
 use App\Models\VehicleRequest;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class VehicleRequestService implements VehicleRequestManager
 {
@@ -64,7 +68,6 @@ class VehicleRequestService implements VehicleRequestManager
 
     public function addSignatories(array $payload)
     {
-
         foreach ($payload as $signee) {
             $signatory = Signatory::find($signee['id']);
 
@@ -75,4 +78,21 @@ class VehicleRequestService implements VehicleRequestManager
             ]);
         }
     }
+
+    public function uploadFiles(array $payload): VehicleRequest
+    {
+        foreach ($payload as $file) {
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'vehicle_request_uploads');
+
+            // Attach the uploaded file to the polymorphic relation
+            $this->vehicleRequest->fileable()->create([
+                'label' => $file['label'],
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
+            ]);
+        }
+        return $this->vehicleRequest->fresh('fileable');
+    }
+
 }

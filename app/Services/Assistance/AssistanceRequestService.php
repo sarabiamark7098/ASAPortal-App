@@ -7,6 +7,9 @@ use App\Models\Signatory;
 use App\Models\AssistanceRequest;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AssistanceRequestService implements AssistanceRequestManager
 {
@@ -66,6 +69,24 @@ class AssistanceRequestService implements AssistanceRequestManager
                 'position' => $signatory->position,
             ]);
         }
+    }
+
+    public function uploadFiles(array $payload): AssistanceRequest
+    {
+        foreach ($payload as $file) {
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'assistance_request_uploads');
+
+            // Attach the uploaded file to the polymorphic relation
+            $this->assistanceRequest->fileable()->create([
+                'label' => $file['label'],
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
+            ]);
+        }
+
+    // Return fresh instance with loaded relation
+    return $this->assistanceRequest->fresh('fileable');
     }
 
 }

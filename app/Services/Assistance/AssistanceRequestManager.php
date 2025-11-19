@@ -14,4 +14,6 @@ interface AssistanceRequestManager
     public function update(array $payload): AssistanceRequest;
     public function addSignatories(array $payload);
     public function updateStatus(Status $status): AssistanceRequest;
+    public function uploadFiles(array $payload): AssistanceRequest;
+
 }

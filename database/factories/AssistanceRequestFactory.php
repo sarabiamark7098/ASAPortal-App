@@ -19,6 +19,7 @@ class AssistanceRequestFactory extends Factory
         return [
             'date_requested' => fake()->date(),
             'requesting_office' => fake()->sentence(),
+            'drn' => fake()->unique()->word(),
             'details' => fake()->text(),
             'request_type' => fake()->randomElements(
                 ['Hardware', 'Software', 'Network', 'Others'],

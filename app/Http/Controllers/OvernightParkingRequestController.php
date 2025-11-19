@@ -43,7 +43,13 @@ class OvernightParkingRequestController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        return $this->created($overnightParkingRequest->toArray());
+        $overnightParkingRequest = OvernightParkingRequest::findOrFail($overnightParkingRequest->id);
+        return DB::transaction(function () use ($request, $overnightParkingRequest) {
+            $this->overnightParkingRequestManager->setOvernightParkingRequest($overnightParkingRequest);
+            $this->overnightParkingRequestManager->uploadFiles($request->validated('files'));
+
+            return $this->created($overnightParkingRequest->fresh()->toArray());
+        });
     }
 
     public function process(OvernightParkingRequestValidation $request, string|int $id): JsonResponse

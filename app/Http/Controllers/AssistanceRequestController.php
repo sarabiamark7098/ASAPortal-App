@@ -43,7 +43,15 @@ class AssistanceRequestController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        return $this->created($assistanceRequest->toArray());
+        $assistanceRequest = AssistanceRequest::findOrFail($assistanceRequest->id);
+
+        return DB::transaction(function () use ($request, $assistanceRequest) {
+
+            $this->assistanceRequestManager->setAssistanceRequest($assistanceRequest);
+            $this->assistanceRequestManager->uploadFiles($request->validated('files'));
+
+            return $this->created($assistanceRequest->fresh()->toArray());
+        });
     }
 
     public function process(AssistanceRequestValidation $request, string|int $id): JsonResponse

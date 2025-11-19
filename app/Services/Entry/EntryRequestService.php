@@ -8,6 +8,9 @@ use App\Models\EntryRequest;
 use App\Services\Entry\EntryRequestManager;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EntryRequestService implements EntryRequestManager
 {
@@ -76,6 +79,22 @@ class EntryRequestService implements EntryRequestManager
                 'position' => $signatory->position,
             ]);
         }
+    }
+
+    public function uploadFiles(array $payload): EntryRequest
+    {
+        foreach ($payload as $file) {
+            // Use the helper function to upload the file
+            $uploaded = upload_file($file['file'], 'entry_request_uploads');
+
+            // Attach the uploaded file to the polymorphic relation
+            $this->entryRequest->fileable()->create([
+                'label' => $file['label'],
+                'filename' => $uploaded['filename'],
+                'path' => $uploaded['path'],
+            ]);
+        }
+        return $this->entryRequest->fresh('fileable');
     }
 
 }

@@ -16,4 +16,5 @@ interface VehicleRequestManager
     public function assignVehicle(VehicleAssignment $vehicleAssignment): VehicleRequest;
     public function addSignatories(array $payload);
     public function updateStatus(Status $status): VehicleRequest;
+    public function uploadFiles(array $payload): VehicleRequest;
 }

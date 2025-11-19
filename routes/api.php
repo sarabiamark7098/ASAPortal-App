@@ -88,6 +88,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/get', [SignatoryController::class, 'get'])->name('get');
         Route::post('/', [SignatoryController::class, 'store'])->name('store');
         Route::put('/{id}', [SignatoryController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SignatoryController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('drivers')->name('drivers.')->group(function () {

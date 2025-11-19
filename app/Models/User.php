@@ -11,7 +11,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use HasRoles;
 
     protected $fillable = [
         'username',
@@ -35,6 +38,6 @@ class User extends Authenticatable
 
     public function accountDetail()
     {
-        return $this->hasOne(AccountDetails::class);
+        return $this->hasOne(AccountDetail::class);
     }
 }

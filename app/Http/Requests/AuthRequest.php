@@ -30,12 +30,13 @@ class AuthRequest extends FormRequest
         };
     }
 
-    public function registerRules() : array {
+    public function registerRules(): array
+    {
         return [
             'username' => ['required_without:email','nullable','string','unique:users,username'],
             'email' => ['required_without:username','nullable','email','unique:users,email'],
             'password' => ['required','string','min:8'],
-            'first_ame' => ['required','string','max:255'],
+            'first_name' => ['required','string','max:255'],
             'middle_name' => ['string','max:255','nullable'],
             'last_name' => ['required','string','max:255'],
             'extension_name' => ['string','max:255','nullable'],
@@ -47,7 +48,8 @@ class AuthRequest extends FormRequest
         ];
     }
 
-    public function loginRules() : array {
+    public function loginRules(): array
+    {
         return [
             'login' => ['required','string'],
             'password' => ['required', 'string'],

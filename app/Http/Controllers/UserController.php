@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
-use Spatie\Activitylog\Models\Activity;
 
 class UserController extends Controller
 {
-    public function getAllUsers() {
-        return User::with('accountDetails.section')->get();
+    public function getAllUsers()
+    {
+        return User::with('accountDetail.section')->get();
     }
 
-    public function updateUser(Request $request) {
+    public function updateUser(Request $request)
+    {
         $request->validate([
             'first_name' => 'required|string',
             'middle_name' => 'nullable|string',
@@ -26,4 +26,3 @@ class UserController extends Controller
         ]);
     }
 }
-

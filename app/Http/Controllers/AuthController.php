@@ -3,32 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
-use App\Models\AccountDetails;
+use App\Models\AccountDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Services\AuthService;
-use Illuminate\Auth\AuthenticationException;
+use App\Services\AuthManager;
 
 class AuthController extends Controller
 {
+    private AuthManager $authManager;
 
-    private AuthService $authService;
-    
-    public function __construct(AuthService $authService)
+    public function __construct(AuthManager $authManager)
     {
-        $this->authService = $authService;
+        $this->authManager = $authManager;
     }
     /**
      * Register a new user.
      */
     public function register(AuthRequest $request): JsonResponse
     {
-        return DB::transaction(function() use ($request){
+        return DB::transaction(function () use ($request) {
             $validated = $request->validated();
             $user = User::create([
                 'email'    => $validated['email'],
@@ -41,7 +38,7 @@ class AuthController extends Controller
             if (!$user->hasRole('client')) {
                 return response()->json(['message' => 'Failed to assign default role'], 500);
             }
-            $account = AccountDetails::create([
+            $account = AccountDetail::create([
                 'user_id' => $user->id,
                 'first_name' => $validated['first_name'] ?? null,
                 'middle_name' => $validated['middle_name'] ?? null,
@@ -68,11 +65,11 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request): JsonResponse
     {
-        $user = $this->authService->authenticate($request->validated());
+        $user = $this->authManager->authenticate($request->validated());
 
-        $this->authService->invalidateUserTokens($user);
-        
-        $token = $this->authService->generateToken($user);
+        $this->authManager->invalidateUserTokens($user);
+
+        $token = $this->authManager->generateToken($user);
 
         activity()
             ->causedBy($user)
@@ -82,7 +79,7 @@ class AuthController extends Controller
         return response()->json(['message' => 'Login successful',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $this->authService->getUser($user),
+            'user' => $this->authManager->getUser($user),
         ]);
     }
 
@@ -104,7 +101,8 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
-    public function user(Request $request) : JsonResponse {
+    public function user(Request $request): JsonResponse
+    {
         $user = $request->user();
         $user->load('roles', 'permissions');
 

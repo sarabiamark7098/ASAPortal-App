@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\AuthManager;
+use App\Services\AuthService;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -11,7 +13,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(AuthManager::class, function () {
+            return new AuthService();
+        });
     }
 
     /**

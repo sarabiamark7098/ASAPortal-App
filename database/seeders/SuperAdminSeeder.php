@@ -1,11 +1,9 @@
 <?php
+
 namespace Database\Seeders;
 
-use App\Models\AccountDetails;
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Roles;
-use Illuminate\Support\Facades\DB;
 
 class SuperAdminSeeder extends Seeder
 {
@@ -17,7 +15,7 @@ class SuperAdminSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $user->assignRole('superadmin');
-        
+
         $user->accountDetail()->create([
             'first_name' => 'Super',
             'last_name' => 'Admin',
